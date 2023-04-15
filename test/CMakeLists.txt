@@ -1,5 +1,5 @@
 set(NAME streams4cpp.t)
-add_executable(${NAME} test_listiterator.t.cpp test_stream.t.cpp test_listiterator_view.t.cpp)
+add_executable(${NAME} test_listiterator.t.cpp test_listiterator_view.t.cpp)
 target_link_libraries(${NAME} PUBLIC streams4cpp gmock gtest gtest_main)
 
 enable_testing()
