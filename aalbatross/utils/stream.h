@@ -1,16 +1,16 @@
-#ifndef STREAMS4CPP__STREAM_H_
-#define STREAMS4CPP__STREAM_H_
+#ifndef INCLUDED_STREAMS4CPP_STREAM_H_
+#define INCLUDED_STREAMS4CPP_STREAM_H_
 #include "iterator.h"
 #include "listiterator_view.h"
-namespace aalbatross::util {
+namespace aalbatross::utils {
 
 template<typename T, typename S = T>
 struct Stream {
   Stream(Iterator<S> &source,
          std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> mapper)
-      : d_source(source), d_mapper(mapper) {}
+      : d_mapper(mapper), d_source(source) {}
 
-  Stream(Iterator<S> &source) : d_source(source) {
+  explicit Stream(Iterator<S> &source) : d_source(source) {
     std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> x =
         [](Iterator<S> &source) {
           std::vector<S> x;
@@ -38,7 +38,7 @@ struct Stream {
 
   Stream<T, S> filter(std::function<bool(T)> predicate) {
     std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> newMapper =
-        [&](Iterator<S> &source) {
+        [&, predicate](Iterator<S> &source) {
           auto inter = d_mapper(source);
           std::vector<T> result;
           while (inter->hasNext()) {
@@ -90,6 +90,6 @@ struct Stream {
   std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> d_mapper;
   Iterator<S> &d_source;
 };
-};// namespace aalbatross::util
+}// namespace aalbatross::utils
 
-#endif// STREAMS4CPP__STREAM_H_
+#endif// INCLUDED_STREAMS4CPP_STREAM_H_

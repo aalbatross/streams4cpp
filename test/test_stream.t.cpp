@@ -1,7 +1,8 @@
+#include <aalbatross/utils/listiterator.h>
+#include <aalbatross/utils/stream.h>
+
 #include <gtest/gtest.h>
-#include <listiterator.h>
-#include <stream.h>
-namespace aalbatross::util::test {
+namespace aalbatross::utils::test {
 
 TEST(StreamTestFixture, ReturnTransformedStream) {
   std::vector x{1, 2, 3, 4, 5};
@@ -25,7 +26,6 @@ TEST(StreamTestFixture, ReturnFilterStream) {
   Stream<int> s(iter);
   auto print = [](const auto &x) { std::cout << x << std::endl; };
   auto doubler = [](const auto x) { return x * 2; };
-  auto toString = [](const auto x) { return std::to_string(x) + " something"; };
   auto sumAccumulator = [](auto x, auto y) { return x + y; };
   auto greaterThan2 = [](auto x) { return x > 4; };
   auto filteredStream = s.map<int>(doubler).filter(greaterThan2);
@@ -33,4 +33,4 @@ TEST(StreamTestFixture, ReturnFilterStream) {
   auto sum = filteredStream.reduce(0, sumAccumulator);
   ASSERT_EQ(sum, 24);
 }
-};// namespace aalbatross::util::test
+}// namespace aalbatross::utils::test

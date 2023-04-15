@@ -1,9 +1,9 @@
-#ifndef INCLUDED_STREAMS4CPP__LISTITERATOR_H_
-#define INCLUDED_STREAMS4CPP__LISTITERATOR_H_
+#ifndef INCLUDED_STREAMS4CPP_LISTITERATOR_H
+#define INCLUDED_STREAMS4CPP_LISTITERATOR_H
 
 #include "iterator.h"
 
-namespace aalbatross::util {
+namespace aalbatross::utils {
 
 template<typename Iter,
          typename T = typename std::iterator_traits<Iter>::value_type>
@@ -39,6 +39,6 @@ template<typename Iter,
          typename T = typename std::iterator_traits<Iter>::value_type>
 ListIterator(Iter &&, Iter &&) -> ListIterator<Iter, T>;
 
-};// namespace aalbatross::util
+}// namespace aalbatross::utils
 
-#endif// INCLUDED_STREAMS4CPP__LISTITERATOR_H_
+#endif// INCLUDED_STREAMS4CPP_LISTITERATOR_H

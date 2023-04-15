@@ -1,8 +1,9 @@
+#include <aalbatross/utils/listiterator.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <listiterator.h>
 
-namespace aalbatross::util::test {
+namespace aalbatross::utils::test {
 TEST(ListIteratorFixture, ReturnListOfValues) {
   std::vector x{1, 2, 3, 4, 5};
   ListIterator iter(x.begin(), x.end());
@@ -101,4 +102,4 @@ TEST(ListIteratorFixture, ReturnSetWithReplay) {
   EXPECT_THAT(out1,
               ::testing::UnorderedElementsAre("one", "two", "three", "four", "five"));
 }
-};// namespace aalbatross::util::test
+}// namespace aalbatross::utils::test

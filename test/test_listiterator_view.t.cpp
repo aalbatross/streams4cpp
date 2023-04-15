@@ -1,8 +1,9 @@
+#include <aalbatross/utils/listiterator_view.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <listiterator_view.h>
 
-namespace aalbatross::util::test {
+namespace aalbatross::utils::test {
 TEST(ListIteratorViewFixture, ReturnListOfValues) {
   std::vector x{1, 2, 3, 4, 5};
   ListIteratorView iter(x);
@@ -131,4 +132,4 @@ TEST(ListIteratorViewFixture, ReturnViewableIterator) {
               ::testing::UnorderedElementsAre("one", "two", "three", "four", "five"));
 }
 
-};// namespace aalbatross::util::test
+}// namespace aalbatross::utils::test

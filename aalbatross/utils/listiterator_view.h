@@ -1,12 +1,12 @@
-#ifndef STREAMS4CPP__LISTITERATOR_VIEW_H_
-#define STREAMS4CPP__LISTITERATOR_VIEW_H_
+#ifndef INCLUDED_STREAMS4CPP_LISTITERATOR_VIEW_H_
+#define INCLUDED_STREAMS4CPP_LISTITERATOR_VIEW_H_
 #include "iterator.h"
-namespace aalbatross::util {
+namespace aalbatross::utils {
 
 template<typename Container,
          typename T = typename Container::value_type>
 struct ListIteratorView : public Iterator<T> {
-  ListIteratorView(Container &storage)
+  explicit ListIteratorView(Container &storage)
       : d_data(storage) {
     d_begin = d_data.begin();
     d_end = d_data.end();
@@ -47,6 +47,6 @@ struct ListIteratorView : public Iterator<T> {
 template<typename Container,
          typename T = typename Container::value_type>
 ListIteratorView(Container &) -> ListIteratorView<Container, T>;
-};// namespace aalbatross::util
+}// namespace aalbatross::utils
 
-#endif//STREAMS4CPP__LISTITERATOR_VIEW_H_
+#endif//INCLUDED_STREAMS4CPP_LISTITERATOR_VIEW_H_
