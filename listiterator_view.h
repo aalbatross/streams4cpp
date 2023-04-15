@@ -16,11 +16,16 @@ struct ListIteratorView : public Iterator<T> {
 
   ~ListIteratorView() = default;
 
-  inline bool hasNext() override { return d_current != d_end; }
+  inline bool hasNext() override {
+    bool hasMore = d_current != d_end;
+    if (hasMore) {
+      d_last = *d_current;
+      std::advance(d_current, 1);
+    }
+    return hasMore;
+  }
 
   inline T next() override {
-    d_last = *d_current;
-    std::advance(d_current, 1);
     return d_last;
   }
 
