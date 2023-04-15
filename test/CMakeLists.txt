@@ -1,4 +1,8 @@
 set(NAME streams4cpp.t)
+
+include_directories("/usr/local/include")
+link_directories("/usr/local/lib")
+
 add_executable(${NAME} test_listiterator.t.cpp test_listiterator_view.t.cpp test_stream.t.cpp)
 target_link_libraries(${NAME} PUBLIC streams4cpp gmock gtest gtest_main)
 
