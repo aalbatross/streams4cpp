@@ -16,18 +16,18 @@ template<typename T, typename S = T>
 struct Stream {
   Stream(Iterator<S> &source,
          std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> mapper)
-      : d_mapper(mapper), d_source(source) {}
+      : dMapper_(std::move(mapper)), dSource_(source) {}
 
-  explicit Stream(Iterator<S> &source) : d_source(source) {
-    std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> x =
+  explicit Stream(Iterator<S> &source) : dSource_(source) {
+    std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> mapper =
         [](Iterator<S> &source) {
-          std::vector<S> x;
+          std::vector<S> result;
           while (source.hasNext()) {
-            x.emplace_back(source.next());
+            result.emplace_back(source.next());
           }
-          return std::make_unique<ListIteratorView<std::vector<S>>>(x);
+          return std::make_unique<ListIteratorView<std::vector<S>>>(result);
         };
-    d_mapper = x;
+    dMapper_ = mapper;
   }
 
   bool allMatch(std::function<bool(T)> predicate) {
@@ -79,36 +79,36 @@ struct Stream {
     using E = typename std::invoke_result<Fun, S>::type;
     std::function<std::unique_ptr<Iterator<E>>(Iterator<S> &)> newMapper =
         [&](Iterator<S> &source) {
-          auto inter = d_mapper(source);
+          auto inter = dMapper_(source);
           std::vector<E> result;
           while (inter->hasNext()) {
             result.emplace_back(mapper(inter->next()));
           }
           return std::make_unique<ListIteratorView<std::vector<E>>>(result);
         };
-    return Stream<E, S>(d_source, newMapper);
+    return Stream<E, S>(dSource_, newMapper);
   }
 
   Stream<T, S> filter(std::function<bool(T)> predicate) {
     std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> newMapper =
         [&, predicate](Iterator<S> &source) {
-          auto inter = d_mapper(source);
+          auto inter = dMapper_(source);
           std::vector<T> result;
           while (inter->hasNext()) {
-            const auto x = inter->next();
-            if (predicate(x)) {
-              result.emplace_back(x);
+            const auto element = inter->next();
+            if (predicate(element)) {
+              result.emplace_back(element);
             }
           }
           return std::make_unique<ListIteratorView<std::vector<T>>>(result);
         };
-    return Stream<T, S>(d_source, newMapper);
+    return Stream<T, S>(dSource_, newMapper);
   }
 
   Stream<T, S> limit(const size_t count) {
     std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> newMapper =
         [&, count](Iterator<S> &source) {
-          auto inter = d_mapper(source);
+          auto inter = dMapper_(source);
           std::vector<T> result;
           while (inter->hasNext()) {
             if (result.size() < count) {
@@ -117,13 +117,13 @@ struct Stream {
           }
           return std::make_unique<ListIteratorView<std::vector<T>>>(result);
         };
-    return Stream<T, S>(d_source, newMapper);
+    return Stream<T, S>(dSource_, newMapper);
   }
 
   Stream<T, S> skip(const size_t count) {
     std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> newMapper =
         [&, count](Iterator<S> &source) {
-          auto inter = d_mapper(source);
+          auto inter = dMapper_(source);
           std::vector<T> result;
           size_t currentCount = 0;
           while (inter->hasNext()) {
@@ -134,13 +134,13 @@ struct Stream {
           }
           return std::make_unique<ListIteratorView<std::vector<T>>>(result);
         };
-    return Stream<T, S>(d_source, newMapper);
+    return Stream<T, S>(dSource_, newMapper);
   }
 
   Stream<T, S> sorted(std::function<int(T, T)> comparator) {
     std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> newMapper =
         [&, comparator](Iterator<S> &source) {
-          auto inter = d_mapper(source);
+          auto inter = dMapper_(source);
           std::vector<T> result;
           while (inter->hasNext()) {
             result.emplace_back(inter->next());
@@ -148,26 +148,26 @@ struct Stream {
           std::sort(result.begin(), result.end(), comparator);
           return std::make_unique<ListIteratorView<std::vector<T>>>(result);
         };
-    return Stream<T, S>(d_source, newMapper);
+    return Stream<T, S>(dSource_, newMapper);
   }
 
   Stream<T, S> distinct() {
     std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> newMapper =
         [&](Iterator<S> &source) {
-          auto inter = d_mapper(source);
+          auto inter = dMapper_(source);
           std::set<T> result;
           while (inter->hasNext()) {
             result.emplace(inter->next());
           }
           return std::make_unique<ListIteratorView<std::set<T>>>(result);
         };
-    return Stream<T, S>(d_source, newMapper);
+    return Stream<T, S>(dSource_, newMapper);
   }
 
   Stream<T, S> reverse() {
     std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> newMapper =
         [&](Iterator<S> &source) {
-          auto inter = d_mapper(source);
+          auto inter = dMapper_(source);
           std::vector<T> result;
           while (inter->hasNext()) {
             result.emplace_back(inter->next());
@@ -175,7 +175,7 @@ struct Stream {
           std::reverse(result.begin(), result.end());
           return std::make_unique<ListIteratorView<std::vector<T>>>(result);
         };
-    return Stream<T, S>(d_source, newMapper);
+    return Stream<T, S>(dSource_, newMapper);
   }
 
   std::optional<T> max() {
@@ -196,8 +196,8 @@ struct Stream {
   }
 
   T reduce(T identity, std::function<T(T, T)> binaryAccumulator) {
-    d_source.reset();
-    auto result = d_mapper(d_source);
+    dSource_.reset();
+    auto result = dMapper_(dSource_);
     T output = identity;
     while (result->hasNext()) {
       output = binaryAccumulator(output, result->next());
@@ -206,8 +206,8 @@ struct Stream {
   }
 
   size_t count() {
-    d_source.reset();
-    auto result = d_mapper(d_source);
+    dSource_.reset();
+    auto result = dMapper_(dSource_);
     size_t count = 0;
     while (result->hasNext()) {
       count++;
@@ -217,8 +217,8 @@ struct Stream {
 
   template<typename Consumer>
   void forEach(Consumer &&consumer) {
-    d_source.reset();
-    auto result = d_mapper(d_source);
+    dSource_.reset();
+    auto result = dMapper_(dSource_);
     while (result->hasNext()) {
       consumer(result->next());
     }
@@ -235,13 +235,13 @@ struct Stream {
   auto toDeque() { return to<std::deque<T>>(); }
 
  private:
-  std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> d_mapper;
-  Iterator<S> &d_source;
+  std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> dMapper_;
+  Iterator<S> &dSource_;
 
   template<typename Container>
   inline auto to() {
-    d_source.reset();
-    auto inter = d_mapper(d_source);
+    dSource_.reset();
+    auto inter = dMapper_(dSource_);
     Container result;
     while (inter->hasNext()) {
       result.emplace_back(inter->next());
@@ -251,8 +251,8 @@ struct Stream {
 
   template<typename Container>
   inline auto toSetImpl() {
-    d_source.reset();
-    auto inter = d_mapper(d_source);
+    dSource_.reset();
+    auto inter = dMapper_(dSource_);
     Container result;
     while (inter->hasNext()) {
       result.emplace(inter->next());

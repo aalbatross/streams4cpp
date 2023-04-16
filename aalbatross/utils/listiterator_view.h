@@ -7,43 +7,39 @@ template<typename Container,
          typename T = typename Container::value_type>
 struct ListIteratorView : public Iterator<T> {
   explicit ListIteratorView(Container &storage)
-      : d_data(storage) {
-    d_begin = d_data.begin();
-    d_end = d_data.end();
-    d_current = d_data.begin();
-    if (d_begin != d_end)
-      d_last = *(d_data.begin());
+      : dData_(storage), dBegin_(dData_.begin()), dEnd_(dData_.end()), dCurrent_(dData_.begin()), dLast_((dBegin_ != dEnd_) ? std::optional<T>{*(dData_.begin())} : std::optional<T>{}) {
   }
 
   ~ListIteratorView() = default;
 
   inline bool hasNext() override {
-    bool hasMore = d_current != d_end;
+    bool hasMore = dCurrent_ != dEnd_;
     if (hasMore) {
-      d_last = *d_current;
-      std::advance(d_current, 1);
+      dLast_ = *dCurrent_;
+      std::advance(dCurrent_, 1);
     }
     return hasMore;
   }
 
   inline T next() override {
-    return d_last;
+    return dLast_.value();
   }
 
   inline void reset() override {
-    d_begin = d_data.begin();
-    d_current = d_data.begin();
-    d_end = d_data.end();
-    if (d_begin != d_end)
-      d_last = *(d_data.begin());
+    dBegin_ = dData_.begin();
+    dCurrent_ = dData_.begin();
+    dEnd_ = dData_.end();
+    if (dBegin_ != dEnd_) {
+      dLast_ = *(dData_.begin());
+    }
   }
 
  private:
-  Container d_data;
-  decltype(d_data.begin()) d_begin;
-  decltype(d_data.end()) d_end;
-  decltype(d_data.begin()) d_current;
-  T d_last;
+  Container dData_;
+  decltype(dData_.begin()) dBegin_;
+  decltype(dData_.end()) dEnd_;
+  decltype(dData_.begin()) dCurrent_;
+  std::optional<T> dLast_;
 };
 
 template<typename Container,

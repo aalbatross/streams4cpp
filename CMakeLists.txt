@@ -5,6 +5,20 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 include(cmake/CPM.cmake)
 
+find_program(
+        CLANG_TIDY_EXE
+        NAMES clang-tidy
+)
+if (CLANG_TIDY_EXE)
+    message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
+    set(DO_CLANG_TIDY
+            "${CLANG_TIDY_EXE}"
+            )
+    set(CMAKE_CXX_CLANG_TIDY "${DO_CLANG_TIDY}")
+else ()
+    message(STATUS "clang-tidy not found.")
+endif ()
+
 add_library(${PROJECT_NAME} INTERFACE
         aalbatross/utils/iterator.h
         aalbatross/utils/listiterator.h

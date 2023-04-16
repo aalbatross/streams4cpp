@@ -3,39 +3,39 @@
 
 #include "iterator.h"
 
+#include <optional>
+
 namespace aalbatross::utils {
 
 template<typename Iter,
          typename T = typename std::iterator_traits<Iter>::value_type>
 struct ListIterator : public Iterator<T> {
   ListIterator(Iter &&begin, Iter &&end)
-      : d_begin(begin), d_end(end), d_current(begin) {
-    if (d_begin != d_end)
-      d_last = *d_begin;
+      : dBegin_(begin), dEnd_(end), dCurrent_(begin), dLast_(dBegin_ != dEnd_ ? std::optional<T>{*dBegin_} : std::optional<T>{}) {
   }
 
   ~ListIterator() = default;
 
   inline bool hasNext() override {
-    bool hasMore = d_current != d_end;
+    bool hasMore = dCurrent_ != dEnd_;
     if (hasMore) {
-      d_last = *d_current;
-      std::advance(d_current, 1);
+      dLast_ = *dCurrent_;
+      std::advance(dCurrent_, 1);
     }
     return hasMore;
   }
 
   inline T next() override {
-    return d_last;
+    return dLast_.value();
   }
 
-  inline void reset() override { d_current = d_begin; }
+  inline void reset() override { dCurrent_ = dBegin_; }
 
  private:
-  Iter d_begin;
-  Iter d_end;
-  Iter d_current;
-  T d_last;
+  Iter dBegin_;
+  Iter dEnd_;
+  Iter dCurrent_;
+  std::optional<T> dLast_;
 };
 
 template<typename Iter,

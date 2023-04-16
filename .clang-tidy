@@ -1,0 +1,6 @@
+Checks: "bugprone-*,clang-diagnostic-*,clang-analyzer-*,modernize-*,performance-*,readability-*,cppcoreguidelines-*"
+WarningsAsErrors: ""
+HeaderFilterRegex: "aalbatross/utils/*"
+CheckOptions:
+  - key: readability-identifier-naming.PrivateMemberSuffix
+    value: "_"
