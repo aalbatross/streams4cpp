@@ -13,8 +13,8 @@ TEST(StreamTestFixture, ReturnTransformedStream) {
   auto doubler = [](const auto x) { return x * 2; };
   auto toString = [](const auto x) { return std::to_string(x) + " something"; };
   auto sumAccumulator = [](auto x, auto y) { return x + y; };
-  auto newStream = s.map<int>(doubler);
-  newStream.map<std::string>(toString).forEach(print);
+  auto newStream = s.map(doubler);
+  newStream.map(toString).forEach(print);
   auto sum = newStream.reduce(0, sumAccumulator);
   ASSERT_EQ(sum, 30);
   auto limitedSum = newStream.limit(2).reduce(0, sumAccumulator);
@@ -28,7 +28,7 @@ TEST(StreamTestFixture, ReturnFilterStream) {
   auto doubler = [](const auto x) { return x * 2; };
   auto sumAccumulator = [](auto x, auto y) { return x + y; };
   auto greaterThan2 = [](auto x) { return x > 4; };
-  auto filteredStream = s.map<int>(doubler).filter(greaterThan2);
+  auto filteredStream = s.map(doubler).filter(greaterThan2);
   EXPECT_THAT(filteredStream.toVector(), ::testing::ElementsAre(6, 8, 10));
   EXPECT_THAT(filteredStream.toSet(), ::testing::UnorderedElementsAre(6, 8, 10));
   EXPECT_THAT(filteredStream.toUnorderedSet(), ::testing::UnorderedElementsAre(6, 8, 10));

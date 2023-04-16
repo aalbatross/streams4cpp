@@ -28,8 +28,9 @@ struct Stream {
     d_mapper = x;
   }
 
-  template<typename E, typename Fun>
-  Stream<E, S> map(Fun &&mapper) {
+  template<typename Fun>
+  auto map(Fun &&mapper) {
+    using E = typename std::invoke_result<Fun, S>::type;
     std::function<std::unique_ptr<Iterator<E>>(Iterator<S> &)> newMapper =
         [&](Iterator<S> &source) {
           auto inter = d_mapper(source);
