@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <deque>
+#include <iostream>
 #include <list>
 #include <optional>
 #include <set>
@@ -59,6 +60,19 @@ struct Stream {
     auto vec = toVector();
     auto iterator = std::find_if(vec.begin(), vec.end(), predicate);
     return iterator != vec.end() ? std::optional<T>(*iterator) : std::optional<T>{};
+  }
+
+  template<typename Discriminator>
+  auto groupedBy(Discriminator &&discriminator) {
+    auto vec = toVector();
+    using K = typename std::invoke_result<Discriminator, T>::type;
+    std::unordered_map<K, std::vector<T>> output;
+    for (auto element : vec) {
+      K key = discriminator(element);
+      output.try_emplace(key, std::vector<T>());
+      output[key].emplace_back(element);
+    }
+    return output;
   }
 
   template<typename Fun>

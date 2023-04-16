@@ -102,4 +102,14 @@ TEST(StreamTestFixture, ReturnFindFirstStream) {
   EXPECT_EQ(s.tail().value(), 50);
   EXPECT_EQ(s.find([](auto x) { return x % 25 == 0; }).value(), 50);
 }
+
+TEST(StreamTestFixture, ReturnGroupedByStream) {
+  std::vector x{21, 20, 29, 10, 17, 16, 40, 50};
+  ListIterator iter(x.begin(), x.end());
+  Stream<int> s(iter);
+  auto result = s.groupedBy([](auto x) { return x % 2 == 0 ? "even" : "odd"; });
+  EXPECT_EQ(2, result.size());
+  EXPECT_THAT(result["even"], ::testing::ElementsAre(20, 10, 16, 40, 50));
+  EXPECT_THAT(result["odd"], ::testing::ElementsAre(21, 29, 17));
+}
 }// namespace aalbatross::utils::test
