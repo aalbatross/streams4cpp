@@ -38,4 +38,26 @@ TEST(StreamTestFixture, ReturnFilterStream) {
   auto sum = filteredStream.reduce(0, sumAccumulator);
   ASSERT_EQ(sum, 24);
 }
+
+TEST(StreamTestFixture, ReturnSortedStream) {
+  std::vector x{121, 12, 123, 41, 59};
+  ListIterator iter(x.begin(), x.end());
+  Stream<int> s(iter);
+  EXPECT_THAT(s.sorted(std::greater<int>()).toVector(), ::testing::ElementsAre(123, 121, 59, 41, 12));
+  EXPECT_THAT(s.sorted(std::less<int>()).toVector(), ::testing::ElementsAre(12, 41, 59, 121, 123));
+}
+
+TEST(StreamTestFixture, ReturnDistinctStream) {
+  std::vector x{1, 2, 3, 4, 5, 2, 3, 4, 5};
+  ListIterator iter(x.begin(), x.end());
+  Stream<int> s(iter);
+  EXPECT_THAT(s.distinct().toVector(), ::testing::ElementsAre(1, 2, 3, 4, 5));
+}
+
+TEST(StreamTestFixture, ReturnSkipStream) {
+  std::vector x{1, 2, 3, 4, 5, 6, 7};
+  ListIterator iter(x.begin(), x.end());
+  Stream<int> s(iter);
+  EXPECT_THAT(s.skip(2).toVector(), ::testing::ElementsAre(3, 4, 5, 6, 7));
+}
 }// namespace aalbatross::utils::test

@@ -74,6 +74,50 @@ struct Stream {
     return Stream<T, S>(d_source, newMapper);
   }
 
+  Stream<T, S> skip(const size_t count) {
+    std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> newMapper =
+        [&, count](Iterator<S> &source) {
+          auto inter = d_mapper(source);
+          std::vector<T> result;
+          size_t currentCount = 0;
+          while (inter->hasNext()) {
+            if (currentCount >= count) {
+              result.emplace_back(inter->next());
+            }
+            currentCount++;
+          }
+          return std::make_unique<ListIteratorView<std::vector<T>>>(result);
+        };
+    return Stream<T, S>(d_source, newMapper);
+  }
+
+  Stream<T, S> sorted(std::function<int(T, T)> comparator) {
+    std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> newMapper =
+        [&, comparator](Iterator<S> &source) {
+          auto inter = d_mapper(source);
+          std::vector<T> result;
+          while (inter->hasNext()) {
+            result.emplace_back(inter->next());
+          }
+          std::sort(result.begin(), result.end(), comparator);
+          return std::make_unique<ListIteratorView<std::vector<T>>>(result);
+        };
+    return Stream<T, S>(d_source, newMapper);
+  }
+
+  Stream<T, S> distinct() {
+    std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> newMapper =
+        [&](Iterator<S> &source) {
+          auto inter = d_mapper(source);
+          std::set<T> result;
+          while (inter->hasNext()) {
+            result.emplace(inter->next());
+          }
+          return std::make_unique<ListIteratorView<std::set<T>>>(result);
+        };
+    return Stream<T, S>(d_source, newMapper);
+  }
+
   T reduce(T identity, std::function<T(T, T)> binaryAccumulator) {
     d_source.reset();
     auto result = d_mapper(d_source);
@@ -82,6 +126,16 @@ struct Stream {
       output = binaryAccumulator(output, result->next());
     }
     return output;
+  }
+
+  size_t count() {
+    d_source.reset();
+    auto result = d_mapper(d_source);
+    size_t count = 0;
+    while (result->hasNext()) {
+      count++;
+    }
+    return count;
   }
 
   template<typename Consumer>
