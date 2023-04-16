@@ -81,4 +81,25 @@ TEST(StreamTestFixture, ReturnMaxMinStream) {
   EXPECT_FALSE(s.max().has_value());
   EXPECT_FALSE(s.min().has_value());
 }
+
+TEST(StreamTestFixture, ReturnMatchStream) {
+  std::vector x{21, 20, 10, 16, 40, 50};
+  ListIterator iter(x.begin(), x.end());
+  Stream<int> s(iter);
+  EXPECT_TRUE(s.allMatch([](auto x) { return x >= 10; }));
+  EXPECT_FALSE(s.allMatch([](auto x) { return x >= 20; }));
+  EXPECT_TRUE(s.anyMatch([](auto x) { return x >= 20; }));
+  EXPECT_FALSE(s.anyMatch([](auto x) { return x <= 0; }));
+  EXPECT_TRUE(s.noneMatch([](auto x) { return x <= 0; }));
+  EXPECT_FALSE(s.noneMatch([](auto x) { return x >= 0; }));
+}
+
+TEST(StreamTestFixture, ReturnFindFirstStream) {
+  std::vector x{21, 20, 10, 16, 40, 50};
+  ListIterator iter(x.begin(), x.end());
+  Stream<int> s(iter);
+  EXPECT_EQ(s.head().value(), 21);
+  EXPECT_EQ(s.tail().value(), 50);
+  EXPECT_EQ(s.find([](auto x) { return x % 25 == 0; }).value(), 50);
+}
 }// namespace aalbatross::utils::test

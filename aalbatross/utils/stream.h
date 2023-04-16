@@ -30,6 +30,37 @@ struct Stream {
     d_mapper = x;
   }
 
+  bool allMatch(std::function<bool(T)> predicate) {
+    auto vec = toVector();
+    return std::all_of(vec.begin(), vec.end(), predicate);
+  }
+
+  bool anyMatch(std::function<bool(T)> predicate) {
+    auto vec = toVector();
+    return std::any_of(vec.begin(), vec.end(), predicate);
+  }
+
+  bool noneMatch(std::function<bool(T)> predicate) {
+    auto vec = toVector();
+    return std::none_of(vec.begin(), vec.end(), predicate);
+  }
+
+  std::optional<T> head() {
+    auto vec = toVector();
+    return vec.empty() ? std::optional<T>() : std::optional<T>(vec.front());
+  }
+
+  std::optional<T> tail() {
+    auto vec = toVector();
+    return vec.empty() ? std::optional<T>() : std::optional<T>(vec.back());
+  }
+
+  std::optional<T> find(std::function<bool(T)> predicate) {
+    auto vec = toVector();
+    auto iterator = std::find_if(vec.begin(), vec.end(), predicate);
+    return iterator != vec.end() ? std::optional<T>(*iterator) : std::optional<T>{};
+  }
+
   template<typename Fun>
   auto map(Fun &&mapper) {
     using E = typename std::invoke_result<Fun, S>::type;
