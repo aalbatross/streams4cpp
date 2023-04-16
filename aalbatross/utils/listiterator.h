@@ -9,7 +9,10 @@ template<typename Iter,
          typename T = typename std::iterator_traits<Iter>::value_type>
 struct ListIterator : public Iterator<T> {
   ListIterator(Iter &&begin, Iter &&end)
-      : d_begin(begin), d_end(end), d_current(begin), d_last(*begin) {}
+      : d_begin(begin), d_end(end), d_current(begin) {
+    if (d_begin != d_end)
+      d_last = *d_begin;
+  }
 
   ~ListIterator() = default;
 

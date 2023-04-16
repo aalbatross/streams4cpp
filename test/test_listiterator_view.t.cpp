@@ -132,4 +132,19 @@ TEST(ListIteratorViewFixture, ReturnViewableIterator) {
               ::testing::UnorderedElementsAre("one", "two", "three", "four", "five"));
 }
 
+TEST(ListIteratorViewFixture, ReturnEmptyListIterator) {
+  std::set<std::string> x{};
+  ListIteratorView iter(x);
+
+  std::vector<std::string> out;
+  while (iter.hasNext()) {
+    out.push_back(iter.next());
+  }
+
+  ASSERT_EQ(out.size(), x.size());
+
+  EXPECT_THAT(out,
+              ::testing::UnorderedElementsAre());
+}
+
 }// namespace aalbatross::utils::test

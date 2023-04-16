@@ -60,4 +60,25 @@ TEST(StreamTestFixture, ReturnSkipStream) {
   Stream<int> s(iter);
   EXPECT_THAT(s.skip(2).toVector(), ::testing::ElementsAre(3, 4, 5, 6, 7));
 }
+
+TEST(StreamTestFixture, ReturnMaxMinSumStream) {
+  std::vector x{21, 20, 10, 16, 40, 50};
+  ListIterator iter(x.begin(), x.end());
+  Stream<int> s(iter);
+  EXPECT_EQ(s.sum(), 157);
+  EXPECT_THAT(s.reverse().toVector(), ::testing::ElementsAre(50, 40, 16, 10, 20, 21));
+  EXPECT_EQ(s.max().value(), 50);
+  EXPECT_EQ(s.min().value(), 10);
+}
+
+TEST(StreamTestFixture, ReturnMaxMinStream) {
+  std::vector<int> x{};
+  ListIterator iter(x.begin(), x.end());
+  Stream<int> s(iter);
+  EXPECT_EQ(s.sum(), 0);
+  EXPECT_THAT(s.toVector(), ::testing::ElementsAre());
+  EXPECT_THAT(s.reverse().toVector(), ::testing::ElementsAre());
+  EXPECT_FALSE(s.max().has_value());
+  EXPECT_FALSE(s.min().has_value());
+}
 }// namespace aalbatross::utils::test

@@ -3,8 +3,10 @@
 #include "iterator.h"
 #include "listiterator_view.h"
 
+#include <algorithm>
 #include <deque>
 #include <list>
+#include <optional>
 #include <set>
 #include <unordered_set>
 
@@ -116,6 +118,37 @@ struct Stream {
           return std::make_unique<ListIteratorView<std::set<T>>>(result);
         };
     return Stream<T, S>(d_source, newMapper);
+  }
+
+  Stream<T, S> reverse() {
+    std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> newMapper =
+        [&](Iterator<S> &source) {
+          auto inter = d_mapper(source);
+          std::vector<T> result;
+          while (inter->hasNext()) {
+            result.emplace_back(inter->next());
+          }
+          std::reverse(result.begin(), result.end());
+          return std::make_unique<ListIteratorView<std::vector<T>>>(result);
+        };
+    return Stream<T, S>(d_source, newMapper);
+  }
+
+  std::optional<T> max() {
+    std::vector<T> vec = toVector();
+    auto iterator = std::max_element(vec.begin(), vec.end());
+    return iterator != vec.end() ? std::optional<T>(*iterator) : std::optional<T>{};
+  }
+
+  std::optional<T> min() {
+    std::vector<T> vec = toVector();
+    auto iterator = std::min_element(vec.begin(), vec.end());
+    return iterator != vec.end() ? std::optional<T>(*iterator) : std::optional<T>{};
+  }
+
+  T sum() {
+    auto sumAccumulator = [](auto x, auto y) { return x + y; };
+    return reduce(T{}, sumAccumulator);
   }
 
   T reduce(T identity, std::function<T(T, T)> binaryAccumulator) {

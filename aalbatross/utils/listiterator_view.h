@@ -11,7 +11,8 @@ struct ListIteratorView : public Iterator<T> {
     d_begin = d_data.begin();
     d_end = d_data.end();
     d_current = d_data.begin();
-    d_last = *(d_data.begin());
+    if (d_begin != d_end)
+      d_last = *(d_data.begin());
   }
 
   ~ListIteratorView() = default;
@@ -33,7 +34,8 @@ struct ListIteratorView : public Iterator<T> {
     d_begin = d_data.begin();
     d_current = d_data.begin();
     d_end = d_data.end();
-    d_last = *(d_data.begin());
+    if (d_begin != d_end)
+      d_last = *(d_data.begin());
   }
 
  private:
