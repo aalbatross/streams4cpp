@@ -5,13 +5,13 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 include(cmake/CPM.cmake)
 
-add_library(streams4cpp INTERFACE
+add_library(${PROJECT_NAME} INTERFACE
         aalbatross/utils/iterator.h
         aalbatross/utils/listiterator.h
         aalbatross/utils/listiterator_view.h
         aalbatross/utils/stream.h
         )
 
-target_include_directories(streams4cpp INTERFACE aalbatross/utils)
+target_include_directories(${PROJECT_NAME} INTERFACE aalbatross/utils)
 
 add_subdirectory(test)

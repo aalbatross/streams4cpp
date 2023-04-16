@@ -2,6 +2,12 @@
 #define INCLUDED_STREAMS4CPP_STREAM_H_
 #include "iterator.h"
 #include "listiterator_view.h"
+
+#include <deque>
+#include <list>
+#include <set>
+#include <unordered_set>
+
 namespace aalbatross::utils {
 
 template<typename T, typename S = T>
@@ -86,9 +92,41 @@ struct Stream {
     }
   }
 
+  auto toSet() { return toSetImpl<std::set<T>>(); }
+
+  auto toUnorderedSet() { return toSetImpl<std::unordered_set<T>>(); }
+
+  auto toVector() { return to<std::vector<T>>(); }
+
+  auto toList() { return to<std::list<T>>(); }
+
+  auto toDeque() { return to<std::deque<T>>(); }
+
  private:
   std::function<std::unique_ptr<Iterator<T>>(Iterator<S> &)> d_mapper;
   Iterator<S> &d_source;
+
+  template<typename Container>
+  inline auto to() {
+    d_source.reset();
+    auto inter = d_mapper(d_source);
+    Container result;
+    while (inter->hasNext()) {
+      result.emplace_back(inter->next());
+    }
+    return result;
+  }
+
+  template<typename Container>
+  inline auto toSetImpl() {
+    d_source.reset();
+    auto inter = d_mapper(d_source);
+    Container result;
+    while (inter->hasNext()) {
+      result.emplace(inter->next());
+    }
+    return result;
+  }
 };
 }// namespace aalbatross::utils
 
