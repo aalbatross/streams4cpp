@@ -3,6 +3,8 @@ project(streams4cpp CXX)
 set(CMAKE_CXX_STANDARD 17)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+include(cmake/CPM.cmake)
+
 add_library(streams4cpp INTERFACE
         aalbatross/utils/iterator.h
         aalbatross/utils/listiterator.h
