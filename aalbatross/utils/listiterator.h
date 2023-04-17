@@ -14,6 +14,11 @@ struct ListIterator : public Iterator<T> {
       : dBegin_(begin), dEnd_(end), dCurrent_(begin), dLast_(dBegin_ != dEnd_ ? std::optional<T>{*dBegin_} : std::optional<T>{}) {
   }
 
+  ListIterator(ListIterator &) = default;
+  ListIterator(ListIterator &&) noexcept = default;
+
+  ListIterator &operator=(const ListIterator &) = default;
+  ListIterator &operator=(ListIterator &&) noexcept = default;
   ~ListIterator() = default;
 
   inline bool hasNext() override {

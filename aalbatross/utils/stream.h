@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-trailing-return-type"
 #ifndef INCLUDED_STREAMS4CPP_STREAM_H_
 #define INCLUDED_STREAMS4CPP_STREAM_H_
 #include "iterator.h"
@@ -50,7 +52,7 @@ struct Stream {
     return vec.empty() ? std::optional<T>() : std::optional<T>(vec.front());
   }
 
-  std::optional<T> tail() {
+  auto tail() -> std::optional<T> {
     auto vec = toVector();
     return vec.empty() ? std::optional<T>() : std::optional<T>(vec.back());
   }
@@ -191,7 +193,7 @@ struct Stream {
   }
 
   T sum() {
-    auto sumAccumulator = [](auto x, auto y) { return x + y; };
+    auto sumAccumulator = [](auto x_1, auto y_1) { return x_1 + y_1; };
     return reduce(T{}, sumAccumulator);
   }
 
@@ -263,3 +265,5 @@ struct Stream {
 }// namespace aalbatross::utils
 
 #endif// INCLUDED_STREAMS4CPP_STREAM_H_
+
+#pragma clang diagnostic pop

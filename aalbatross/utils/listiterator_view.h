@@ -10,9 +10,15 @@ struct ListIteratorView : public Iterator<T> {
       : dData_(storage), dBegin_(dData_.begin()), dEnd_(dData_.end()), dCurrent_(dData_.begin()), dLast_((dBegin_ != dEnd_) ? std::optional<T>{*(dData_.begin())} : std::optional<T>{}) {
   }
 
+  ListIteratorView(ListIteratorView &) = default;
+  ListIteratorView(ListIteratorView &&) noexcept = default;
+
+  auto operator=(const ListIteratorView &) -> ListIteratorView & = default;
+  auto operator=(ListIteratorView &&) noexcept -> ListIteratorView & = default;
+
   ~ListIteratorView() = default;
 
-  inline bool hasNext() override {
+  inline auto hasNext() -> bool override {
     bool hasMore = dCurrent_ != dEnd_;
     if (hasMore) {
       dLast_ = *dCurrent_;

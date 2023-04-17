@@ -5,35 +5,35 @@
 
 namespace aalbatross::utils::test {
 TEST(ListIteratorViewFixture, ReturnListOfValues) {
-  std::vector x{1, 2, 3, 4, 5};
-  ListIteratorView iter(x);
+  std::vector vec{1, 2, 3, 4, 5};
+  ListIteratorView iter(vec);
 
   std::vector<int> out;
   while (iter.hasNext()) {
     out.emplace_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
+  ASSERT_EQ(out.size(), vec.size());
   EXPECT_THAT(out, ::testing::ElementsAre(1, 2, 3, 4, 5));
 }
 
 TEST(ListIteratorViewFixture, ReturnListOfStrings) {
-  std::vector x{"one", "two", "three", "four", "five"};
-  ListIteratorView iter(x);
+  std::vector vec{"one", "two", "three", "four", "five"};
+  ListIteratorView iter(vec);
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
     out.emplace_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
+  ASSERT_EQ(out.size(), vec.size());
   EXPECT_THAT(out,
               ::testing::ElementsAre("one", "two", "three", "four", "five"));
 }
 
 TEST(ListIteratorViewFixture, ReturnListOfStringsWithReplay) {
-  std::vector x{"one", "two", "three", "four", "five"};
-  ListIteratorView iter(x);
+  std::vector vec{"one", "two", "three", "four", "five"};
+  ListIteratorView iter(vec);
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -46,8 +46,8 @@ TEST(ListIteratorViewFixture, ReturnListOfStringsWithReplay) {
     out1.emplace_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
-  ASSERT_EQ(out1.size(), x.size());
+  ASSERT_EQ(out.size(), vec.size());
+  ASSERT_EQ(out1.size(), vec.size());
 
   EXPECT_THAT(out,
               ::testing::ElementsAre("one", "two", "three", "four", "five"));
@@ -56,8 +56,8 @@ TEST(ListIteratorViewFixture, ReturnListOfStringsWithReplay) {
 }
 
 TEST(ListIteratorViewFixture, ReturnListOfArraysWithReplay) {
-  std::array<std::string, 5> x{"one", "two", "three", "four", "five"};
-  ListIteratorView iter(x);
+  std::array<std::string, 5> arr{"one", "two", "three", "four", "five"};
+  ListIteratorView iter(arr);
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -70,8 +70,8 @@ TEST(ListIteratorViewFixture, ReturnListOfArraysWithReplay) {
     out1.emplace_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
-  ASSERT_EQ(out1.size(), x.size());
+  ASSERT_EQ(out.size(), arr.size());
+  ASSERT_EQ(out1.size(), arr.size());
 
   EXPECT_THAT(out,
               ::testing::ElementsAre("one", "two", "three", "four", "five"));
@@ -80,8 +80,8 @@ TEST(ListIteratorViewFixture, ReturnListOfArraysWithReplay) {
 }
 
 TEST(ListIteratorViewFixture, ReturnSetWithReplay) {
-  std::set<std::string> x{"one", "two", "three", "four", "five"};
-  ListIteratorView iter(x);
+  std::set<std::string> set{"one", "two", "three", "four", "five"};
+  ListIteratorView iter(set);
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -94,8 +94,8 @@ TEST(ListIteratorViewFixture, ReturnSetWithReplay) {
     out1.push_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
-  ASSERT_EQ(out1.size(), x.size());
+  ASSERT_EQ(out.size(), set.size());
+  ASSERT_EQ(out1.size(), set.size());
 
   EXPECT_THAT(out,
               ::testing::UnorderedElementsAre("one", "two", "three", "four", "five"));
@@ -104,12 +104,12 @@ TEST(ListIteratorViewFixture, ReturnSetWithReplay) {
 }
 
 auto getIterator() {
-  std::set<std::string> x{"one", "two", "three", "four", "five"};
-  return ListIteratorView(x);
+  std::set<std::string> set{"one", "two", "three", "four", "five"};
+  return ListIteratorView(set);
 }
 
 TEST(ListIteratorViewFixture, ReturnViewableIterator) {
-  std::set<std::string> x{"one", "two", "three", "four", "five"};
+  std::set<std::string> set{"one", "two", "three", "four", "five"};
   auto iter = getIterator();
 
   std::vector<std::string> out;
@@ -123,8 +123,8 @@ TEST(ListIteratorViewFixture, ReturnViewableIterator) {
     out1.push_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
-  ASSERT_EQ(out1.size(), x.size());
+  ASSERT_EQ(out.size(), set.size());
+  ASSERT_EQ(out1.size(), set.size());
 
   EXPECT_THAT(out,
               ::testing::UnorderedElementsAre("one", "two", "three", "four", "five"));
@@ -133,15 +133,15 @@ TEST(ListIteratorViewFixture, ReturnViewableIterator) {
 }
 
 TEST(ListIteratorViewFixture, ReturnEmptyListIterator) {
-  std::set<std::string> x{};
-  ListIteratorView iter(x);
+  std::set<std::string> emptySet{};
+  ListIteratorView iter(emptySet);
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
     out.push_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
+  ASSERT_EQ(out.size(), emptySet.size());
 
   EXPECT_THAT(out,
               ::testing::UnorderedElementsAre());

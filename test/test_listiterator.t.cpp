@@ -5,35 +5,35 @@
 
 namespace aalbatross::utils::test {
 TEST(ListIteratorFixture, ReturnListOfValues) {
-  std::vector x{1, 2, 3, 4, 5};
-  ListIterator iter(x.begin(), x.end());
+  std::vector vec{1, 2, 3, 4, 5};
+  ListIterator iter(vec.begin(), vec.end());
 
   std::vector<int> out;
   while (iter.hasNext()) {
     out.emplace_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
+  ASSERT_EQ(out.size(), vec.size());
   EXPECT_THAT(out, ::testing::ElementsAre(1, 2, 3, 4, 5));
 }
 
 TEST(ListIteratorFixture, ReturnListOfStrings) {
-  std::vector x{"one", "two", "three", "four", "five"};
-  ListIterator iter(x.begin(), x.end());
+  std::vector vec{"one", "two", "three", "four", "five"};
+  ListIterator iter(vec.begin(), vec.end());
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
     out.emplace_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
+  ASSERT_EQ(out.size(), vec.size());
   EXPECT_THAT(out,
               ::testing::ElementsAre("one", "two", "three", "four", "five"));
 }
 
-TEST(ListIteratorFixture, ReturnListOfStringsWithReplay) {
-  std::vector x{"one", "two", "three", "four", "five"};
-  ListIterator iter(x.begin(), x.end());
+TEST(ListIteratorFivecture, ReturnListOfStringsWithReplay) {
+  std::vector vec{"one", "two", "three", "four", "five"};
+  ListIterator iter(vec.begin(), vec.end());
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -46,8 +46,8 @@ TEST(ListIteratorFixture, ReturnListOfStringsWithReplay) {
     out1.emplace_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
-  ASSERT_EQ(out1.size(), x.size());
+  ASSERT_EQ(out.size(), vec.size());
+  ASSERT_EQ(out1.size(), vec.size());
 
   EXPECT_THAT(out,
               ::testing::ElementsAre("one", "two", "three", "four", "five"));
@@ -56,8 +56,8 @@ TEST(ListIteratorFixture, ReturnListOfStringsWithReplay) {
 }
 
 TEST(ListIteratorFixture, ReturnListOfArraysWithReplay) {
-  std::array<std::string, 5> x{"one", "two", "three", "four", "five"};
-  ListIterator iter(x.begin(), x.end());
+  std::array<std::string, 5> arr{"one", "two", "three", "four", "five"};
+  ListIterator iter(arr.begin(), arr.end());
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -70,8 +70,8 @@ TEST(ListIteratorFixture, ReturnListOfArraysWithReplay) {
     out1.emplace_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
-  ASSERT_EQ(out1.size(), x.size());
+  ASSERT_EQ(out.size(), arr.size());
+  ASSERT_EQ(out1.size(), arr.size());
 
   EXPECT_THAT(out,
               ::testing::ElementsAre("one", "two", "three", "four", "five"));
@@ -80,8 +80,8 @@ TEST(ListIteratorFixture, ReturnListOfArraysWithReplay) {
 }
 
 TEST(ListIteratorFixture, ReturnSetWithReplay) {
-  std::set<std::string> x{"one", "two", "three", "four", "five"};
-  ListIterator iter(x.begin(), x.end());
+  std::set<std::string> set{"one", "two", "three", "four", "five"};
+  ListIterator iter(set.begin(), set.end());
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -94,8 +94,8 @@ TEST(ListIteratorFixture, ReturnSetWithReplay) {
     out1.emplace_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
-  ASSERT_EQ(out1.size(), x.size());
+  ASSERT_EQ(out.size(), set.size());
+  ASSERT_EQ(out1.size(), set.size());
 
   EXPECT_THAT(out,
               ::testing::UnorderedElementsAre("one", "two", "three", "four", "five"));
@@ -104,15 +104,15 @@ TEST(ListIteratorFixture, ReturnSetWithReplay) {
 }
 
 TEST(ListIteratorFixture, ReturnEmptyListIterator) {
-  std::set<std::string> x{};
-  ListIterator iter(x.begin(), x.end());
+  std::set<std::string> set{};
+  ListIterator iter(set.begin(), set.end());
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
     out.emplace_back(iter.next());
   }
 
-  ASSERT_EQ(out.size(), x.size());
+  ASSERT_EQ(out.size(), set.size());
 
   EXPECT_THAT(out,
               ::testing::UnorderedElementsAre());
