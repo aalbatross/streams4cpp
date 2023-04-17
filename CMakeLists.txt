@@ -27,5 +27,6 @@ add_library(${PROJECT_NAME} INTERFACE
         )
 
 target_include_directories(${PROJECT_NAME} INTERFACE aalbatross/utils)
-
+file(GLOB files "${CMAKE_SOURCE_DIR}/aalbatross/utils/*.h")
+install(FILES ${files} DESTINATION include/aalbatross/utils/)
 add_subdirectory(test)
