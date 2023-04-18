@@ -1,5 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "modernize-use-trailing-return-type"
 #ifndef INCLUDED_STREAMS4CPP_STREAM_H_
 #define INCLUDED_STREAMS4CPP_STREAM_H_
 #include "iterator.h"
@@ -265,5 +263,3 @@ struct Stream {
 }// namespace aalbatross::utils
 
 #endif// INCLUDED_STREAMS4CPP_STREAM_H_
-
-#pragma clang diagnostic pop
