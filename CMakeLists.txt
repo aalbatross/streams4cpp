@@ -5,6 +5,22 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 include(cmake/CPM.cmake)
 
+file(GLOB ALL_SOURCE_FILES ${PROJECT_SOURCE_DIR}/aalbatross/utils/*.h)
+file(GLOB ALL_TEST_FILES ${PROJECT_SOURCE_DIR}/test/*.cpp)
+set(ALL_SOURCES ${ALL_SOURCE_FILES} ${ALL_TEST_FILES})
+
+add_custom_target(
+        clangformat ALL
+        COMMAND /usr/local/bin/clang-format
+        --style=file
+        --Werror
+        --dry-run
+        --verbose
+        ${ALL_SOURCES}
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Running CLang Format"
+)
+
 find_program(
         CLANG_TIDY_EXE
         NAMES clang-tidy
