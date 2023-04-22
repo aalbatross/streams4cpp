@@ -6,7 +6,7 @@
 namespace aalbatross::utils::test {
 TEST(ListIteratorFixture, ReturnListOfValues) {
   std::vector vec{1, 2, 3, 4, 5};
-  ListIterator iter(vec.begin(), vec.end());
+  iterators::ListIterator iter(vec.begin(), vec.end());
 
   std::vector<int> out;
   while (iter.hasNext()) {
@@ -19,7 +19,7 @@ TEST(ListIteratorFixture, ReturnListOfValues) {
 
 TEST(ListIteratorFixture, ReturnListOfStrings) {
   std::vector vec{"one", "two", "three", "four", "five"};
-  ListIterator iter(vec.begin(), vec.end());
+  iterators::ListIterator iter(vec.begin(), vec.end());
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -33,7 +33,7 @@ TEST(ListIteratorFixture, ReturnListOfStrings) {
 
 TEST(ListIteratorFivecture, ReturnListOfStringsWithReplay) {
   std::vector vec{"one", "two", "three", "four", "five"};
-  ListIterator iter(vec.begin(), vec.end());
+  iterators::ListIterator iter(vec.begin(), vec.end());
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -57,7 +57,7 @@ TEST(ListIteratorFivecture, ReturnListOfStringsWithReplay) {
 
 TEST(ListIteratorFixture, ReturnListOfArraysWithReplay) {
   std::array<std::string, 5> arr{"one", "two", "three", "four", "five"};
-  ListIterator iter(arr.begin(), arr.end());
+  iterators::ListIterator iter(arr.begin(), arr.end());
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -81,7 +81,7 @@ TEST(ListIteratorFixture, ReturnListOfArraysWithReplay) {
 
 TEST(ListIteratorFixture, ReturnSetWithReplay) {
   std::set<std::string> set{"one", "two", "three", "four", "five"};
-  ListIterator iter(set.begin(), set.end());
+  iterators::ListIterator iter(set.begin(), set.end());
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -105,7 +105,7 @@ TEST(ListIteratorFixture, ReturnSetWithReplay) {
 
 TEST(ListIteratorFixture, ReturnEmptyListIterator) {
   std::set<std::string> set{};
-  ListIterator iter(set.begin(), set.end());
+  iterators::ListIterator iter(set.begin(), set.end());
 
   std::vector<std::string> out;
   while (iter.hasNext()) {

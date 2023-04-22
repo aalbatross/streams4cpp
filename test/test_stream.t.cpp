@@ -6,7 +6,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 namespace aalbatross::utils::test {
-
+using namespace streams;
+using namespace iterators;
 const auto doubler = [](const auto element) { return element * 2; };
 const auto sumAccumulator = [](auto x_1, auto y_1) { return x_1 + y_1; };
 const auto greaterThan4 = [](auto number) { return number > 4; };

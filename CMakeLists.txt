@@ -60,6 +60,7 @@ add_library(${PROJECT_NAME} INTERFACE
         aalbatross/utils/listiterator.h
         aalbatross/utils/listiterator_view.h
         aalbatross/utils/stream.h
+        aalbatross/utils/utils.h
         )
 
 target_include_directories(${PROJECT_NAME} INTERFACE aalbatross/utils)

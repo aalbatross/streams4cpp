@@ -6,7 +6,7 @@
 namespace aalbatross::utils::test {
 TEST(ListIteratorViewFixture, ReturnListOfValues) {
   std::vector vec{1, 2, 3, 4, 5};
-  ListIteratorView iter(vec);
+  iterators::ListIteratorView iter(vec);
 
   std::vector<int> out;
   while (iter.hasNext()) {
@@ -19,7 +19,7 @@ TEST(ListIteratorViewFixture, ReturnListOfValues) {
 
 TEST(ListIteratorViewFixture, ReturnListOfStrings) {
   std::vector vec{"one", "two", "three", "four", "five"};
-  ListIteratorView iter(vec);
+  iterators::ListIteratorView iter(vec);
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -33,7 +33,7 @@ TEST(ListIteratorViewFixture, ReturnListOfStrings) {
 
 TEST(ListIteratorViewFixture, ReturnListOfStringsWithReplay) {
   std::vector vec{"one", "two", "three", "four", "five"};
-  ListIteratorView iter(vec);
+  iterators::ListIteratorView iter(vec);
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -57,7 +57,7 @@ TEST(ListIteratorViewFixture, ReturnListOfStringsWithReplay) {
 
 TEST(ListIteratorViewFixture, ReturnListOfArraysWithReplay) {
   std::array<std::string, 5> arr{"one", "two", "three", "four", "five"};
-  ListIteratorView iter(arr);
+  iterators::ListIteratorView iter(arr);
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -81,7 +81,7 @@ TEST(ListIteratorViewFixture, ReturnListOfArraysWithReplay) {
 
 TEST(ListIteratorViewFixture, ReturnSetWithReplay) {
   std::set<std::string> set{"one", "two", "three", "four", "five"};
-  ListIteratorView iter(set);
+  iterators::ListIteratorView iter(set);
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
@@ -105,7 +105,7 @@ TEST(ListIteratorViewFixture, ReturnSetWithReplay) {
 
 auto getIterator() {
   std::set<std::string> set{"one", "two", "three", "four", "five"};
-  return ListIteratorView(set);
+  return iterators::ListIteratorView(set);
 }
 
 TEST(ListIteratorViewFixture, ReturnViewableIterator) {
@@ -134,7 +134,7 @@ TEST(ListIteratorViewFixture, ReturnViewableIterator) {
 
 TEST(ListIteratorViewFixture, ReturnEmptyListIterator) {
   std::set<std::string> emptySet{};
-  ListIteratorView iter(emptySet);
+  iterators::ListIteratorView iter(emptySet);
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
