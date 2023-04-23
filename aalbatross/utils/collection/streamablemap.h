@@ -23,14 +23,18 @@ template<
     typename Allocator = std::allocator<std::pair<const Key, T>>>
 struct SMap final : public std::map<Key, T, Compare, Allocator>, public SCollection<std::pair<const Key, T>> {
 
-  explicit SMap(const Compare &comp,
+  explicit SMap(const Compare &comp = Compare(),
                 const Allocator &alloc = Allocator()) : std::map<Key, T, Compare, Allocator>(comp, alloc),
                                                         dIterator_(std::make_unique<iterators::ListIterator<typename std::map<Key, T, Compare, Allocator>::iterator>>(this->begin(), this->end())) {}
-  SMap(std::initializer_list<std::pair<const Key, T>> init,
-       const Compare &comp = Compare(),
-       const Allocator &alloc = Allocator()) : std::map<Key, T>(init, comp, alloc),
-                                               dIterator_(std::make_unique<iterators::ListIterator<typename std::map<Key, T, Compare, Allocator>::iterator>>(this->begin(), this->end())) {}
+  explicit SMap(std::initializer_list<std::pair<const Key, T>> init,
+                const Compare &comp = Compare(),
+                const Allocator &alloc = Allocator()) : std::map<Key, T>(init, comp, alloc),
+                                                        dIterator_(std::make_unique<iterators::ListIterator<typename std::map<Key, T, Compare, Allocator>::iterator>>(this->begin(), this->end())) {}
+  SMap(const SMap &) = default;
+  SMap(SMap &&) noexcept = default;
 
+  SMap &operator=(const SMap &) = default;
+  SMap &operator=(SMap &&) noexcept = default;
   ~SMap() = default;
 
   streams::Stream<std::pair<const Key, T>, std::pair<const Key, T>> stream() override {

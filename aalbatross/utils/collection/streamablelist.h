@@ -18,11 +18,15 @@ namespace aalbatross::utils::collection {
 template<typename S, typename Allocator = std::allocator<S>>
 struct SList final : public std::list<S, Allocator>, public SCollection<S> {
 
-  SList() : std::list<S, Allocator>(), dIterator_(std::make_unique<iterators::ListIterator<typename std::list<S>::iterator>>(this->begin(), this->end())) {}
+  explicit SList() : std::list<S, Allocator>(), dIterator_(std::make_unique<iterators::ListIterator<typename std::list<S>::iterator>>(this->begin(), this->end())) {}
 
-  SList(std::initializer_list<S> init,
-        const Allocator &alloc = Allocator()) : std::list<S, Allocator>(init, alloc), dIterator_(std::make_unique<iterators::ListIterator<typename std::list<S>::iterator>>(this->begin(), this->end())) {}
+  explicit SList(std::initializer_list<S> init,
+                 const Allocator &alloc = Allocator()) : std::list<S, Allocator>(init, alloc), dIterator_(std::make_unique<iterators::ListIterator<typename std::list<S>::iterator>>(this->begin(), this->end())) {}
+  SList(const SList &) = default;
+  SList(SList &&) noexcept = default;
 
+  SList &operator=(const SList &) = default;
+  SList &operator=(SList &&) noexcept = default;
   ~SList() = default;
 
   streams::Stream<S, S> stream() override {

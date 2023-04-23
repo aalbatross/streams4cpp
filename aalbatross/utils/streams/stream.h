@@ -32,7 +32,7 @@ struct Stream {
         [](iterators::Iterator<S> &source) {
           std::vector<S> result;
           while (source.hasNext()) {
-            result.emplace_back(source.next());
+            result.emplace_back(source.next().value());
           }
           return std::make_unique<iterators::ListIteratorView<std::vector<S>>>(result);
         };
@@ -139,7 +139,7 @@ struct Stream {
           auto inter = dMapper_(source);
           std::vector<E> result;
           while (inter->hasNext()) {
-            result.emplace_back(mapper(inter->next()));
+            result.emplace_back(mapper(inter->next().value()));
           }
           return std::make_unique<iterators::ListIteratorView<std::vector<E>>>(result);
         };
@@ -158,7 +158,7 @@ struct Stream {
           auto inter = dMapper_(source);
           std::vector<T> result;
           while (inter->hasNext()) {
-            const auto element = inter->next();
+            const auto element = inter->next().value();
             if (predicate(element)) {
               result.emplace_back(element);
             }
@@ -181,7 +181,7 @@ struct Stream {
           std::vector<T> result;
           while (inter->hasNext()) {
             if (result.size() < count) {
-              result.emplace_back(inter->next());
+              result.emplace_back(inter->next().value());
             }
           }
           return std::make_unique<iterators::ListIteratorView<std::vector<T>>>(result);
@@ -203,7 +203,7 @@ struct Stream {
           size_t currentCount = 0;
           while (inter->hasNext()) {
             if (currentCount >= count) {
-              result.emplace_back(inter->next());
+              result.emplace_back(inter->next().value());
             }
             currentCount++;
           }
@@ -224,7 +224,7 @@ struct Stream {
           auto inter = dMapper_(source);
           std::vector<T> result;
           while (inter->hasNext()) {
-            result.emplace_back(inter->next());
+            result.emplace_back(inter->next().value());
           }
           std::sort(result.begin(), result.end(), comparator);
           return std::make_unique<iterators::ListIteratorView<std::vector<T>>>(result);
@@ -242,7 +242,7 @@ struct Stream {
           auto inter = dMapper_(source);
           std::set<T> result;
           while (inter->hasNext()) {
-            result.emplace(inter->next());
+            result.emplace(inter->next().value());
           }
           return std::make_unique<iterators::ListIteratorView<std::set<T>>>(result);
         };
@@ -259,7 +259,7 @@ struct Stream {
           auto inter = dMapper_(source);
           std::vector<T> result;
           while (inter->hasNext()) {
-            result.emplace_back(inter->next());
+            result.emplace_back(inter->next().value());
           }
           std::reverse(result.begin(), result.end());
           return std::make_unique<iterators::ListIteratorView<std::vector<T>>>(result);
@@ -311,7 +311,7 @@ struct Stream {
     auto result = dMapper_(dSource_);
     T output = identity;
     while (result->hasNext()) {
-      output = binaryAccumulator(output, result->next());
+      output = binaryAccumulator(output, result->next().value());
     }
     return output;
   }
@@ -341,7 +341,7 @@ struct Stream {
     dSource_.reset();
     auto result = dMapper_(dSource_);
     while (result->hasNext()) {
-      consumer(result->next());
+      consumer(result->next().value());
     }
   }
 
@@ -385,7 +385,7 @@ struct Stream {
     auto inter = dMapper_(dSource_);
     Container result;
     while (inter->hasNext()) {
-      result.emplace_back(inter->next());
+      result.emplace_back(inter->next().value());
     }
     return result;
   }
@@ -396,7 +396,7 @@ struct Stream {
     auto inter = dMapper_(dSource_);
     Container result;
     while (inter->hasNext()) {
-      result.emplace(inter->next());
+      result.emplace(inter->next().value());
     }
     return result;
   }

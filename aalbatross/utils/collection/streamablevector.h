@@ -18,11 +18,15 @@ namespace aalbatross::utils::collection {
 template<typename S, typename Allocator = std::allocator<S>>
 struct SVector final : public std::vector<S, Allocator>, public SCollection<S> {
 
-  SVector() : std::vector<S, Allocator>(), dIterator_(std::make_unique<iterators::ListIterator<typename std::vector<S>::iterator>>(this->begin(), this->end())) {}
+  explicit SVector() : std::vector<S, Allocator>(), dIterator_(std::make_unique<iterators::ListIterator<typename std::vector<S>::iterator>>(this->begin(), this->end())) {}
 
-  SVector(std::initializer_list<S> init,
-          const Allocator &alloc = Allocator()) : std::vector<S, Allocator>(init, alloc), dIterator_(std::make_unique<iterators::ListIterator<typename std::vector<S>::iterator>>(this->begin(), this->end())) {}
+  explicit SVector(std::initializer_list<S> init,
+                   const Allocator &alloc = Allocator()) : std::vector<S, Allocator>(init, alloc), dIterator_(std::make_unique<iterators::ListIterator<typename std::vector<S>::iterator>>(this->begin(), this->end())) {}
+  SVector(const SVector &) = default;
+  SVector(SVector &&) noexcept = default;
 
+  SVector &operator=(const SVector &) = default;
+  SVector &operator=(SVector &&) noexcept = default;
   ~SVector() = default;
 
   streams::Stream<S, S> stream() override {

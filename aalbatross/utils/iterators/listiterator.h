@@ -46,8 +46,8 @@ struct ListIterator : public Iterator<T> {
    * \brief next element in the list
    * @return element
    */
-  inline T next() override {
-    return dLast_.value();
+  inline std::optional<T> next() override {
+    return dLast_;
   }
 
   /**

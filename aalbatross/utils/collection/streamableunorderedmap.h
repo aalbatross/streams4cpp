@@ -27,13 +27,17 @@ struct SUMap final : public std::unordered_map<Key, T, Hash, KeyEqual, Allocator
 
   explicit SUMap(const Allocator &alloc = Allocator()) : std::unordered_map<Key, T, Hash, KeyEqual, Allocator>(alloc),
                                                          dIterator_(std::make_unique<iterators::ListIterator<typename std::unordered_map<Key, T, Hash, KeyEqual, Allocator>::iterator>>(this->begin(), this->end())) {}
-  SUMap(std::initializer_list<std::pair<const Key, T>> init,
-        size_t bucket_count = 10,
-        const Hash &hash = Hash(),
-        const KeyEqual &equal = KeyEqual(),
-        const Allocator &alloc = Allocator()) : std::unordered_map<Key, T, Hash, KeyEqual, Allocator>(init, bucket_count, hash, equal, alloc),
-                                                dIterator_(std::make_unique<iterators::ListIterator<typename std::unordered_map<Key, T, Hash, KeyEqual, Allocator>::iterator>>(this->begin(), this->end())) {}
+  explicit SUMap(std::initializer_list<std::pair<const Key, T>> init,
+                 size_t bucket_count = NUM_OF_BUCKETS,
+                 const Hash &hash = Hash(),
+                 const KeyEqual &equal = KeyEqual(),
+                 const Allocator &alloc = Allocator()) : std::unordered_map<Key, T, Hash, KeyEqual, Allocator>(init, bucket_count, hash, equal, alloc),
+                                                         dIterator_(std::make_unique<iterators::ListIterator<typename std::unordered_map<Key, T, Hash, KeyEqual, Allocator>::iterator>>(this->begin(), this->end())) {}
+  SUMap(const SUMap &) = default;
+  SUMap(SUMap &&) noexcept = default;
 
+  SUMap &operator=(const SUMap &) = default;
+  SUMap &operator=(SUMap &&) noexcept = default;
   ~SUMap() = default;
 
   streams::Stream<std::pair<const Key, T>, std::pair<const Key, T>> stream() override {
@@ -48,6 +52,7 @@ struct SUMap final : public std::unordered_map<Key, T, Hash, KeyEqual, Allocator
 
  private:
   std::unique_ptr<iterators::Iterator<std::pair<const Key, T>>> dIterator_;
+  static const size_t NUM_OF_BUCKETS = 10;
 };
 
 template<

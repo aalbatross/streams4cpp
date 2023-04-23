@@ -24,13 +24,17 @@ template<
 struct SUSet final : public std::unordered_set<Key, Hash, KeyEqual, Allocator>, public SCollection<Key> {
   explicit SUSet(const Allocator &alloc = Allocator()) : std::unordered_set<Key, Hash, KeyEqual, Allocator>(alloc),
                                                          dIterator_(std::make_unique<iterators::ListIterator<typename std::unordered_set<Key>::iterator>>(this->begin(), this->end())) {}
-  SUSet(std::initializer_list<Key> init,
-        size_t bucket_count = 10,
-        const Hash &hash = Hash(),
-        const KeyEqual &equal = KeyEqual(),
-        const Allocator &alloc = Allocator()) : std::unordered_set<Key, Hash, KeyEqual, Allocator>(init, bucket_count, hash, equal, alloc),
-                                                dIterator_(std::make_unique<iterators::ListIterator<typename std::unordered_set<Key>::iterator>>(this->begin(), this->end())) {}
+  explicit SUSet(std::initializer_list<Key> init,
+                 size_t bucket_count = NUM_OF_BUCKETS,
+                 const Hash &hash = Hash(),
+                 const KeyEqual &equal = KeyEqual(),
+                 const Allocator &alloc = Allocator()) : std::unordered_set<Key, Hash, KeyEqual, Allocator>(init, bucket_count, hash, equal, alloc),
+                                                         dIterator_(std::make_unique<iterators::ListIterator<typename std::unordered_set<Key>::iterator>>(this->begin(), this->end())) {}
+  SUSet(const SUSet &) = default;
+  SUSet(SUSet &&) noexcept = default;
 
+  SUSet &operator=(const SUSet &) = default;
+  SUSet &operator=(SUSet &&) noexcept = default;
   ~SUSet() = default;
 
   streams::Stream<Key, Key> stream() override {
@@ -45,6 +49,7 @@ struct SUSet final : public std::unordered_set<Key, Hash, KeyEqual, Allocator>, 
 
  private:
   std::unique_ptr<iterators::Iterator<Key>> dIterator_;
+  static const size_t NUM_OF_BUCKETS = 10;
 };
 }// namespace aalbatross::utils::collection
 #endif//INCLUDED_STREAMS4CPP_STREAMEDUNORDEREDSET_H

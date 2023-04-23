@@ -10,7 +10,7 @@ TEST(ListIteratorViewFixture, ReturnListOfValues) {
 
   std::vector<int> out;
   while (iter.hasNext()) {
-    out.emplace_back(iter.next());
+    out.emplace_back(iter.next().value());
   }
 
   ASSERT_EQ(out.size(), vec.size());
@@ -23,7 +23,7 @@ TEST(ListIteratorViewFixture, ReturnListOfStrings) {
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
-    out.emplace_back(iter.next());
+    out.emplace_back(iter.next().value());
   }
 
   ASSERT_EQ(out.size(), vec.size());
@@ -37,13 +37,13 @@ TEST(ListIteratorViewFixture, ReturnListOfStringsWithReplay) {
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
-    out.emplace_back(iter.next());
+    out.emplace_back(iter.next().value());
   }
 
   iter.reset();
   std::vector<std::string> out1;
   while (iter.hasNext()) {
-    out1.emplace_back(iter.next());
+    out1.emplace_back(iter.next().value());
   }
 
   ASSERT_EQ(out.size(), vec.size());
@@ -61,13 +61,13 @@ TEST(ListIteratorViewFixture, ReturnListOfArraysWithReplay) {
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
-    out.emplace_back(iter.next());
+    out.emplace_back(iter.next().value());
   }
 
   iter.reset();
   std::vector<std::string> out1;
   while (iter.hasNext()) {
-    out1.emplace_back(iter.next());
+    out1.emplace_back(iter.next().value());
   }
 
   ASSERT_EQ(out.size(), arr.size());
@@ -85,13 +85,13 @@ TEST(ListIteratorViewFixture, ReturnSetWithReplay) {
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
-    out.push_back(iter.next());
+    out.push_back(iter.next().value());
   }
 
   iter.reset();
   std::vector<std::string> out1;
   while (iter.hasNext()) {
-    out1.push_back(iter.next());
+    out1.push_back(iter.next().value());
   }
 
   ASSERT_EQ(out.size(), set.size());
@@ -114,13 +114,13 @@ TEST(ListIteratorViewFixture, ReturnViewableIterator) {
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
-    out.push_back(iter.next());
+    out.push_back(iter.next().value());
   }
 
   iter.reset();
   std::vector<std::string> out1;
   while (iter.hasNext()) {
-    out1.push_back(iter.next());
+    out1.push_back(iter.next().value());
   }
 
   ASSERT_EQ(out.size(), set.size());
@@ -138,7 +138,7 @@ TEST(ListIteratorViewFixture, ReturnEmptyListIterator) {
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
-    out.push_back(iter.next());
+    out.push_back(iter.next().value());
   }
 
   ASSERT_EQ(out.size(), emptySet.size());

@@ -24,7 +24,7 @@ struct Iterator {
    * \brief next element
    * @return element
    */
-  virtual T next() = 0;
+  virtual std::optional<T> next() = 0;
 
   /**
    * \fn void reset()

@@ -19,14 +19,19 @@ template<
     typename Compare = std::less<Key>,
     typename Allocator = std::allocator<Key>>
 struct SSet final : public std::set<Key, Compare, Allocator>, public SCollection<Key> {
-  explicit SSet(const Compare &comp,
+  explicit SSet(const Compare &comp = Compare(),
                 const Allocator &alloc = Allocator()) : std::set<Key, Compare, Allocator>(comp, alloc),
                                                         dIterator_(std::make_unique<iterators::ListIterator<typename std::set<Key>::iterator>>(this->begin(), this->end())) {}
-  SSet(std::initializer_list<Key> init,
-       const Compare &comp = Compare(),
-       const Allocator &alloc = Allocator()) : std::set<Key, Compare, Allocator>(init, comp, alloc),
-                                               dIterator_(std::make_unique<iterators::ListIterator<typename std::set<Key>::iterator>>(this->begin(), this->end())) {}
+  explicit SSet(std::initializer_list<Key> init,
+                const Compare &comp = Compare(),
+                const Allocator &alloc = Allocator()) : std::set<Key, Compare, Allocator>(init, comp, alloc),
+                                                        dIterator_(std::make_unique<iterators::ListIterator<typename std::set<Key>::iterator>>(this->begin(), this->end())) {}
 
+  SSet(const SSet &) = default;
+  SSet(SSet &&) noexcept = default;
+
+  SSet &operator=(const SSet &) = default;
+  SSet &operator=(SSet &&) noexcept = default;
   ~SSet() = default;
 
   streams::Stream<Key, Key> stream() override {

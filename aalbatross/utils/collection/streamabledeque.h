@@ -19,11 +19,16 @@ namespace aalbatross::utils::collection {
 template<typename S, typename Allocator = std::allocator<S>>
 struct SDeque final : public std::deque<S, Allocator>, public SCollection<S> {
 
-  SDeque() : std::deque<S, Allocator>(), dIterator_(std::make_unique<iterators::ListIterator<typename std::deque<S>::iterator>>(this->begin(), this->end())) {}
+  explicit SDeque() : std::deque<S, Allocator>(), dIterator_(std::make_unique<iterators::ListIterator<typename std::deque<S>::iterator>>(this->begin(), this->end())) {}
 
-  SDeque(std::initializer_list<S> init,
-         const Allocator &alloc = Allocator()) : std::deque<S, Allocator>(init, alloc), dIterator_(std::make_unique<iterators::ListIterator<typename std::deque<S>::iterator>>(this->begin(), this->end())) {}
+  explicit SDeque(std::initializer_list<S> init,
+                  const Allocator &alloc = Allocator()) : std::deque<S, Allocator>(init, alloc), dIterator_(std::make_unique<iterators::ListIterator<typename std::deque<S>::iterator>>(this->begin(), this->end())) {}
 
+  SDeque(const SDeque &) = default;
+  SDeque(SDeque &&) noexcept = default;
+
+  SDeque &operator=(const SDeque &) = default;
+  SDeque &operator=(SDeque &&) noexcept = default;
   ~SDeque() = default;
 
   streams::Stream<S, S> stream() override {
