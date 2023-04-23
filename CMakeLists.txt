@@ -56,11 +56,19 @@ else (DOXYGEN_FOUND)
 endif (DOXYGEN_FOUND)
 
 add_library(${PROJECT_NAME} INTERFACE
-        aalbatross/utils/iterator.h
-        aalbatross/utils/listiterator.h
-        aalbatross/utils/listiterator_view.h
-        aalbatross/utils/stream.h
+        aalbatross/utils/iterators/iterator.h
+        aalbatross/utils/iterators/listiterator.h
+        aalbatross/utils/iterators/listiterator_view.h
+        aalbatross/utils/streams/stream.h
         aalbatross/utils/utils.h
+        aalbatross/utils/collection/streamablevector.h
+        aalbatross/utils/collection/streamablecollection.h
+        aalbatross/utils/collection/streamableset.h
+        aalbatross/utils/collection/streamablemap.h
+        aalbatross/utils/collection/streamablelist.h
+        aalbatross/utils/collection/streamabledeque.h
+        aalbatross/utils/collection/streamableunorderedset.h
+        aalbatross/utils/collection/streamableunorderedmap.h
         )
 
 target_include_directories(${PROJECT_NAME} INTERFACE aalbatross/utils)

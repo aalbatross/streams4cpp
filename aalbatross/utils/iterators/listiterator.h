@@ -36,7 +36,7 @@ struct ListIterator : public Iterator<T> {
   inline bool hasNext() override {
     bool hasMore = dCurrent_ != dEnd_;
     if (hasMore) {
-      dLast_ = *dCurrent_;
+      dLast_.emplace(*dCurrent_);
       std::advance(dCurrent_, 1);
     }
     return hasMore;

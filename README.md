@@ -3,6 +3,12 @@
 streams4cpp is a header only C++ library which implements jvm like streams in C++. It aims to provide C++ programmers
 with map/reduce style stream based one-liner operations on bounded and unbounded container of elements.
 
+## Features
+
+- **Iterators**: Interfaces and classes defining bound or unbound traversal of data containers or any data source.
+- **Stream**: Perform map/reduce operation on the bounded data containers or Iterators.
+- **Streamable Collection**: Streamable STL containers supporting functional style transforms.
+
 ## How to use
 
 An example of using Streams is provided below:
@@ -13,6 +19,11 @@ An example of using Streams is provided below:
 std::vector data{1, 2, 3, 4, 5};
 ListIterator iter(data.begin(), data.end());
 Stream<int> stream(iter);
+```
+or
+```
+collection::SVector svector{1, 2, 3, 4, 5};
+auto stream = svector.stream();
 ```
 
 ### Mapping to double

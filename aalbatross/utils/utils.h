@@ -31,6 +31,21 @@ namespace streams {
 struct Stream;
 }
 
+/**
+ * @brief Container classes supporting streamable STL containers.
+ * \ingroup aalbatross::utils::collection
+ */
+namespace collection {
+struct SCollection;
+struct SDeque;
+struct SList;
+struct SVector;
+struct SMap;
+struct SSet;
+struct SUSet;
+struct SUMap;
+}// namespace collection
+
 }// namespace utils
 }// namespace aalbatross
 #endif//INCLUDED_STREAMS4CPP_UTILS_H_

@@ -34,7 +34,7 @@ struct ListIteratorView : public Iterator<T> {
   inline auto hasNext() -> bool override {
     bool hasMore = dCurrent_ != dEnd_;
     if (hasMore) {
-      dLast_ = *dCurrent_;
+      dLast_.emplace(*dCurrent_);
       std::advance(dCurrent_, 1);
     }
     return hasMore;
@@ -58,7 +58,7 @@ struct ListIteratorView : public Iterator<T> {
     dCurrent_ = dData_.begin();
     dEnd_ = dData_.end();
     if (dBegin_ != dEnd_) {
-      dLast_ = *(dData_.begin());
+      dLast_.emplace(*(dData_.begin()));
     }
   }
 

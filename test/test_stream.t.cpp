@@ -1,7 +1,7 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
-#include <aalbatross/utils/listiterator.h>
-#include <aalbatross/utils/stream.h>
+#include "aalbatross/utils/iterators/listiterator.h"
+#include "aalbatross/utils/streams/stream.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

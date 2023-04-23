@@ -1,7 +1,7 @@
 #ifndef INCLUDED_STREAMS4CPP_STREAM_H_
 #define INCLUDED_STREAMS4CPP_STREAM_H_
-#include "iterator.h"
-#include "listiterator_view.h"
+#include "aalbatross/utils/iterators/iterator.h"
+#include "aalbatross/utils/iterators/listiterator_view.h"
 
 #include <algorithm>
 #include <deque>
