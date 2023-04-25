@@ -2,6 +2,7 @@
 #define INCLUDED_STREAMS4CPP_STREAM_H_
 #include "aalbatross/utils/iterators/iterator.h"
 #include "aalbatross/utils/iterators/listiterator_view.h"
+#include "collector.h"
 
 #include <algorithm>
 #include <deque>
@@ -297,6 +298,12 @@ struct Stream {
   T sum() {
     auto sumAccumulator = [](auto x_1, auto y_1) { return x_1 + y_1; };
     return reduce(T{}, sumAccumulator);
+  }
+
+  template<typename Supplier, typename Accumulator, typename Finisher>
+  auto collect(Collector<Supplier, Accumulator, Finisher> &&collector) {
+    std::vector<T> vec = toVector();
+    return collector.apply(vec);
   }
 
   /**
