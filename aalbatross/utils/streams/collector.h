@@ -21,7 +21,7 @@ class Collector {
   Accumulator accumulator() const { return dAccumulator; };
 
   template<typename T>
-  auto apply(std::vector<T> &input) {
+  auto apply(std::vector<T> &input) const {
     auto container = dSupplier();
     for (T &item : input) {
       dAccumulator(container, item);
