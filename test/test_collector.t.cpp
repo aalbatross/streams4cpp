@@ -53,7 +53,7 @@ TEST(CollectorFixtureTest, CollectingAndThenTest) {
 TEST(CollectorFixtureTest, GroupingByTest) {
   std::vector vector{12, 12, 13, 13, 5, 4, 5, 5, 5, 5, 4};
 
-  auto collector = streams::Collectors::groupingBy<std::string, int>([](auto count) { return std::to_string(count); });
+  auto collector = streams::Collectors::groupingBy<int>([](auto count) { return std::to_string(count); });
   auto result = collector.apply(vector);
 
   EXPECT_EQ(4, result.size());
@@ -66,7 +66,7 @@ TEST(CollectorFixtureTest, GroupingByTest) {
 TEST(CollectorFixtureTest, GroupingByWithCollectorTest) {
   std::vector vector{12, 12, 13, 13, 5, 4, 5, 5, 5, 5, 4};
 
-  auto collector = streams::Collectors::groupingBy<std::string, int>(
+  auto collector = streams::Collectors::groupingBy<int>(
       [](auto count) { return std::to_string(count); }, streams::Collectors::counting());
   auto result = collector.apply(vector);
 

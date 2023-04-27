@@ -3,7 +3,20 @@
 #include <functional>
 
 namespace aalbatross::utils::streams {
-
+/**
+ * \class Collector
+ * \brief A mutable reduction operation that accumulates input elements into a mutable result container, optionally transforming the accumulated result into a final representation after all input elements have been processed.
+ * A Collector is specified by three functions that work together to accumulate entries into a mutable result container, and optionally perform a final transform on the result. They are:
+ *
+ * creation of a new result container (supplier())
+ * incorporating a new data element into a result container (accumulator())
+ * performing an optional final transform on the container (finisher())
+ *
+ *
+ * @tparam Supplier Function for creation of a new result container
+ * @tparam Accumulator Function for accumulating a new data element into a result container
+ * @tparam Finisher Function performing an optional final transform on the container
+ */
 template<typename Supplier, typename Accumulator, typename Finisher>
 class Collector {
  private:

@@ -99,7 +99,7 @@ struct PostCountTitles {
 
 TEST(GroupingByFixture, GroupingBySingleColumn) {
   auto dataset = getPosts();
-  auto groupedBy = dataset.stream().collect(streams::Collectors::groupingBy<BlogPostType, BlogPost>([](auto post) { return post.type; }));
+  auto groupedBy = dataset.stream().collect(streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; }));
   EXPECT_EQ(groupedBy[GUIDE].size(), 2);
   EXPECT_EQ(groupedBy[REVIEW].size(), 3);
   EXPECT_EQ(groupedBy[NEWS].size(), 5);
@@ -109,12 +109,12 @@ TEST(GroupingByFixture, GroupingBySingleColumnModifiedKeyType) {
   auto dataset = getPosts();
 
   auto groupedBy = dataset.stream().collect(
-      streams::Collectors::groupingBy<std::pair<BlogPostType, std::string>, BlogPost>([](auto post) { return std::pair{post.type, post.author}; }));
+      streams::Collectors::groupingBy<BlogPost>([](auto post) { return std::pair{post.type, post.author}; }));
 
   EXPECT_EQ(groupedBy.size(), 7);
 
   auto groupedBy2 = dataset.stream().collect(
-      streams::Collectors::groupingBy<std::tuple<BlogPostType, std::string, int>, BlogPost>([](auto post) { return std::tuple{post.type, post.author, post.likes}; }));
+      streams::Collectors::groupingBy<BlogPost>([](auto post) { return std::tuple{post.type, post.author, post.likes}; }));
 
   EXPECT_EQ(groupedBy2.size(), 10);
 }
@@ -127,8 +127,8 @@ TEST(GroupingByFixture, GroupingBySingleColumnModifiedValueType) {
   };
 
   auto groupedBy = dataset.stream().collect(
-      streams::Collectors::groupingBy<BlogPostType, BlogPost>([](auto post) { return post.type; },
-                                                              streams::Collectors::toSet<BlogPost, decltype(comparator)>(comparator)));
+      streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; },
+                                                streams::Collectors::toSet<BlogPost, decltype(comparator)>(comparator)));
 
   EXPECT_EQ(groupedBy.at(GUIDE).size(), 2);
   EXPECT_EQ(groupedBy.at(REVIEW).size(), 3);
@@ -139,8 +139,8 @@ TEST(GroupingByFixture, GroupingByMultipleFields) {
   auto dataset = getPosts();
 
   auto groupedBy = dataset.stream().collect(
-      streams::Collectors::groupingBy<std::string, BlogPost>([](auto post) { return post.author; },
-                                                             streams::Collectors::groupingBy<BlogPostType, BlogPost>([](auto post) { return post.type; })));
+      streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.author; },
+                                                streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; })));
 
   EXPECT_EQ(3, groupedBy.size());
 }
@@ -149,16 +149,16 @@ TEST(GroupingByFixture, AggFromGroupedResult) {
   auto dataset = getPosts();
 
   auto groupedBy = dataset.stream().collect(
-      streams::Collectors::groupingBy<BlogPostType, BlogPost>([](auto post) { return post.type; },
-                                                              streams::Collectors::averaging([](auto post) { return post.likes; })));
+      streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; },
+                                                streams::Collectors::averaging([](auto post) { return post.likes; })));
 
   auto EPSILON = std::numeric_limits<double>::epsilon();
   EXPECT_TRUE((groupedBy[NEWS] - 46.8) <= EPSILON);
   EXPECT_TRUE((groupedBy[GUIDE] - 509.5) <= EPSILON);
 
   auto groupedBy2 = dataset.stream().collect(
-      streams::Collectors::groupingBy<BlogPostType, BlogPost>([](auto post) { return post.type; },
-                                                              streams::Collectors::summingLong([](auto post) { return post.likes; })));
+      streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; },
+                                                streams::Collectors::summingLong([](auto post) { return post.likes; })));
 
   EXPECT_EQ(groupedBy2[NEWS], 234);
   EXPECT_EQ(groupedBy2[REVIEW], 2059);
@@ -169,8 +169,8 @@ TEST(GroupingByFixture, MaxMinFromGroupedResult) {
   auto dataset = getPosts();
 
   auto groupedBy = dataset.stream().collect(
-      streams::Collectors::groupingBy<BlogPostType, BlogPost>([](auto post) { return post.type; },
-                                                              streams::Collectors::maxBy<BlogPost>([](auto post1, auto post2) { return post2.likes - post1.likes; })));
+      streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; },
+                                                streams::Collectors::maxBy<BlogPost>([](auto post1, auto post2) { return post2.likes - post1.likes; })));
 
   EXPECT_EQ(groupedBy[NEWS].value().likes, 90);
   EXPECT_EQ(groupedBy[REVIEW].value().likes, 1905);
@@ -181,8 +181,8 @@ TEST(GroupingByFixture, MappingGroupedResultToDifferentType) {
   auto dataset = getPosts();
 
   auto groupedBy = dataset.stream().collect(
-      streams::Collectors::groupingBy<BlogPostType, BlogPost>([](auto post) { return post.type; },
-                                                              streams::Collectors::mapping([](auto post) { return post.title; }, streams::Collectors::joining(", ", "Post titles: [", "]"))));
+      streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; },
+                                                streams::Collectors::mapping([](auto post) { return post.title; }, streams::Collectors::joining(", ", "Post titles: [", "]"))));
 
   EXPECT_STREQ(groupedBy[NEWS].c_str(), "Post titles: [post1, post2, post3, post7, post8]");
   EXPECT_STREQ(groupedBy[REVIEW].c_str(), "Post titles: [post4, post5, post10]");
@@ -193,24 +193,20 @@ TEST(GroupingByFixture, AggregatingMultipleAttributesGroupedResult) {
   auto dataset = getPosts();
 
   auto groupedBy = dataset.stream().collect(
-      streams::Collectors::groupingBy<std::string, BlogPost>([](auto post) { return post.author; },
-                                                             streams::Collectors::collectingAndThen(streams::Collectors::toVector<BlogPost>(), [](auto posts) {
-                                                               iterators::ListIterator iterator(posts.begin(), posts.end());
-                                                               streams::Stream<BlogPost, BlogPost> postStream(iterator);
-                                                               long count = postStream
-                                                                                .map([](auto post) { return post.title; })
-                                                                                .collect(streams::Collectors::counting());
-                                                               std::string titles = postStream
-                                                                                        .map([](auto post) { return post.title; })
-                                                                                        .collect(streams::Collectors::joining(" : "));
+      streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.author; },
+                                                streams::Collectors::collectingAndThen(streams::Collectors::toVector<BlogPost>(), [](auto posts) {
+                                                  iterators::ListIterator iterator(posts.begin(), posts.end());
+                                                  streams::Stream<BlogPost, BlogPost> postStream(iterator);
+                                                  long count = postStream
+                                                                   .map([](auto post) { return post.title; })
+                                                                   .collect(streams::Collectors::counting());
+                                                  std::string titles = postStream
+                                                                           .map([](auto post) { return post.title; })
+                                                                           .collect(streams::Collectors::joining(" : "));
 
-                                                               return PostCountTitles{count, titles};
-                                                             })));
-  /*
-  for (const auto &item : groupedBy) {
-    std::cout << item.first << " " << item.second << std::endl;
-  }
-*/
+                                                  return PostCountTitles{count, titles};
+                                                })));
+
   EXPECT_EQ(groupedBy["author-1"].postCount, 4);
   EXPECT_EQ(groupedBy["author-2"].postCount, 4);
   EXPECT_EQ(groupedBy["author-3"].postCount, 2);
