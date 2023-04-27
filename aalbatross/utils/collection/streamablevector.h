@@ -4,6 +4,7 @@
 #include "aalbatross/utils/iterators/listiterator.h"
 #include "aalbatross/utils/streams/stream.h"
 #include "streamablecollection.h"
+
 #include <vector>
 
 namespace aalbatross::utils::collection {
