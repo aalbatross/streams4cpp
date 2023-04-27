@@ -236,10 +236,11 @@ struct Collectors final {
 
   /**
    * \fn auto joining(std::string delimiter = " ", std::string prefix = "", std::string suffix = "")
-   * @param delimiter
-   * @param prefix
-   * @param suffix
-   * @return
+   * Returns a Collector that concatenates the input elements, separated by the specified delimiter, with the specified prefix and suffix, in encounter order.
+   * @param delimiter the delimiter to be used between each element
+   * @param prefix the sequence of characters to be used at the beginning of the joined result
+   * @param suffix the sequence of characters to be used at the end of the joined result
+   * @return A Collector which concatenates CharSequence elements, separated by the specified delimiter, in encounter order
    */
   static auto joining(std::string delimiter = " ", std::string prefix = "", std::string suffix = "") {
     return streams::Collector{[] { return std::vector<std::string>(); },
@@ -257,6 +258,14 @@ struct Collectors final {
                               }};
   }
 
+  /**
+   * \fn auto maxBy(Comparator &&comp)
+   * \brief Returns a Collector that produces the maximal element according to a given Comparator, described as an std::optional<T>.
+   * @tparam T type of input elements
+   * @tparam Comparator Type of Comparator for comparing elements
+   * @param comp
+   * @return a Collector that produces the maximal value
+   */
   template<typename T, typename Comparator>
   static auto maxBy(Comparator &&comp) {
     return streams::Collector{[] { return std::vector<T>(); },
@@ -268,7 +277,14 @@ struct Collectors final {
                                 return iterator != intermediate.end() ? std::optional<T>(*iterator) : std::nullopt;
                               }};
   }
-
+  /**
+   * \fn auto minBy(Comparator &&comp)
+   * \brief Returns a Collector that produces the minimal element according to a given Comparator, described as an std::optional<T>.
+   * @tparam T type of input elements
+   * @tparam Comparator Type of Comparator for comparing elements
+   * @param comp
+   * @return a Collector that produces the minimal value
+   */
   template<typename T, typename Comparator>
   static auto minBy(Comparator &&comp) {
     return streams::Collector{[] { return std::vector<T>(); },
@@ -281,6 +297,14 @@ struct Collectors final {
                               }};
   }
 
+  /**
+   * \fn auto partitioningBy(Predicate &&predicate)
+   * \brief Returns a Collector which partitions the input elements according to a Predicate, and organizes them into a std::map<bool, std::vector<T>>. There are no guarantees on the type, mutability, serializability, or thread-safety of the Map returned.
+   * @tparam T type of input element
+   * @tparam Predicate type of predicate used for classifying input elements
+   * @param predicate
+   * @return a Collector implementing the partitioning operation
+   */
   template<typename T, typename Predicate>
   static auto partitioningBy(Predicate &&predicate) {
     return streams::Collector{[] { return std::vector<T>(); },
@@ -297,6 +321,19 @@ struct Collectors final {
                               }};
   }
 
+  /**
+   * \fn auto partitioningBy(Predicate &&predicate, Collector<Supplier, Accumulator, Finisher> &&downstream)
+   * \brief Returns a Collector which partitions the input elements according to a Predicate, reduces the values in each partition according to another Collector, and organizes them into a Map<Boolean, D> whose values are the result of the downstream reduction.
+   * There are no guarantees on the type, mutability, serializability, or thread-safety of the Map returned.
+   * @tparam T type of input elements
+   * @tparam Predicate type of predicate function used for classifying input elements
+   * @tparam Supplier type of Supplier function of downstream collector
+   * @tparam Accumulator type of Accumulator function of downstream collector
+   * @tparam Finisher type of Finisher function of downstream collector
+   * @param predicate
+   * @param downstream
+   * @return a Collector implementing the cascaded partitioning operation
+   */
   template<typename T, typename Predicate, typename Supplier, typename Accumulator, typename Finisher>
   static auto partitioningBy(Predicate &&predicate, Collector<Supplier, Accumulator, Finisher> &&downstream) {
     return streams::Collector{[] { return std::vector<T>(); },
@@ -318,7 +355,20 @@ struct Collectors final {
                                 return result;
                               }};
   }
-
+  /**
+   * \fn auto mapping(Mapper &&mapper, Collector<Supplier, Accumulator, Finisher> &&downstream)
+   * \brief Adapts a downstream collector accepting elements of say type U to one accepting elements of input element by applying a mapping function to each input element before accumulation.
+   * std::map<City, std::set<std::string>> lastNamesByCity = people.stream().collect(groupingBy<Person>([](auto person){return person.city;},
+   *                                  mapping([](auto person){return person.city;}, toSet<std::string>())));
+   *
+   * @tparam Mapper type of function to be applied to the input elements
+   * @tparam Supplier type of supplier function to be applied to downstream collector
+   * @tparam Accumulator type of accumulator function to be applied to downstream collector
+   * @tparam Finisher type of finisher function to be applied to downstream collector
+   * @param mapper
+   * @param downstream
+   * @return a collector which applies the mapping function to the input elements and provides the mapped results to the downstream collector
+   */
   template<typename Mapper, typename Supplier, typename Accumulator, typename Finisher>
   static auto mapping(Mapper &&mapper, Collector<Supplier, Accumulator, Finisher> &&downstream) {
     return streams::Collector{downstream.supplier(),
@@ -328,6 +378,12 @@ struct Collectors final {
                               downstream.finisher()};
   }
 
+  /**
+   * \fn auto toVector()
+   * Returns a Collector that accumulates the input elements into a new List. There are no guarantees on the type, mutability, serializability, or thread-safety of the List returned;
+   * @tparam T type of input elements
+   * @return a Collector which collects all the input elements into a List, in encounter order
+   */
   template<typename T>
   static auto toVector() {
     return streams::Collector{[] { return std::vector<T>(); },
@@ -339,6 +395,16 @@ struct Collectors final {
                               }};
   }
 
+  /**
+   * \fn auto toSet(Compare cmp = Compare(), Allocator allocator = Allocator())
+   * \brief Returns a Collector that accumulates the input elements into a new Set. There are no guarantees on the type, mutability, serializability, or thread-safety of the Set returned;
+   * @tparam T type of input element
+   * @tparam Compare type of comparator for input element
+   * @tparam Allocator type of allocator for input element
+   * @param cmp
+   * @param allocator
+   * @return a Collector which collects all the input elements into a Set
+   */
   template<typename T, typename Compare = std::less<T>,
            typename Allocator = std::allocator<T>>
   static auto toSet(Compare cmp = Compare(), Allocator allocator = Allocator()) {
@@ -351,6 +417,16 @@ struct Collectors final {
                               }};
   }
 
+  /**
+   * \fn auto toMap(KeyMapper &&keyMapper, ValueMapper &&valueMapper)
+   * \brief Returns a Collector that accumulates elements into a Map whose keys and values are the result of applying the provided mapping functions to the input elements. If map has duplicates use toMap(KeyMapper &&keyMapper, ValueMapper &&valueMapper, MergeFunction &&mergeFunction)
+   * @tparam T type of input elements
+   * @tparam KeyMapper type of the key mapping function
+   * @tparam ValueMapper type of the value mapping function
+   * @param keyMapper
+   * @param valueMapper
+   * @return a Collector which collects elements into a Map whose keys and values are the result of applying mapping functions to the input elements
+   */
   template<typename T, typename KeyMapper, typename ValueMapper>
   static auto toMap(KeyMapper &&keyMapper, ValueMapper &&valueMapper) {
     return streams::Collector{[] { return std::vector<T>(); },
@@ -369,6 +445,18 @@ struct Collectors final {
                               }};
   }
 
+  /**
+   * \fn auto toMap(KeyMapper &&keyMapper, ValueMapper &&valueMapper, MergeFunction &&mergeFunction)
+   * \brief Returns a Collector that accumulates elements into a Map whose keys and values are the result of applying the provided mapping functions to the input elements.
+   * @tparam T type of input element
+   * @tparam KeyMapper type of the key mapping function
+   * @tparam ValueMapper type of the value mapping function
+   * @tparam MergeFunction type of merge function, used to resolve collisions between values associated with the same key
+   * @param keyMapper
+   * @param valueMapper
+   * @param mergeFunction
+   * @return a Collector which collects elements into a Map whose keys are the result of applying a key mapping function to the input elements, and whose values are the result of applying a value mapping function to all input elements equal to the key and combining them using the merge function
+   */
   template<typename T, typename KeyMapper, typename ValueMapper, typename MergeFunction>
   static auto toMap(KeyMapper &&keyMapper, ValueMapper &&valueMapper, MergeFunction &&mergeFunction) {
     return streams::Collector{[] { return std::vector<T>(); },
@@ -394,6 +482,14 @@ struct Collectors final {
                               }};
   }
 
+  /**
+   * \fn auto reducing(BinaryOp &&binaryOp)
+   * \brief Returns a Collector which performs a reduction of its input elements under a specified BinaryOperator. The result is described as an Optional<T>.
+   * @tparam T type of input element
+   * @tparam BinaryOp type a BinaryOperator<T> used to reduce the input elements
+   * @param binaryOp
+   * @return
+   */
   template<typename T, typename BinaryOp>
   static auto reducing(BinaryOp &&binaryOp) {
     return streams::Collector{
