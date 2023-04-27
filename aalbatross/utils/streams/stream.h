@@ -24,6 +24,33 @@ namespace aalbatross::utils::streams {
 template<typename T, typename S = T>
 struct Stream {
 
+  /**
+   * \class View
+   * \brief Creates a view of underlying Stream.
+   */
+  struct View final {
+   private:
+    std::vector<S> dContainer_;
+    iterators::ListIterator<typename std::vector<S>::iterator> dIterator_;
+
+    std::vector<S> iteratorToContainer(iterators::Iterator<S> &iterator) {
+      std::vector<S> result;
+      while (iterator.hasNext()) {
+        result.emplace_back(iterator.next().value());
+      }
+      return result;
+    }
+
+   public:
+    explicit View(iterators::Iterator<S> &iterator) : dContainer_(iteratorToContainer(iterator)), dIterator_(iterators::ListIterator(dContainer_.begin(), dContainer_.end())) {}
+
+    virtual ~View() = default;
+
+    Stream<S, S> stream() {
+      return Stream<S, S>(dIterator_);
+    }
+  };
+
   Stream(iterators::Iterator<S> &source,
          std::function<std::unique_ptr<iterators::Iterator<T>>(iterators::Iterator<S> &)> mapper)
       : dMapper_(std::move(mapper)), dSource_(source) {}
@@ -354,33 +381,47 @@ struct Stream {
 
   /**
    * \fn std::set<T> toSet()
+   * \brief Returns set of input elements.
    * @return stream as set
    */
   auto toSet() { return toSetImpl<std::set<T>>(); }
 
   /**
    * \fn std::unordered_set<T> toUnorderedSet()
+   * \brief Returns unordered set of input elements.
    * @return stream as unordered set
    */
   auto toUnorderedSet() { return toSetImpl<std::unordered_set<T>>(); }
 
   /**
    * std::vector<T> toVector()
+   * \brief Returns vector of input elements.
    * @return stream as std::vector
    */
   auto toVector() { return to<std::vector<T>>(); }
 
   /**
    * std::list<T> toList()
+   * \brief Returns list of input elements.
    * @return stream as std::list
    */
   auto toList() { return to<std::list<T>>(); }
 
   /**
    * std::deque<T> toDeque()
+   * \brief Returns deque of input elements.
    * @return stream as std::deque
    */
   auto toDeque() { return to<std::deque<T>>(); }
+
+  /**
+   * \fn StreamView<T, S> view()
+   * \brief Creates Stream View which copies internal iterator
+   * @return Stream<S>::View of the Stream
+   */
+  View view() {
+    return View(dSource_);
+  }
 
  private:
   std::function<std::unique_ptr<iterators::Iterator<T>>(iterators::Iterator<S> &)> dMapper_;

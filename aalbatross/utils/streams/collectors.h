@@ -418,6 +418,24 @@ struct Collectors final {
   }
 
   /**
+   * \fn auto toContainer(Container &&container)
+   * \brief Returns a Collector that accumulates the input elements into a desired container.
+   * @tparam Container type of Container with input elements
+   * @param container
+   * @return
+   */
+  template<typename Container>
+  static auto toContainer(Container &&container) {
+    return streams::Collector{[&container] { return container; },
+                              [](Container &intermediate, auto element) {
+                                intermediate.emplace(element);
+                              },
+                              [](Container &intermediate) {
+                                return intermediate;
+                              }};
+  }
+
+  /**
    * \fn auto toMap(KeyMapper &&keyMapper, ValueMapper &&valueMapper)
    * \brief Returns a Collector that accumulates elements into a Map whose keys and values are the result of applying the provided mapping functions to the input elements. If map has duplicates use toMap(KeyMapper &&keyMapper, ValueMapper &&valueMapper, MergeFunction &&mergeFunction)
    * @tparam T type of input elements

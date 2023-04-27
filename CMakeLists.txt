@@ -69,7 +69,9 @@ add_library(${PROJECT_NAME} INTERFACE
         aalbatross/utils/collection/streamabledeque.h
         aalbatross/utils/collection/streamableunorderedset.h
         aalbatross/utils/collection/streamableunorderedmap.h
-        aalbatross/utils/streams/collectors.h aalbatross/utils/streams/collector.h)
+        aalbatross/utils/streams/collectors.h
+        aalbatross/utils/streams/collector.h
+        )
 
 target_include_directories(${PROJECT_NAME} INTERFACE aalbatross/utils)
 file(GLOB files "${CMAKE_SOURCE_DIR}/aalbatross/utils/*.h")

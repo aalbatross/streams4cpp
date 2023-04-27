@@ -41,7 +41,7 @@ class Collector {
 
   template<typename T>
   auto apply(std::vector<T> &input) const {
-    auto container = dSupplier_();
+    auto container = std::move(dSupplier_());
     for (T &item : input) {
       dAccumulator_(container, item);
     }

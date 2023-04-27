@@ -114,5 +114,20 @@ TEST(StreamTestFixture, ReturnGroupedByStream) {
   EXPECT_THAT(result["even"], ::testing::ElementsAre(20, 10, 16, 40, 50));
   EXPECT_THAT(result["odd"], ::testing::ElementsAre(21, 29, 17));
 }
+
+Stream<int>::View getStream() {
+  std::vector data{21, 20, 29, 10, 17, 16, 40, 50};
+  ListIterator iter(data.begin(), data.end());
+  Stream<int> stream(iter);
+  return stream.view();
+}
+
+TEST(StreamTestFixture, ReturnStreamViewToStreamTest) {
+  auto stream = getStream();
+  auto result = stream.stream().groupedBy([](auto number) { return number % 2 == 0 ? "even" : "odd"; });
+  EXPECT_EQ(2, result.size());
+  EXPECT_THAT(result["even"], ::testing::ElementsAre(20, 10, 16, 40, 50));
+  EXPECT_THAT(result["odd"], ::testing::ElementsAre(21, 29, 17));
+}
 }// namespace aalbatross::utils::test
 #pragma clang diagnostic pop

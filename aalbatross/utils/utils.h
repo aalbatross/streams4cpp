@@ -41,7 +41,9 @@ struct ListIteratorView;
  */
 namespace streams {
 struct Stream;
-}
+struct Collectors;
+class Collector;
+}// namespace streams
 
 /**
  * @brief Container classes supporting streamable STL containers.

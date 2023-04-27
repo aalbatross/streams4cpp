@@ -140,6 +140,17 @@ TEST(CollectorFixtureTest, CollectToCollectionTest) {
   EXPECT_THAT(result2, ::testing::ElementsAre(21, 21, 20, 20, 29, 29, 29, 10, 17, 16, 40, 50));
 }
 
+TEST(CollectorFixtureTest, CollectToCustomContainerTest) {
+  std::vector data{21, 21, 20, 20, 29, 29, 29, 10, 17, 16, 40, 50};
+
+  std::unordered_set<int> unorderedSet;
+
+  auto collector1 = streams::Collectors::toContainer(unorderedSet);
+  auto result1 = collector1.apply(data);
+
+  EXPECT_THAT(result1, ::testing::UnorderedElementsAre(10, 16, 17, 20, 21, 29, 40, 50));
+}
+
 TEST(CollectorFixtureTest, CollectToSummingTest) {
   std::vector data{12, 2, 13, 4, 5};
 
