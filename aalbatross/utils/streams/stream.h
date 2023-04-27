@@ -46,7 +46,13 @@ struct Stream {
 
     virtual ~View() = default;
 
-    Stream<S, S> stream() {
+    View(View &) = default;
+    View(View &&) noexcept = default;
+
+    auto operator=(const View &) -> View & = default;
+    auto operator=(View &&) noexcept -> View & = default;
+
+    auto stream() -> Stream<S, S> {
       return Stream<S, S>(dIterator_);
     }
   };
