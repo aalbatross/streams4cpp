@@ -183,7 +183,7 @@ TEST(GroupingByFixture, MappingGroupedResultToDifferentType) {
   auto groupedBy = dataset.stream().collect(
       streams::Collectors::groupingBy<BlogPostType, BlogPost>([](auto post) { return post.type; },
                                                               streams::Collectors::mapping([](auto post) { return post.title; }, streams::Collectors::joining(", ", "Post titles: [", "]"))));
-  
+
   EXPECT_STREQ(groupedBy[NEWS].c_str(), "Post titles: [post1, post2, post3, post7, post8]");
   EXPECT_STREQ(groupedBy[REVIEW].c_str(), "Post titles: [post4, post5, post10]");
   EXPECT_EQ(groupedBy[GUIDE], "Post titles: [post6, post9]");

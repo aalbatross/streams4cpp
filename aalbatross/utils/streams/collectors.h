@@ -105,7 +105,7 @@ struct Collectors {
                               [mapper](std::vector<std::pair<K, T>> &intermediate, T element) {
                                 intermediate.emplace_back(std::pair<K, T>{mapper(element), element});
                               },
-                              [&](auto &intermediate) {
+                              [&collector, &cmp, &allocator](auto &intermediate) {
                                 std::map<K, std::vector<T>, Compare, Allocator> iResult(cmp, allocator);
                                 for (auto item : intermediate) {
                                   iResult.try_emplace(item.first, std::vector<T>());
@@ -127,13 +127,13 @@ struct Collectors {
                                 intermediate.emplace_back(element);
                               },
                               [&](std::vector<std::string> &intermediate) -> std::string {
-                                std::stringstream ss;
-                                ss << prefix;
+                                std::stringstream sstream;
+                                sstream << prefix;
                                 for (size_t i = 0; i < intermediate.size() - 1; i++) {
-                                  ss << intermediate[i] << delimiter;
+                                  sstream << intermediate[i] << delimiter;
                                 }
-                                ss << intermediate[intermediate.size() - 1] << suffix;
-                                return ss.str();
+                                sstream << intermediate[intermediate.size() - 1] << suffix;
+                                return sstream.str();
                               }};
   }
 
@@ -144,8 +144,8 @@ struct Collectors {
                                 intermediate.emplace_back(element);
                               },
                               [&](std::vector<T> &intermediate) -> std::optional<T> {
-                                auto it = std::max_element(intermediate.begin(), intermediate.end(), comp);
-                                return it != intermediate.end() ? std::optional<T>(*it) : std::nullopt;
+                                auto iterator = std::max_element(intermediate.begin(), intermediate.end(), comp);
+                                return iterator != intermediate.end() ? std::optional<T>(*iterator) : std::nullopt;
                               }};
   }
 
@@ -156,8 +156,8 @@ struct Collectors {
                                 intermediate.emplace_back(element);
                               },
                               [&](std::vector<T> &intermediate) -> std::optional<T> {
-                                auto it = std::min_element(intermediate.begin(), intermediate.end(), comp);
-                                return it != intermediate.end() ? std::optional<T>(*it) : std::nullopt;
+                                auto iterator = std::min_element(intermediate.begin(), intermediate.end(), comp);
+                                return iterator != intermediate.end() ? std::optional<T>(*iterator) : std::nullopt;
                               }};
   }
 

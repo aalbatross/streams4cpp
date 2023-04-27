@@ -140,6 +140,20 @@ TEST(CollectorFixtureTest, CollectToCollectionTest) {
   EXPECT_THAT(result2, ::testing::ElementsAre(21, 21, 20, 20, 29, 29, 29, 10, 17, 16, 40, 50));
 }
 
+TEST(CollectorFixtureTest, CollectToSummingTest) {
+  std::vector data{12, 2, 13, 4, 5};
+
+  auto collector1 = streams::Collectors::summingLong([](int item) { return item; });
+  auto result1 = collector1.apply(data);
+
+  EXPECT_EQ(result1, 36);
+
+  auto collector2 = streams::Collectors::summingDouble([](int item) { return item * 1.0; });
+  auto result2 = collector2.apply(data);
+
+  EXPECT_EQ(result2, 36.0);
+}
+
 TEST(CollectorFixtureTest, CollectToMapTest) {
   std::vector pods{
       A{23, 'a', "xyz"},
