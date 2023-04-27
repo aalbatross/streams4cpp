@@ -3,7 +3,7 @@ project(streams4cpp CXX)
 set(CMAKE_CXX_STANDARD 17)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-include(cmake/CPM.cmake)
+include(${CMAKE_BINARY_DIR}/conan_toolchain.cmake)
 
 file(GLOB ALL_SOURCE_FILES ${PROJECT_SOURCE_DIR}/aalbatross/utils/*.h)
 file(GLOB ALL_TEST_FILES ${PROJECT_SOURCE_DIR}/test/*.cpp)

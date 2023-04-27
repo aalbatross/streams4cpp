@@ -8,8 +8,9 @@ add_executable(${NAME}
         test_collector.t.cpp
         test_streamcollector.t.cpp)
 
-CPMAddPackage("gh:/google/googletest@1.13.0")
-target_link_libraries(${NAME} PUBLIC streams4cpp gmock gtest gtest_main)
+find_package(GTest CONFIG REQUIRED)
+include_directories(${GTest_INCLUDE_DIR})
+target_link_libraries(${NAME} PUBLIC streams4cpp GTest::gmock GTest::gtest GTest::gtest_main)
 
 enable_testing()
 
