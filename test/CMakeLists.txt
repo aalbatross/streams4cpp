@@ -6,7 +6,7 @@ add_executable(${NAME}
         test_stream.t.cpp
         test_scollection.t.cpp
         test_collector.t.cpp
-        )
+        test_streamcollector.t.cpp)
 
 CPMAddPackage("gh:/google/googletest@1.13.0")
 target_link_libraries(${NAME} PUBLIC streams4cpp gmock gtest gtest_main)

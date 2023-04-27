@@ -42,11 +42,11 @@ struct Collectors {
                                 return sum;
                               }};
   }
-
-  static auto summingLong() {
+  template<typename TypeToLong>
+  static auto summingLong(TypeToLong &&mapper) {
     return streams::Collector{[] { return std::vector<long>(); },
-                              [](std::vector<long> &intermediate, auto element) {
-                                intermediate.emplace_back(element);
+                              [mapper](std::vector<long> &intermediate, auto element) {
+                                intermediate.emplace_back(mapper(element));
                               },
                               [](std::vector<long> &intermediate) -> long {
                                 long sum = 0;
@@ -57,10 +57,11 @@ struct Collectors {
                               }};
   }
 
-  static auto summingDouble() {
+  template<typename TypeToDouble>
+  static auto summingDouble(TypeToDouble &&mapper) {
     return streams::Collector{[] { return std::vector<double>(); },
-                              [](std::vector<double> &intermediate, auto element) {
-                                intermediate.emplace_back(element);
+                              [mapper](std::vector<double> &intermediate, auto element) {
+                                intermediate.emplace_back(mapper(element));
                               },
                               [](std::vector<double> &intermediate) -> double {
                                 double sum = 0;
@@ -80,14 +81,15 @@ struct Collectors {
                               }};
   }
 
-  template<typename K, typename T, typename Classifier>
-  static auto groupingBy(Classifier &&mapper) {
+  template<typename K, typename T, typename Classifier, typename Compare = std::less<K>,
+           class Allocator = std::allocator<std::pair<const K, std::vector<T>>>>
+  static auto groupingBy(Classifier &&mapper, Compare cmp = Compare(), Allocator allocator = Allocator()) {
     return streams::Collector{[] { return std::vector<std::pair<K, T>>(); },
                               [mapper](std::vector<std::pair<K, T>> &intermediate, T element) {
                                 intermediate.emplace_back(std::pair<K, T>{mapper(element), element});
                               },
-                              [](auto &intermediate) {
-                                std::unordered_map<K, std::vector<T>> result;
+                              [cmp, allocator](auto &intermediate) {
+                                std::map<K, std::vector<T>, Compare, Allocator> result(cmp, allocator);
                                 for (auto item : intermediate) {
                                   result.try_emplace(item.first, std::vector<T>());
                                   result[item.first].emplace_back(item.second);
@@ -96,21 +98,22 @@ struct Collectors {
                               }};
   }
 
-  template<typename K, typename T, typename Classifier, typename Supplier, typename Accumulator, typename Finisher>
-  static auto groupingBy(Classifier &&mapper, Collector<Supplier, Accumulator, Finisher> &&collector) {
+  template<typename K, typename T, typename Classifier, typename Supplier, typename Accumulator, typename Finisher, typename Compare = std::less<K>,
+           class Allocator = std::allocator<std::pair<const K, std::vector<T>>>>
+  static auto groupingBy(Classifier &&mapper, Collector<Supplier, Accumulator, Finisher> &&collector, Compare cmp = Compare(), Allocator allocator = Allocator()) {
     return streams::Collector{[] { return std::vector<std::pair<K, T>>(); },
                               [mapper](std::vector<std::pair<K, T>> &intermediate, T element) {
                                 intermediate.emplace_back(std::pair<K, T>{mapper(element), element});
                               },
                               [&](auto &intermediate) {
-                                std::unordered_map<K, std::vector<T>> iResult;
+                                std::map<K, std::vector<T>, Compare, Allocator> iResult(cmp, allocator);
                                 for (auto item : intermediate) {
                                   iResult.try_emplace(item.first, std::vector<T>());
                                   iResult[item.first].emplace_back(item.second);
                                 }
                                 auto repr = (*iResult.begin()).second;
                                 using X = decltype(collector.apply(repr));
-                                std::unordered_map<K, X> result;
+                                std::map<K, X, Compare> result(cmp);
                                 for (auto item : iResult) {
                                   result.insert({item.first, collector.apply(item.second)});
                                 }
@@ -165,7 +168,7 @@ struct Collectors {
                                 intermediate.emplace_back(element);
                               },
                               [predicate](std::vector<T> &intermediate) {
-                                std::unordered_map<bool, std::vector<T>> result;
+                                std::map<bool, std::vector<T>> result;
                                 for (auto &item : intermediate) {
                                   result.try_emplace(predicate(item), std::vector<T>());
                                   result[predicate(item)].emplace_back(item);
@@ -181,14 +184,14 @@ struct Collectors {
                                 intermediate.emplace_back(element);
                               },
                               [predicate, downstream](std::vector<T> &intermediate) {
-                                std::unordered_map<bool, std::vector<T>> iResult;
+                                std::map<bool, std::vector<T>> iResult;
                                 for (auto &item : intermediate) {
                                   iResult.try_emplace(predicate(item), std::vector<T>());
                                   iResult[predicate(item)].emplace_back(item);
                                 }
                                 auto repr = (*iResult.begin()).second;
                                 using X = decltype(downstream.apply(repr));
-                                std::unordered_map<bool, X> result;
+                                std::map<bool, X> result;
                                 for (std::pair<const bool, std::vector<T>> &item : iResult) {
                                   result.insert(std::pair<bool, X>{item.first, downstream.apply(item.second)});
                                 }
@@ -216,13 +219,14 @@ struct Collectors {
                               }};
   }
 
-  template<typename T>
-  static auto toSet() {
-    return streams::Collector{[] { return std::set<T>(); },
-                              [](std::set<T> &intermediate, auto element) {
+  template<typename T, typename Compare = std::less<T>,
+           typename Allocator = std::allocator<T>>
+  static auto toSet(Compare cmp = Compare(), Allocator allocator = Allocator()) {
+    return streams::Collector{[cmp, allocator] { return std::set<T, Compare, Allocator>(cmp, allocator); },
+                              [](std::set<T, Compare, Allocator> &intermediate, auto element) {
                                 intermediate.emplace(element);
                               },
-                              [](std::set<T> &intermediate) {
+                              [](std::set<T, Compare, Allocator> &intermediate) {
                                 return intermediate;
                               }};
   }
@@ -237,7 +241,7 @@ struct Collectors {
                                 using K = typename std::invoke_result<KeyMapper, T>::type;
                                 using V = typename std::invoke_result<ValueMapper, T>::type;
 
-                                std::map<K, V> result;
+                                std::map<K, V, std::less<K>, std::allocator<std::pair<const K, V>>> result;
                                 for (const T &item : intermediate) {
                                   result[keyMapper(item)] = valueMapper(item);
                                 }
