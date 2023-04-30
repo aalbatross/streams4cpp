@@ -428,7 +428,7 @@ struct Collectors final {
   static auto toContainer(Container &&container) {
     return streams::Collector{[&container] { return container; },
                               [](Container &intermediate, auto element) {
-                                intermediate.emplace(element);
+                                intermediate.insert(intermediate.end(), element);
                               },
                               [](Container &intermediate) {
                                 return intermediate;

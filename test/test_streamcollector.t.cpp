@@ -6,14 +6,6 @@
 #include <gtest/gtest.h>
 #include <ostream>
 namespace aalbatross::utils::test {
-struct Employee {
-  std::string firstName;
-  std::string lastName;
-  size_t age;
-  std::string address;
-  std::string mobileNumber;
-};
-
 enum BlogPostType {
   NEWS,
   REVIEW,
@@ -30,49 +22,6 @@ struct BlogPost {
   BlogPostType type;
   int likes;
 };
-
-template<typename T, typename Compare, typename Allocator>
-std::ostream &operator<<(std::ostream &os, const std::set<T, Compare, Allocator> &vec) {
-  os << "[";
-  for (const auto &item : vec) {
-    os << item << ",";
-  }
-  os << "]";
-  return os;
-}
-
-template<typename T>
-std::ostream &operator<<(std::ostream &os, const std::vector<T> &vec) {
-  os << "[";
-  for (const auto &item : vec) {
-    os << item << ",";
-  }
-  os << "]";
-  return os;
-}
-
-template<typename K, typename V>
-std::ostream &operator<<(std::ostream &os, const std::map<K, V> &vec) {
-  os << "[";
-  for (const auto &item : vec) {
-    os << "{" << item.first << "->" << item.second << "},";
-  }
-  os << "]";
-  return os;
-}
-
-template<typename K, typename V>
-std::ostream &operator<<(std::ostream &os, const std::pair<K, V> &vec) {
-  os << "{ " << vec.first << "," << vec.second << "}";
-  return os;
-}
-
-template<typename K, typename V, typename W>
-std::ostream &operator<<(std::ostream &os, const std::tuple<K, V, W> &vec) {
-  auto [a, b, c] = vec;
-  os << "{ " << a << "," << b << "," << c << "}";
-  return os;
-}
 
 collection::SVector<BlogPost> getPosts() {
   return collection::SVector{
@@ -196,7 +145,7 @@ TEST(GroupingByFixture, AggregatingMultipleAttributesGroupedResult) {
       streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.author; },
                                                 streams::Collectors::collectingAndThen(streams::Collectors::toVector<BlogPost>(), [](auto posts) {
                                                   iterators::ListIterator iterator(posts.begin(), posts.end());
-                                                  streams::Stream<BlogPost, BlogPost> postStream(iterator);
+                                                  streams::Stream<BlogPost> postStream(iterator);
                                                   long count = postStream
                                                                    .map([](auto post) { return post.title; })
                                                                    .collect(streams::Collectors::counting());
