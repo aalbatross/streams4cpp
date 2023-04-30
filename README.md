@@ -173,7 +173,9 @@ filteredStream.map(toString).forEach(print);
 %  cmake --install .
 ```
 
-
+## Documentation
+Doxygen based documentation is generated on build, inside doc/html directory.
+Refer the documentation after build on any browser from doc/html/index.html.
 
 
 
