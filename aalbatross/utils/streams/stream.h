@@ -169,7 +169,7 @@ struct Stream {
   auto map(Fun &&mapper) {
     using E = typename std::invoke_result<Fun, S>::type;
     std::function<std::unique_ptr<iterators::Iterator<E>>(iterators::Iterator<S> &)> newMapper =
-        [mapper, this](iterators::Iterator<S> &source) {
+        [mapper, *this](iterators::Iterator<S> &source) {
           auto inter = dMapper_(source);
           std::vector<E> result;
           while (inter->hasNext()) {
@@ -188,7 +188,7 @@ struct Stream {
    */
   Stream<T, S> filter(std::function<bool(T)> predicate) {
     std::function<std::unique_ptr<iterators::Iterator<T>>(iterators::Iterator<S> &)> newMapper =
-        [this, predicate](iterators::Iterator<S> &source) {
+        [*this, predicate](iterators::Iterator<S> &source) {
           auto inter = dMapper_(source);
           std::vector<T> result;
           while (inter->hasNext()) {
@@ -210,7 +210,7 @@ struct Stream {
    */
   Stream<T, S> limit(const size_t count) {
     std::function<std::unique_ptr<iterators::Iterator<T>>(iterators::Iterator<S> &)> newMapper =
-        [this, count](iterators::Iterator<S> &source) {
+        [*this, count](iterators::Iterator<S> &source) {
           auto inter = dMapper_(source);
           std::vector<T> result;
           while (inter->hasNext()) {
@@ -231,7 +231,7 @@ struct Stream {
    */
   Stream<T, S> skip(const size_t count) {
     std::function<std::unique_ptr<iterators::Iterator<T>>(iterators::Iterator<S> &)> newMapper =
-        [this, count](iterators::Iterator<S> &source) {
+        [*this, count](iterators::Iterator<S> &source) {
           auto inter = dMapper_(source);
           std::vector<T> result;
           size_t currentCount = 0;
@@ -254,7 +254,7 @@ struct Stream {
    */
   Stream<T, S> sorted(std::function<int(T, T)> comparator) {
     std::function<std::unique_ptr<iterators::Iterator<T>>(iterators::Iterator<S> &)> newMapper =
-        [this, comparator](iterators::Iterator<S> &source) {
+        [*this, comparator](iterators::Iterator<S> &source) {
           auto inter = dMapper_(source);
           std::vector<T> result;
           while (inter->hasNext()) {
@@ -272,7 +272,7 @@ struct Stream {
    */
   Stream<T, S> distinct() {
     std::function<std::unique_ptr<iterators::Iterator<T>>(iterators::Iterator<S> &)> newMapper =
-        [this](iterators::Iterator<S> &source) {
+        [*this](iterators::Iterator<S> &source) {
           auto inter = dMapper_(source);
           std::set<T> result;
           while (inter->hasNext()) {
@@ -289,7 +289,7 @@ struct Stream {
    */
   Stream<T, S> reverse() {
     std::function<std::unique_ptr<iterators::Iterator<T>>(iterators::Iterator<S> &)> newMapper =
-        [this](iterators::Iterator<S> &source) {
+        [*this](iterators::Iterator<S> &source) {
           auto inter = dMapper_(source);
           std::vector<T> result;
           while (inter->hasNext()) {

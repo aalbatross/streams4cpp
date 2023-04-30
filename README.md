@@ -155,3 +155,27 @@ filteredStream.map(toString).forEach(print);
 ```
 
 ## How to Install
+
+### Pre-requisites
+- doxygen -1.9.6
+- clang-format
+- clang-tidy
+- conan2
+- cmake 3.25
+- GCC/ any c++ compiler (latest version C++17 supported)
+
+```commandline
+% conan install . --output-folder=release --build=missing
+% cd release
+% cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+% cmake --build .
+% ./test/streams4cpp.t 
+%  cmake --install .
+```
+
+
+
+
+
+
+
