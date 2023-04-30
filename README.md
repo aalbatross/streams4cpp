@@ -18,6 +18,9 @@ Streams differ from collections in several ways:
 - **Streamable Collection**: Streamable STL containers supporting functional style transforms.
 - **Collectors**: Implementations of Collector that implement various useful common reduction operations.
 
+## Documentation
+Refer [documentation](./doc/html/index.html) for detailed API review.
+
 ## Quick Start
 
 An example of using Streams is provided below:
@@ -172,10 +175,6 @@ filteredStream.map(toString).forEach(print);
 % ./test/streams4cpp.t 
 %  cmake --install .
 ```
-
-## Documentation
-Doxygen based documentation is generated on build, inside doc/html directory.
-Refer the documentation after build on any browser from doc/html/index.html.
 
 
 
