@@ -18,7 +18,7 @@ Streams differ from collections in several ways:
 - **Streamable Collection**: Streamable STL containers supporting functional style transforms.
 - **Collectors**: Implementations of Collector that implement various useful common reduction operations.
 
-## How to use
+## Quick Start
 
 An example of using Streams is provided below:
 
@@ -154,7 +154,7 @@ filteredStream.map(toString).forEach(print);
   EXPECT_THAT(result["odd"], ::testing::ElementsAre(21, 29, 17));
 ```
 
-## How to Install
+## Installation Guide
 
 ### Pre-requisites
 - doxygen -1.9.6
