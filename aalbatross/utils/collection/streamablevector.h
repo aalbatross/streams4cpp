@@ -5,8 +5,8 @@
 #include "aalbatross/utils/streams/stream.h"
 #include "streamablecollection.h"
 
+#include <memory>
 #include <vector>
-
 namespace aalbatross::utils::collection {
 /**
  * \class SVector

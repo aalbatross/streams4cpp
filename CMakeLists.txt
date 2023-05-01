@@ -99,5 +99,6 @@ add_library(${PROJECT_NAME} INTERFACE
         )
 
 target_include_directories(${PROJECT_NAME} INTERFACE aalbatross/utils)
-install(FILES ${ALL_SOURCE_FILES} DESTINATION include/aalbatross/utils/)
+
+install(DIRECTORY aalbatross DESTINATION include/)
 add_subdirectory(test)

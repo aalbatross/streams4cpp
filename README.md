@@ -169,7 +169,7 @@ filteredStream.map(toString).forEach(print);
 - git
 ```commandline
 % git clone https://github.com/aalbatross/streams4cpp.git
-% cmake -S. -Brelease
+% cmake -S. -Brelease -DCMAKE_BUILD_TYPE=Release
 % cmake --build release/.
 % ./release/test/streams4cpp.t 
 %  cmake --install release/.

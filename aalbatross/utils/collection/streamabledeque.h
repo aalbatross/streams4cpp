@@ -6,6 +6,7 @@
 #include "streamablecollection.h"
 
 #include <deque>
+#include <memory>
 
 namespace aalbatross::utils::collection {
 /**

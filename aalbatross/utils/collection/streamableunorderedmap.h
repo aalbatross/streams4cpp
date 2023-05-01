@@ -4,7 +4,9 @@
 #include "aalbatross/utils/iterators/listiterator.h"
 #include "streamablecollection.h"
 
+#include <memory>
 #include <unordered_map>
+#include <utility>
 namespace aalbatross::utils::collection {
 /**
  * \class SUMap

@@ -3,8 +3,10 @@
 #include "aalbatross/utils/iterators/listiterator.h"
 #include "streamablecollection.h"
 
+#include <functional>
+#include <memory>
 #include <unordered_set>
-
+#include <utility>
 namespace aalbatross::utils::collection {
 /**
  * \class SUSet

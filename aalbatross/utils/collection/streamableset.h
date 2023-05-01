@@ -3,6 +3,8 @@
 #include "aalbatross/utils/iterators/listiterator.h"
 #include "streamablecollection.h"
 
+#include <functional>
+#include <memory>
 #include <set>
 namespace aalbatross::utils::collection {
 /**

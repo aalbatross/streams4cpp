@@ -5,6 +5,7 @@
 #include "streamablecollection.h"
 
 #include <list>
+#include <memory>
 namespace aalbatross::utils::collection {
 
 /**

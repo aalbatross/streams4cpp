@@ -4,7 +4,11 @@
 #include "aalbatross/utils/iterators/listiterator.h"
 #include "streamablecollection.h"
 
+#include <functional>
 #include <map>
+#include <memory>
+#include <utility>
+
 namespace aalbatross::utils::collection {
 /**
  * \class SMap

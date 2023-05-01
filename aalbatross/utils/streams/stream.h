@@ -1,16 +1,20 @@
 #ifndef INCLUDED_STREAMS4CPP_STREAM_H_
 #define INCLUDED_STREAMS4CPP_STREAM_H_
 #include "aalbatross/utils/iterators/iterator.h"
+#include "aalbatross/utils/iterators/listiterator.h"
 #include "aalbatross/utils/iterators/listiterator_view.h"
 #include "collector.h"
 
 #include <algorithm>
 #include <deque>
 #include <list>
+#include <map>
+#include <memory>
 #include <optional>
 #include <set>
+#include <unordered_map>
 #include <unordered_set>
-
+#include <vector>
 namespace aalbatross::utils::streams {
 /**
  * \class Stream

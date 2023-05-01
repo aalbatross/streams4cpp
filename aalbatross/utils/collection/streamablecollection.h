@@ -1,7 +1,9 @@
 #ifndef INCLUDED_STREAMS4CPP_STREAMEDCOLLECTION_H
 #define INCLUDED_STREAMS4CPP_STREAMEDCOLLECTION_H
-#include "aalbatross/utils/iterators/iterator.h"
-#include "aalbatross/utils/streams/stream.h"
+
+#include <aalbatross/utils/iterators/iterator.h>
+#include <aalbatross/utils/streams/stream.h>
+
 namespace aalbatross::utils::collection {
 
 /**
