@@ -131,8 +131,8 @@ Mapping to double</h2>
 </div><!-- fragment --><p>[102.0, 104.0, 106.0, 108.0, 110.0]</p>
 <h2><a class="anchor" id="autotoc_md25"></a>
 Filtering stream</h2>
-<div class="fragment"><div class="line">const auto greaterThan4 = [](auto number) { return number &gt; 105.0; };</div>
-<div class="line">auto filteredStream = newStream.filter(greaterThan4);</div>
+<div class="fragment"><div class="line">const auto greaterThan = [](auto number) { return number &gt; 105.0; };</div>
+<div class="line">auto filteredStream = newStream.filter(greaterThan);</div>
 </div><!-- fragment --><p>[106.0, 108.0, 110.0]</p>
 <h2><a class="anchor" id="autotoc_md26"></a>
 Reducing stream</h2>
