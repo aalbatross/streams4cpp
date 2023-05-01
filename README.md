@@ -158,7 +158,6 @@ EXPECT_THAT(result["odd"], ::testing::ElementsAre(21, 29, 17));
 ```
 
 ## Installation Guide
-
 ### Pre-requisites
 - doxygen -1.9.6
 - clang-format
@@ -167,14 +166,15 @@ EXPECT_THAT(result["odd"], ::testing::ElementsAre(21, 29, 17));
 - cmake 3.25
 - GCC/ any c++ compiler (latest version C++17 supported) like GCC-12.0, Apple-CLang 14.0 etc
 - git
+
 ```commandline
+
 % git clone https://github.com/aalbatross/streams4cpp.git
 % cmake -S. -Brelease -DCMAKE_BUILD_TYPE=Release
 % cmake --build release/.
 % ./release/test/streams4cpp.t 
 %  cmake --install release/.
 ```
-
 
 
 

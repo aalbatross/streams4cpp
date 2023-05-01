@@ -22,38 +22,36 @@ struct BlogPost {
 ### Group by examples
 
 #### Group by on Single Column
-Let's group by stream of blogposts with respect to its types.
+Get all blog posts grouped by post type
 ```c++
-  map<BlogPostType, vector<BlogPost>> groupedBy = dataset.stream().collect(streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; }));
+map<BlogPostType, vector<BlogPost>> groupedBy = dataset.stream().collect(streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; }));
 ```
 
 #### Group by on Single Column with modified key type
-- Let's group by stream of blogposts with respect to a tuple of blog author and blog post type published by author.
+- Get all blog posts grouped by blog author and blog post type.
 ```c++
 map<pair<BlogPostType, string>, vector<BlogPost>> groupedBy = dataset.stream().collect(
       streams::Collectors::groupingBy<BlogPost>([](auto post) { return std::pair{post.type, post.author}; }));
 ```
-- Let's group by stream of blogposts with respect to a tuple of blog author and blog post type published by author and likes received on the blog.
+- Get all blog posts grouped by blog author ,blog post type and number of likes.
 ```c++
 map<tuple<BlogPostType, string, int>, vector<BlogPost>> groupedBy = dataset.stream().collect(
       streams::Collectors::groupingBy<BlogPost>([](auto post) { return std::tuple{post.type, post.author, post.likes}; }));
 ```
 
 #### Group by on Single Column with modified value type
-Let's group by stream of blogposts with respect to its types and return sets of the blog post.
+- Get set of blog posts grouped by post type
 ```c++
-  auto comparator = [](auto a1, auto a2) {
-    return a1.likes < a2.likes;
-  };
-
-  auto groupedBy = dataset.stream().collect(
-      streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; },
-                                                streams::Collectors::toSet<BlogPost, decltype(comparator)>(comparator)));
-
+auto comparator = [](auto a1, auto a2) {
+  return a1.likes < a2.likes;
+};
+auto groupedBy = dataset.stream().collect(
+    streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; },
+                                              streams::Collectors::toSet<BlogPost, decltype(comparator)>(comparator)));
 ```
 
 #### Cascading Group by
-Group by all posts to there author, and then to the type of the blog 
+Get all blog posts group by author and then blogpost type
 ```c++
 map<string, map<BlogPostType, vector<BlogPost>>> groupedBy = dataset.stream().collect(
       streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.author; },
@@ -97,7 +95,6 @@ map<string, PostCountTitles> groupedBy = dataset.stream().collect(
 ### Collect as containers
 
 #### Collect as vector
-
 ```c++
 auto vector = data.stream().collect(streams::Collectors::toVector<int>());
 ```

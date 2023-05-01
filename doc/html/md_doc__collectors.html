@@ -114,33 +114,35 @@ Illustrative Examples</h1>
 Group by examples</h2>
 <h3><a class="anchor" id="autotoc_md3"></a>
 Group by on Single Column</h3>
-<p>Let's group by stream of blogposts with respect to its types. </p><div class="fragment"><div class="line">{c++}</div>
-<div class="line"> map&lt;BlogPostType, vector&lt;BlogPost&gt;&gt; groupedBy = dataset.stream().collect(streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.type; }));</div>
+<p>Get all blog posts grouped by post type </p><div class="fragment"><div class="line"> {c++}</div>
+<div class="line">map&lt;BlogPostType, vector&lt;BlogPost&gt;&gt; groupedBy = dataset.stream().collect(streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.type; }));</div>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md4"></a>
 Group by on Single Column with modified key type</h3>
 <ul>
-<li>Let's group by stream of blogposts with respect to a tuple of blog author and blog post type published by author. <div class="fragment"><div class="line"> {c++}</div>
+<li>Get all blog posts grouped by blog author and blog post type. <div class="fragment"><div class="line"> {c++}</div>
 <div class="line">map&lt;pair&lt;BlogPostType, string&gt;, vector&lt;BlogPost&gt;&gt; groupedBy = dataset.stream().collect(</div>
 <div class="line">      streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return std::pair{post.type, post.author}; }));</div>
 </div><!-- fragment --></li>
-<li>Let's group by stream of blogposts with respect to a tuple of blog author and blog post type published by author and likes received on the blog. <div class="fragment"><div class="line"> {c++}</div>
+<li>Get all blog posts grouped by blog author ,blog post type and number of likes. <div class="fragment"><div class="line"> {c++}</div>
 <div class="line">map&lt;tuple&lt;BlogPostType, string, int&gt;, vector&lt;BlogPost&gt;&gt; groupedBy = dataset.stream().collect(</div>
 <div class="line">      streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return std::tuple{post.type, post.author, post.likes}; }));</div>
 </div><!-- fragment --></li>
 </ul>
 <h3><a class="anchor" id="autotoc_md5"></a>
 Group by on Single Column with modified value type</h3>
-<p>Let's group by stream of blogposts with respect to its types and return sets of the blog post. </p><div class="fragment"><div class="line">{c++}</div>
-<div class="line"> auto comparator = [](auto a1, auto a2) {</div>
-<div class="line">   return a1.likes &lt; a2.likes;</div>
-<div class="line"> };</div>
-<div class="line"> </div>
-<div class="line"> auto groupedBy = dataset.stream().collect(</div>
-<div class="line">     streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.type; },</div>
-<div class="line">                                               streams::Collectors::toSet&lt;BlogPost, decltype(comparator)&gt;(comparator)));</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md6"></a>
+<ul>
+<li>Get set of blog posts grouped by post type <div class="fragment"><div class="line"> {c++}</div>
+<div class="line">auto comparator = [](auto a1, auto a2) {</div>
+<div class="line">  return a1.likes &lt; a2.likes;</div>
+<div class="line">};</div>
+<div class="line">auto groupedBy = dataset.stream().collect(</div>
+<div class="line">    streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.type; },</div>
+<div class="line">                                              streams::Collectors::toSet&lt;BlogPost, decltype(comparator)&gt;(comparator)));</div>
+</div><!-- fragment --></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md6"></a>
 Cascading Group by</h3>
-<p>Group by all posts to there author, and then to the type of the blog </p><div class="fragment"><div class="line"> {c++}</div>
+<p>Get all blog posts group by author and then blogpost type </p><div class="fragment"><div class="line"> {c++}</div>
 <div class="line">map&lt;string, map&lt;BlogPostType, vector&lt;BlogPost&gt;&gt;&gt; groupedBy = dataset.stream().collect(</div>
 <div class="line">      streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.author; },</div>
 <div class="line">                                                streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.type; })));</div>
