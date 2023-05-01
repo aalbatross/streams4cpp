@@ -21,7 +21,7 @@ Streams differ from collections in several ways:
 ## Documentation
 Refer [documentation](./doc/html/index.html) for detailed API review.
 
-## Quick Start
+## Illustrative Usage
 
 An example of using Streams is provided below:
 
@@ -165,9 +165,10 @@ filteredStream.map(toString).forEach(print);
 - clang-tidy
 - conan2
 - cmake 3.25
-- GCC/ any c++ compiler (latest version C++17 supported)
-
+- GCC/ any c++ compiler (latest version C++17 supported) like GCC-12.0, Apple-CLang 14.0 etc
+- git
 ```commandline
+% git clone https://github.com/aalbatross/streams4cpp.git
 % conan install . --output-folder=release --build=missing
 % cd release
 % cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release

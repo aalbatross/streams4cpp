@@ -111,32 +111,35 @@ Features</h1>
 <li><b>Collectors</b>: Implementations of Collector that implement various useful common reduction operations.</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md21"></a>
-Quick Start</h1>
+Documentation</h1>
+<p>Refer <a href="./doc/html/index.html">documentation</a> for detailed API review.</p>
+<h1><a class="anchor" id="autotoc_md22"></a>
+Illustrative Usage</h1>
 <p>An example of using Streams is provided below:</p>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 Creating Stream</h2>
 <div class="fragment"><div class="line">std::vector data{1, 2, 3, 4, 5};</div>
 <div class="line">ListIterator iter(data.begin(), data.end());</div>
 <div class="line">Stream&lt;int&gt; stream(iter);</div>
 </div><!-- fragment --><p> or </p><div class="fragment"><div class="line">collection::SVector svector{1, 2, 3, 4, 5};</div>
 <div class="line">auto stream = svector.stream();</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md23"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md24"></a>
 Mapping to double</h2>
 <div class="fragment"><div class="line">const auto doubler = [](const auto element) { return element * 2.0; };</div>
 <div class="line">const auto plusHunderead = [](const auto element) { return element + 100; };</div>
 <div class="line">auto newStream = stream.map(doubler).map(plusHunderead);</div>
 </div><!-- fragment --><p>[102.0, 104.0, 106.0, 108.0, 110.0]</p>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 Filtering stream</h2>
 <div class="fragment"><div class="line">const auto greaterThan4 = [](auto number) { return number &gt; 105.0; };</div>
 <div class="line">auto filteredStream = newStream.filter(greaterThan4);</div>
 </div><!-- fragment --><p>[106.0, 108.0, 110.0]</p>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md26"></a>
 Reducing stream</h2>
 <div class="fragment"><div class="line">const auto sumAccumulator = [](auto x_1, auto y_1) { return x_1 + y_1; };</div>
 <div class="line">auto sum = newStream.reduce(0, sumAccumulator);</div>
 <div class="line">ASSERT_EQ(sum, 530);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md26"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md27"></a>
 Printing Stream</h2>
 <div class="fragment"><div class="line">const auto print = [](const auto &amp;element) { std::cout &lt;&lt; element &lt;&lt; std::endl; };</div>
 <div class="line">const auto toString = [](const auto element) { return std::to_string(element) + &quot; something&quot;; };</div>
@@ -145,7 +148,7 @@ Printing Stream</h2>
  108.0 something <br  />
  110.0 something <br  />
 </p>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 Stream to containers</h2>
 <div class="fragment"><div class="line">std::vector data{1, 2, 3, 4, 5};</div>
 <div class="line">ListIterator iter(data.begin(), data.end());</div>
@@ -157,7 +160,7 @@ Stream to containers</h2>
 <div class="line">EXPECT_THAT(filteredStream.toList(), ::testing::ElementsAre(6, 8, 10));</div>
 <div class="line">EXPECT_THAT(filteredStream.toDeque(), ::testing::ElementsAre(6, 8, 10));</div>
 <div class="line">EXPECT_THAT(filteredStream.toVector(), ::testing::ElementsAre(6, 8, 10));</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md28"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md29"></a>
 Stream head,tail and find</h2>
 <div class="fragment"><div class="line">std::vector data{21, 20, 10, 16, 40, 50};</div>
 <div class="line">ListIterator iter(data.begin(), data.end());</div>
@@ -165,20 +168,20 @@ Stream head,tail and find</h2>
 <div class="line">EXPECT_EQ(stream.head().value(), 21);</div>
 <div class="line">EXPECT_EQ(stream.tail().value(), 50);</div>
 <div class="line">EXPECT_EQ(stream.find([](auto num) { return num % 25 == 0; }).value(), 50);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md29"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md30"></a>
 Sorted Stream</h2>
 <div class="fragment"><div class="line">std::vector data{121, 12, 123, 41, 59};</div>
 <div class="line">ListIterator iter(data.begin(), data.end());</div>
 <div class="line">Stream&lt;int&gt; stream(iter);</div>
 <div class="line">EXPECT_THAT(stream.sorted(std::greater&lt;&gt;()).toVector(), ::testing::ElementsAre(123, 121, 59, 41, 12));</div>
 <div class="line">EXPECT_THAT(stream.sorted(std::less&lt;&gt;()).toVector(), ::testing::ElementsAre(12, 41, 59, 121, 123));</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md30"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md31"></a>
 Distinct element stream</h2>
 <div class="fragment"><div class="line">std::vector data{1, 2, 3, 4, 5, 2, 3, 4, 5};</div>
 <div class="line">ListIterator iter(data.begin(), data.end());</div>
 <div class="line">Stream&lt;int&gt; stream(iter);</div>
 <div class="line">EXPECT_THAT(stream.distinct().toVector(), ::testing::ElementsAre(1, 2, 3, 4, 5));</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md31"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md32"></a>
 Match on stream</h2>
 <div class="fragment"><div class="line">std::vector data{21, 20, 10, 16, 40, 50};</div>
 <div class="line">ListIterator iter(data.begin(), data.end());</div>
@@ -189,13 +192,13 @@ Match on stream</h2>
 <div class="line">EXPECT_FALSE(stream.anyMatch([](auto num) { return num &lt;= 0; }));</div>
 <div class="line">EXPECT_TRUE(stream.noneMatch([](auto num) { return num &lt;= 0; }));</div>
 <div class="line">EXPECT_FALSE(stream.noneMatch([](auto num) { return num &gt;= 0; }));</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md32"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md33"></a>
 Reversed Stream</h2>
 <div class="fragment"><div class="line">std::vector data{21, 20, 10, 16, 40, 50};</div>
 <div class="line">ListIterator iter(data.begin(), data.end());</div>
 <div class="line">Stream&lt;int&gt; stream(iter);</div>
 <div class="line">EXPECT_THAT(stream.reverse().toVector(), ::testing::ElementsAre(50, 40, 16, 10, 20, 21));</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md33"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md34"></a>
 Group by on Stream</h2>
 <div class="fragment"><div class="line">std::vector data{21, 20, 29, 10, 17, 16, 40, 50};</div>
 <div class="line">ListIterator iter(data.begin(), data.end());</div>
@@ -204,9 +207,9 @@ Group by on Stream</h2>
 <div class="line">EXPECT_EQ(2, result.size());</div>
 <div class="line">EXPECT_THAT(result[&quot;even&quot;], ::testing::ElementsAre(20, 10, 16, 40, 50));</div>
 <div class="line">EXPECT_THAT(result[&quot;odd&quot;], ::testing::ElementsAre(21, 29, 17));</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md34"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md35"></a>
 Installation Guide</h1>
-<h2><a class="anchor" id="autotoc_md35"></a>
+<h2><a class="anchor" id="autotoc_md36"></a>
 Pre-requisites</h2>
 <ul>
 <li>doxygen -1.9.6</li>
@@ -214,17 +217,16 @@ Pre-requisites</h2>
 <li>clang-tidy</li>
 <li>conan2</li>
 <li>cmake 3.25</li>
-<li>GCC/ any c++ compiler (latest version C++17 supported)</li>
-</ul>
-<div class="fragment"><div class="line">% conan install . --output-folder=release --build=missing</div>
+<li>GCC/ any c++ compiler (latest version C++17 supported) like GCC-12.0, Apple-CLang 14.0 etc</li>
+<li>git <div class="fragment"><div class="line">% git clone https://github.com/aalbatross/streams4cpp.git</div>
+<div class="line">% conan install . --output-folder=release --build=missing</div>
 <div class="line">% cd release</div>
 <div class="line">% cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release</div>
 <div class="line">% cmake --build .</div>
 <div class="line">% ./test/streams4cpp.t </div>
 <div class="line">%  cmake --install .</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md36"></a>
-Documentation</h1>
-<p>Doxygen based documentation is generated on build, inside doc/html directory. Refer the documentation after build on any browser from doc/html/index.html. </p>
+</div><!-- fragment --> </li>
+</ul>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
