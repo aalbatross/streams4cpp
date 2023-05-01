@@ -13,17 +13,14 @@ endif()
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 conan_cmake_autodetect(settings)
 
-conan_cmake_install(PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR}
+conan_cmake_install(PATH_OR_REFERENCE ${CMAKE_CURRENT_SOURCE_DIR}
                     BUILD missing
                     OUTPUT_FOLDER ${CMAKE_BINARY_DIR}
                     REMOTE conancenter
                     SETTINGS ${settings})
 
 
-
-# include(${CMAKE_BINARY_DIR}/conan_toolchain.cmake)
-
-file(GLOB ALL_SOURCE_FILES ${PROJECT_SOURCE_DIR}/aalbatross/utils/*.h)
+file(GLOB_RECURSE ALL_SOURCE_FILES ${PROJECT_SOURCE_DIR}/aalbatross/utils/*.h)
 file(GLOB ALL_TEST_FILES ${PROJECT_SOURCE_DIR}/test/*.cpp)
 set(ALL_SOURCES ${ALL_SOURCE_FILES} ${ALL_TEST_FILES})
 
@@ -102,6 +99,5 @@ add_library(${PROJECT_NAME} INTERFACE
         )
 
 target_include_directories(${PROJECT_NAME} INTERFACE aalbatross/utils)
-file(GLOB files "${CMAKE_SOURCE_DIR}/aalbatross/utils/*.h")
-install(FILES ${files} DESTINATION include/aalbatross/utils/)
+install(FILES ${ALL_SOURCE_FILES} DESTINATION include/aalbatross/utils/)
 add_subdirectory(test)

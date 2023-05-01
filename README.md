@@ -169,12 +169,10 @@ filteredStream.map(toString).forEach(print);
 - git
 ```commandline
 % git clone https://github.com/aalbatross/streams4cpp.git
-% conan install . --output-folder=release --build=missing
-% cd release
-% cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
-% cmake --build .
-% ./test/streams4cpp.t 
-%  cmake --install .
+% cmake -S. -Brelease
+% cmake --build release/.
+% ./release/test/streams4cpp.t 
+%  cmake --install release/.
 ```
 
 

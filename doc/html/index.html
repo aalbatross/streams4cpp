@@ -219,11 +219,8 @@ Pre-requisites</h2>
 <li>cmake 3.25</li>
 <li>GCC/ any c++ compiler (latest version C++17 supported) like GCC-12.0, Apple-CLang 14.0 etc</li>
 <li>git <div class="fragment"><div class="line">% git clone https://github.com/aalbatross/streams4cpp.git</div>
-<div class="line">% conan install . --output-folder=release --build=missing</div>
-<div class="line">% cd release</div>
-<div class="line">% cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release</div>
-<div class="line">% cmake --build .</div>
-<div class="line">% ./test/streams4cpp.t </div>
+<div class="line">% cmake -S. -Brelease</div>
+<div class="line">% ./release/test/streams4cpp.t </div>
 <div class="line">%  cmake --install .</div>
 </div><!-- fragment --> </li>
 </ul>
