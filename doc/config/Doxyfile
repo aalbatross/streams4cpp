@@ -5,8 +5,8 @@
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = streams4cpp
-PROJECT_NUMBER         = 0.0.0
-PROJECT_BRIEF          = This is a header only C++ library which implements jvm like streams in C++.
+PROJECT_NUMBER         = 0.0.1
+PROJECT_BRIEF          = Functional streaming in C++.
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       = ./doc
 CREATE_SUBDIRS         = NO

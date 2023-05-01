@@ -3,15 +3,40 @@ project(streams4cpp CXX)
 set(CMAKE_CXX_STANDARD 17)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-include(${CMAKE_BINARY_DIR}/conan_toolchain.cmake)
+if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+  message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+  file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/0.18.1/conan.cmake"
+                "${CMAKE_BINARY_DIR}/conan.cmake"
+                TLS_VERIFY ON)
+endif()
+
+include(${CMAKE_BINARY_DIR}/conan.cmake)
+conan_cmake_autodetect(settings)
+
+conan_cmake_install(PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR}
+                    BUILD missing
+                    OUTPUT_FOLDER ${CMAKE_BINARY_DIR}
+                    REMOTE conancenter
+                    SETTINGS ${settings})
+
+
+
+# include(${CMAKE_BINARY_DIR}/conan_toolchain.cmake)
 
 file(GLOB ALL_SOURCE_FILES ${PROJECT_SOURCE_DIR}/aalbatross/utils/*.h)
 file(GLOB ALL_TEST_FILES ${PROJECT_SOURCE_DIR}/test/*.cpp)
 set(ALL_SOURCES ${ALL_SOURCE_FILES} ${ALL_TEST_FILES})
 
-add_custom_target(
+
+find_program(
+        CLANG_FORMAT_EXE
+        NAMES clang-format
+)
+if (CLANG_FORMAT_EXE)
+    message(STATUS "clang-format found: ${CLANG_FORMAT_EXE}")
+    add_custom_target(
         clangformat ALL
-        COMMAND /usr/local/bin/clang-format
+        COMMAND clang-format
         --style=file
         --Werror
         --dry-run
@@ -19,7 +44,10 @@ add_custom_target(
         ${ALL_SOURCES}
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         COMMENT "Running CLang Format"
-)
+    )
+else ()
+    message(STATUS "clang-format not found.")
+endif ()
 
 find_program(
         CLANG_TIDY_EXE
