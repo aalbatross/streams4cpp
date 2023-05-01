@@ -51,8 +51,8 @@ auto newStream = stream.map(doubler).map(plusHunderead);
 ### Filtering stream
 
 ```
-const auto greaterThan4 = [](auto number) { return number > 105.0; };
-auto filteredStream = newStream.filter(greaterThan4);
+const auto greaterThan = [](auto number) { return number > 105.0; };
+auto filteredStream = newStream.filter(greaterThan);
 ```
 
 [106.0, 108.0, 110.0]
