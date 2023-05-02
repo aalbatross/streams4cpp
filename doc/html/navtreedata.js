@@ -49,6 +49,7 @@ var NAVTREE =
         [ "Summing", "md_doc__collectors.html#autotoc_md18", null ]
       ] ]
     ] ],
+    [ "Illustrative Usage", "md_doc__usage.html", null ],
     [ "LICENSE", "md_venv_lib_python3_11_site_packages_conan_2_0_4_dist_info__l_i_c_e_n_s_e.html", null ],
     [ "LICENSE", "md_venv_lib_python3_11_site_packages_idna_3_4_dist_info__l_i_c_e_n_s_e.html", null ],
     [ "Namespaces", "namespaces.html", [
@@ -76,7 +77,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"structaalbatross_1_1utils_1_1collection_1_1_s_u_set.html#ab584ba3c758da44e2d656897fde918f2"
+"structaalbatross_1_1utils_1_1collection_1_1_s_vector.html#a0d6839fac47b4a1daf7957457b161efa"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
