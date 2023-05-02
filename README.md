@@ -5,7 +5,7 @@ with map/reduce style stream based one-liner operations on bounded and unbounded
 
 Streams differ from collections in several ways:
 
-- **No storage**:  A stream does not store elements; instead, it transforms element from backing source such as a data structure, an array, a generator function, or an I/O channel, through a series of computational operations.
+- **No storage**:  AType stream does not store elements; instead, it transforms element from backing source such as a data structure, an array, a generator function, or an I/O channel, through a series of computational operations.
 - **Functional in nature**: Streaming operations are defined as functions, which produces a result, but does not modify its source.
 - **Lazy evaluation**: Stream is evaluated in lazily on reduce or collect operation, all the other operations like map, filter, distinct, sorted which are non-terminal operations only updates the internal computation. 
 - **Possibly unbounded**: While collections have a finite size, streams need not. Short-circuiting operations such as limit(n) or findFirst() can allow computations on infinite streams to complete in finite time.
@@ -29,8 +29,7 @@ An example of using Streams is provided below:
 
 ```
 std::vector data{1, 2, 3, 4, 5};
-ListIterator iter(data.begin(), data.end());
-Stream<int> stream(iter);
+Stream<int> stream(data.begin(), data.end());
 ```
 or
 ```
@@ -81,8 +80,7 @@ filteredStream.map(toString).forEach(print);
 
 ```
 std::vector data{1, 2, 3, 4, 5};
-ListIterator iter(data.begin(), data.end());
-Stream<int> stream(iter);
+Stream<int> stream(data.begin(), data.end());
 auto filteredStream = stream.map(doubler).filter(greaterThan4);
 EXPECT_THAT(filteredStream.toVector(), ::testing::ElementsAre(6, 8, 10));
 EXPECT_THAT(filteredStream.toSet(), ::testing::UnorderedElementsAre(6, 8, 10));
@@ -96,8 +94,7 @@ EXPECT_THAT(filteredStream.toVector(), ::testing::ElementsAre(6, 8, 10));
 
 ```
 std::vector data{21, 20, 10, 16, 40, 50};
-ListIterator iter(data.begin(), data.end());
-Stream<int> stream(iter);
+Stream<int> stream(data.begin(), data.end());
 EXPECT_EQ(stream.head().value(), 21);
 EXPECT_EQ(stream.tail().value(), 50);
 EXPECT_EQ(stream.find([](auto num) { return num % 25 == 0; }).value(), 50);
@@ -107,8 +104,7 @@ EXPECT_EQ(stream.find([](auto num) { return num % 25 == 0; }).value(), 50);
 
 ```
 std::vector data{121, 12, 123, 41, 59};
-ListIterator iter(data.begin(), data.end());
-Stream<int> stream(iter);
+Stream<int> stream(data.begin(), data.end());
 EXPECT_THAT(stream.sorted(std::greater<>()).toVector(), ::testing::ElementsAre(123, 121, 59, 41, 12));
 EXPECT_THAT(stream.sorted(std::less<>()).toVector(), ::testing::ElementsAre(12, 41, 59, 121, 123));
 ```
@@ -117,8 +113,7 @@ EXPECT_THAT(stream.sorted(std::less<>()).toVector(), ::testing::ElementsAre(12, 
 
 ```
 std::vector data{1, 2, 3, 4, 5, 2, 3, 4, 5};
-ListIterator iter(data.begin(), data.end());
-Stream<int> stream(iter);
+Stream<int> stream(data.begin(), data.end());
 EXPECT_THAT(stream.distinct().toVector(), ::testing::ElementsAre(1, 2, 3, 4, 5));
 ```
 
@@ -126,8 +121,7 @@ EXPECT_THAT(stream.distinct().toVector(), ::testing::ElementsAre(1, 2, 3, 4, 5))
 
 ```
 std::vector data{21, 20, 10, 16, 40, 50};
-ListIterator iter(data.begin(), data.end());
-Stream<int> stream(iter);
+Stream<int> stream(data.begin(), data.end());
 EXPECT_TRUE(stream.allMatch([](auto num) { return num >= 10; }));
 EXPECT_FALSE(stream.allMatch([](auto num) { return num >= 20; }));
 EXPECT_TRUE(stream.anyMatch([](auto num) { return num >= 20; }));
@@ -140,8 +134,7 @@ EXPECT_FALSE(stream.noneMatch([](auto num) { return num >= 0; }));
 
 ```
 std::vector data{21, 20, 10, 16, 40, 50};
-ListIterator iter(data.begin(), data.end());
-Stream<int> stream(iter);
+Stream<int> stream(vector.begin(), vector.end());
 EXPECT_THAT(stream.reverse().toVector(), ::testing::ElementsAre(50, 40, 16, 10, 20, 21));
 ```
 
@@ -149,8 +142,7 @@ EXPECT_THAT(stream.reverse().toVector(), ::testing::ElementsAre(50, 40, 16, 10, 
 
 ```
 std::vector data{21, 20, 29, 10, 17, 16, 40, 50};
-ListIterator iter(data.begin(), data.end());
-Stream<int> stream(iter);
+Stream<int> stream(data.begin(), data.end());
 auto result = stream.groupedBy([](auto number) { return number % 2 == 0 ? "even" : "odd"; });
 EXPECT_EQ(2, result.size());
 EXPECT_THAT(result["even"], ::testing::ElementsAre(20, 10, 16, 40, 50));
@@ -168,7 +160,6 @@ EXPECT_THAT(result["odd"], ::testing::ElementsAre(21, 29, 17));
 - git
 
 ```commandline
-
 % git clone https://github.com/aalbatross/streams4cpp.git
 % cmake -S. -Brelease -DCMAKE_BUILD_TYPE=Release
 % cmake --build release/.

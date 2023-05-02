@@ -96,7 +96,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="textblock"><p><a class="anchor" id="md_README"></a> streams4cpp is a header only C++ library which implements jvm like streams in C++. It aims to provide C++ programmers with map/reduce style stream based one-liner operations on bounded and unbounded container of elements.</p>
 <p>Streams differ from collections in several ways:</p>
 <ul>
-<li><b>No storage</b>: A stream does not store elements; instead, it transforms element from backing source such as a data structure, an array, a generator function, or an I/O channel, through a series of computational operations.</li>
+<li><b>No storage</b>: AType stream does not store elements; instead, it transforms element from backing source such as a data structure, an array, a generator function, or an I/O channel, through a series of computational operations.</li>
 <li><b>Functional in nature</b>: Streaming operations are defined as functions, which produces a result, but does not modify its source.</li>
 <li><b>Lazy evaluation</b>: Stream is evaluated in lazily on reduce or collect operation, all the other operations like map, filter, distinct, sorted which are non-terminal operations only updates the internal computation.</li>
 <li><b>Possibly unbounded</b>: While collections have a finite size, streams need not. Short-circuiting operations such as limit(n) or findFirst() can allow computations on infinite streams to complete in finite time.</li>
@@ -119,8 +119,7 @@ Illustrative Usage</h1>
 <h2><a class="anchor" id="autotoc_md23"></a>
 Creating Stream</h2>
 <div class="fragment"><div class="line">std::vector data{1, 2, 3, 4, 5};</div>
-<div class="line">ListIterator iter(data.begin(), data.end());</div>
-<div class="line">Stream&lt;int&gt; stream(iter);</div>
+<div class="line">Stream&lt;int&gt; stream(data.begin(), data.end());</div>
 </div><!-- fragment --><p> or </p><div class="fragment"><div class="line">collection::SVector svector{1, 2, 3, 4, 5};</div>
 <div class="line">auto stream = svector.stream();</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md24"></a>
@@ -151,8 +150,7 @@ Printing Stream</h2>
 <h2><a class="anchor" id="autotoc_md28"></a>
 Stream to containers</h2>
 <div class="fragment"><div class="line">std::vector data{1, 2, 3, 4, 5};</div>
-<div class="line">ListIterator iter(data.begin(), data.end());</div>
-<div class="line">Stream&lt;int&gt; stream(iter);</div>
+<div class="line">Stream&lt;int&gt; stream(data.begin(), data.end());</div>
 <div class="line">auto filteredStream = stream.map(doubler).filter(greaterThan4);</div>
 <div class="line">EXPECT_THAT(filteredStream.toVector(), ::testing::ElementsAre(6, 8, 10));</div>
 <div class="line">EXPECT_THAT(filteredStream.toSet(), ::testing::UnorderedElementsAre(6, 8, 10));</div>
@@ -163,29 +161,25 @@ Stream to containers</h2>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md29"></a>
 Stream head,tail and find</h2>
 <div class="fragment"><div class="line">std::vector data{21, 20, 10, 16, 40, 50};</div>
-<div class="line">ListIterator iter(data.begin(), data.end());</div>
-<div class="line">Stream&lt;int&gt; stream(iter);</div>
+<div class="line">Stream&lt;int&gt; stream(data.begin(), data.end());</div>
 <div class="line">EXPECT_EQ(stream.head().value(), 21);</div>
 <div class="line">EXPECT_EQ(stream.tail().value(), 50);</div>
 <div class="line">EXPECT_EQ(stream.find([](auto num) { return num % 25 == 0; }).value(), 50);</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md30"></a>
 Sorted Stream</h2>
 <div class="fragment"><div class="line">std::vector data{121, 12, 123, 41, 59};</div>
-<div class="line">ListIterator iter(data.begin(), data.end());</div>
-<div class="line">Stream&lt;int&gt; stream(iter);</div>
+<div class="line">Stream&lt;int&gt; stream(data.begin(), data.end());</div>
 <div class="line">EXPECT_THAT(stream.sorted(std::greater&lt;&gt;()).toVector(), ::testing::ElementsAre(123, 121, 59, 41, 12));</div>
 <div class="line">EXPECT_THAT(stream.sorted(std::less&lt;&gt;()).toVector(), ::testing::ElementsAre(12, 41, 59, 121, 123));</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md31"></a>
 Distinct element stream</h2>
 <div class="fragment"><div class="line">std::vector data{1, 2, 3, 4, 5, 2, 3, 4, 5};</div>
-<div class="line">ListIterator iter(data.begin(), data.end());</div>
-<div class="line">Stream&lt;int&gt; stream(iter);</div>
+<div class="line">Stream&lt;int&gt; stream(data.begin(), data.end());</div>
 <div class="line">EXPECT_THAT(stream.distinct().toVector(), ::testing::ElementsAre(1, 2, 3, 4, 5));</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md32"></a>
 Match on stream</h2>
 <div class="fragment"><div class="line">std::vector data{21, 20, 10, 16, 40, 50};</div>
-<div class="line">ListIterator iter(data.begin(), data.end());</div>
-<div class="line">Stream&lt;int&gt; stream(iter);</div>
+<div class="line">Stream&lt;int&gt; stream(data.begin(), data.end());</div>
 <div class="line">EXPECT_TRUE(stream.allMatch([](auto num) { return num &gt;= 10; }));</div>
 <div class="line">EXPECT_FALSE(stream.allMatch([](auto num) { return num &gt;= 20; }));</div>
 <div class="line">EXPECT_TRUE(stream.anyMatch([](auto num) { return num &gt;= 20; }));</div>
@@ -195,14 +189,12 @@ Match on stream</h2>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md33"></a>
 Reversed Stream</h2>
 <div class="fragment"><div class="line">std::vector data{21, 20, 10, 16, 40, 50};</div>
-<div class="line">ListIterator iter(data.begin(), data.end());</div>
-<div class="line">Stream&lt;int&gt; stream(iter);</div>
+<div class="line">Stream&lt;int&gt; stream(vector.begin(), vector.end());</div>
 <div class="line">EXPECT_THAT(stream.reverse().toVector(), ::testing::ElementsAre(50, 40, 16, 10, 20, 21));</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md34"></a>
 Group by on Stream</h2>
 <div class="fragment"><div class="line">std::vector data{21, 20, 29, 10, 17, 16, 40, 50};</div>
-<div class="line">ListIterator iter(data.begin(), data.end());</div>
-<div class="line">Stream&lt;int&gt; stream(iter);</div>
+<div class="line">Stream&lt;int&gt; stream(data.begin(), data.end());</div>
 <div class="line">auto result = stream.groupedBy([](auto number) { return number % 2 == 0 ? &quot;even&quot; : &quot;odd&quot;; });</div>
 <div class="line">EXPECT_EQ(2, result.size());</div>
 <div class="line">EXPECT_THAT(result[&quot;even&quot;], ::testing::ElementsAre(20, 10, 16, 40, 50));</div>

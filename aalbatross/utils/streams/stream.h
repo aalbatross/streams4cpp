@@ -18,9 +18,9 @@
 namespace aalbatross::utils::streams {
 /**
  * \class Stream
- * \brief A sequence of elements supporting sequential and parallel aggregate operations.
+ * \brief AType sequence of elements supporting sequential and parallel aggregate operations.
  *
- * To perform a computation, stream operations are composed into a stream pipeline. A stream pipeline consists of a source (which might be an array, a collection, a generator function, an I/O channel, etc), zero or more intermediate operations (which transform a stream into another stream, such as filter(Predicate)), and a terminal operation (which produces a result or side-effect, such as count() or forEach(Consumer)). Streams are lazy; computation on the source data is only performed when the terminal operation is initiated, and source elements are consumed only as needed.
+ * To perform a computation, stream operations are composed into a stream pipeline. AType stream pipeline consists of a source (which might be an array, a collection, a generator function, an I/O channel, etc), zero or more intermediate operations (which transform a stream into another stream, such as filter(Predicate)), and a terminal operation (which produces a result or side-effect, such as count() or forEach(Consumer)). Streams are lazy; computation on the source data is only performed when the terminal operation is initiated, and source elements are consumed only as needed.
  * Collections and streams, while bearing some superficial similarities, have different goals. Collections are primarily concerned with the efficient management of, and access to, their elements. By contrast, streams do not provide a means to directly access or manipulate their elements, and are instead concerned with declaratively describing their source and the computational operations which will be performed in aggregate on that source.
  * @tparam T target stream type
  * @tparam S source stream type
@@ -35,7 +35,7 @@ struct Stream {
   struct View final {
    private:
     std::vector<S> dContainer_;
-    iterators::ListIterator<typename std::vector<S>::iterator> dIterator_;
+    std::shared_ptr<iterators::ListIterator<typename std::vector<S>::iterator>> dIterator_;
 
     std::vector<S> iteratorToContainer(iterators::Iterator<S> &iterator) {
       std::vector<S> result;
@@ -46,7 +46,7 @@ struct Stream {
     }
 
    public:
-    explicit View(iterators::Iterator<S> &iterator) : dContainer_(iteratorToContainer(iterator)), dIterator_(iterators::ListIterator(dContainer_.begin(), dContainer_.end())) {}
+    explicit View(iterators::Iterator<S> &iterator) : dContainer_(iteratorToContainer(iterator)), dIterator_(std::make_shared<iterators::ListIterator<typename std::vector<S>::iterator>>(dContainer_.begin(), dContainer_.end())) {}
 
     virtual ~View() = default;
 
@@ -61,11 +61,24 @@ struct Stream {
     }
   };
 
-  Stream(iterators::Iterator<S> &source,
+  Stream(std::shared_ptr<iterators::Iterator<S>> source,
          std::function<std::unique_ptr<iterators::Iterator<T>>(iterators::Iterator<S> &)> mapper)
       : dMapper_(std::move(mapper)), dSource_(source) {}
 
-  explicit Stream(iterators::Iterator<S> &source) : dSource_(source) {
+  explicit Stream(std::shared_ptr<iterators::Iterator<S>> &&source) : dSource_(std::forward<std::shared_ptr<iterators::Iterator<S>>>(source)) {
+    std::function<std::unique_ptr<iterators::Iterator<T>>(iterators::Iterator<S> &)> mapper =
+        [](iterators::Iterator<S> &source) {
+          std::vector<S> result;
+          while (source.hasNext()) {
+            result.emplace_back(source.next().value());
+          }
+          return std::make_unique<iterators::ListIteratorView<std::vector<S>>>(result);
+        };
+    dMapper_ = mapper;
+  }
+
+  template<typename Iter>
+  explicit Stream(Iter &&begin, Iter &&end) : dSource_(std::make_shared<iterators::ListIterator<Iter>>(std::forward<Iter>(begin), std::forward<Iter>(end))) {
     std::function<std::unique_ptr<iterators::Iterator<T>>(iterators::Iterator<S> &)> mapper =
         [](iterators::Iterator<S> &source) {
           std::vector<S> result;
@@ -288,7 +301,7 @@ struct Stream {
   }
   /**
    * \fn Stream<T, S> reverse()
-   * \brief A list consisting of all elements of this list in reverse order.
+   * \brief AType list consisting of all elements of this list in reverse order.
    * @return a new stream representing original stream elements in reverse order.
    */
   Stream<T, S> reverse() {
@@ -351,8 +364,8 @@ struct Stream {
    * @return the result of the reduction
    */
   T reduce(T identity, std::function<T(T, T)> binaryAccumulator) {
-    dSource_.reset();
-    auto result = dMapper_(dSource_);
+    dSource_->reset();
+    auto result = dMapper_(*dSource_);
     T output = identity;
     while (result->hasNext()) {
       output = binaryAccumulator(output, result->next().value());
@@ -365,8 +378,8 @@ struct Stream {
    * @return size of the stream.
    */
   size_t count() {
-    dSource_.reset();
-    auto result = dMapper_(dSource_);
+    dSource_->reset();
+    auto result = dMapper_(*dSource_);
     size_t count = 0;
     while (result->hasNext()) {
       count++;
@@ -382,8 +395,8 @@ struct Stream {
    */
   template<typename Consumer>
   void forEach(Consumer &&consumer) {
-    dSource_.reset();
-    auto result = dMapper_(dSource_);
+    dSource_->reset();
+    auto result = dMapper_(*dSource_);
     while (result->hasNext()) {
       consumer(result->next().value());
     }
@@ -430,17 +443,17 @@ struct Stream {
    * @return Stream<S>::View of the Stream
    */
   View view() {
-    return View(dSource_);
+    return View(*dSource_);
   }
 
  private:
   std::function<std::unique_ptr<iterators::Iterator<T>>(iterators::Iterator<S> &)> dMapper_;
-  iterators::Iterator<S> &dSource_;
+  std::shared_ptr<iterators::Iterator<S>> dSource_;
 
   template<typename Container>
   inline auto to() {
-    dSource_.reset();
-    auto inter = dMapper_(dSource_);
+    dSource_->reset();
+    auto inter = dMapper_(*dSource_);
     Container result;
     while (inter->hasNext()) {
       result.emplace_back(inter->next().value());
@@ -450,8 +463,8 @@ struct Stream {
 
   template<typename Container>
   inline auto toSetImpl() {
-    dSource_.reset();
-    auto inter = dMapper_(dSource_);
+    dSource_->reset();
+    auto inter = dMapper_(*dSource_);
     Container result;
     while (inter->hasNext()) {
       result.emplace(inter->next().value());

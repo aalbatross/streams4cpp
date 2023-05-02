@@ -16,8 +16,7 @@ const auto toString = [](const auto element) { return std::to_string(element) + 
 
 TEST(StreamTestFixture, ReturnTransformedStream) {
   std::vector data{1, 2, 3, 4, 5};
-  ListIterator iter(data.begin(), data.end());
-  Stream<int> stream(iter);
+  Stream<int> stream(data.begin(), data.end());
   auto newStream = stream.map(doubler);
   newStream.map(toString).forEach(print);
   auto sum = newStream.reduce(0, sumAccumulator);
@@ -28,8 +27,7 @@ TEST(StreamTestFixture, ReturnTransformedStream) {
 
 TEST(StreamTestFixture, ReturnFilterStream) {
   std::vector data{1, 2, 3, 4, 5};
-  ListIterator iter(data.begin(), data.end());
-  Stream<int> stream(iter);
+  Stream<int> stream(data.begin(), data.end());
   auto filteredStream = stream.map(doubler).filter(greaterThan4);
   EXPECT_THAT(filteredStream.toVector(), ::testing::ElementsAre(6, 8, 10));
   EXPECT_THAT(filteredStream.toSet(), ::testing::UnorderedElementsAre(6, 8, 10));
@@ -43,40 +41,37 @@ TEST(StreamTestFixture, ReturnFilterStream) {
 
 TEST(StreamTestFixture, ReturnSortedStream) {
   std::vector data{121, 12, 123, 41, 59};
-  ListIterator iter(data.begin(), data.end());
-  Stream<int> stream(iter);
+  Stream<int> stream(data.begin(), data.end());
   EXPECT_THAT(stream.sorted(std::greater<>()).toVector(), ::testing::ElementsAre(123, 121, 59, 41, 12));
   EXPECT_THAT(stream.sorted(std::less<>()).toVector(), ::testing::ElementsAre(12, 41, 59, 121, 123));
 }
 
 TEST(StreamTestFixture, ReturnDistinctStream) {
   std::vector data{1, 2, 3, 4, 5, 2, 3, 4, 5};
-  ListIterator iter(data.begin(), data.end());
-  Stream<int> stream(iter);
+  Stream<int> stream(data.begin(), data.end());
   EXPECT_THAT(stream.distinct().toVector(), ::testing::ElementsAre(1, 2, 3, 4, 5));
 }
 
 TEST(StreamTestFixture, ReturnSkipStream) {
   std::vector data{1, 2, 3, 4, 5, 6, 7};
-  ListIterator iter(data.begin(), data.end());
-  Stream<int> stream(iter);
+  Stream<int> stream(data.begin(), data.end());
   EXPECT_THAT(stream.skip(2).toVector(), ::testing::ElementsAre(3, 4, 5, 6, 7));
 }
 
 TEST(StreamTestFixture, ReturnMaxMinSumStream) {
   std::vector data{21, 20, 10, 16, 40, 50};
-  ListIterator iter(data.begin(), data.end());
-  Stream<int> stream(iter);
+  Stream<int> stream(data.begin(), data.end());
   EXPECT_EQ(stream.sum(), 157);
   EXPECT_THAT(stream.reverse().toVector(), ::testing::ElementsAre(50, 40, 16, 10, 20, 21));
+  EXPECT_TRUE(stream.max().has_value());
+  EXPECT_TRUE(stream.min().has_value());
   EXPECT_EQ(stream.max().value(), 50);
   EXPECT_EQ(stream.min().value(), 10);
 }
 
 TEST(StreamTestFixture, ReturnMaxMinStream) {
   std::vector<int> data{};
-  ListIterator iter(data.begin(), data.end());
-  Stream<int> stream(iter);
+  Stream<int> stream(data.begin(), data.end());
   EXPECT_EQ(stream.sum(), 0);
   EXPECT_THAT(stream.toVector(), ::testing::ElementsAre());
   EXPECT_THAT(stream.reverse().toVector(), ::testing::ElementsAre());
@@ -86,8 +81,7 @@ TEST(StreamTestFixture, ReturnMaxMinStream) {
 
 TEST(StreamTestFixture, ReturnMatchStream) {
   std::vector data{21, 20, 10, 16, 40, 50};
-  ListIterator iter(data.begin(), data.end());
-  Stream<int> stream(iter);
+  Stream<int> stream(data.begin(), data.end());
   EXPECT_TRUE(stream.allMatch([](auto num) { return num >= 10; }));
   EXPECT_FALSE(stream.allMatch([](auto num) { return num >= 20; }));
   EXPECT_TRUE(stream.anyMatch([](auto num) { return num >= 20; }));
@@ -98,8 +92,9 @@ TEST(StreamTestFixture, ReturnMatchStream) {
 
 TEST(StreamTestFixture, ReturnFindFirstStream) {
   std::vector data{21, 20, 10, 16, 40, 50};
-  ListIterator iter(data.begin(), data.end());
-  Stream<int> stream(iter);
+  Stream<int> stream(data.begin(), data.end());
+  EXPECT_TRUE(stream.head().has_value());
+  EXPECT_TRUE(stream.tail().has_value());
   EXPECT_EQ(stream.head().value(), 21);
   EXPECT_EQ(stream.tail().value(), 50);
   EXPECT_EQ(stream.find([](auto num) { return num % 25 == 0; }).value(), 50);
@@ -107,8 +102,7 @@ TEST(StreamTestFixture, ReturnFindFirstStream) {
 
 TEST(StreamTestFixture, ReturnGroupedByStream) {
   std::vector data{21, 20, 29, 10, 17, 16, 40, 50};
-  ListIterator iter(data.begin(), data.end());
-  Stream<int> stream(iter);
+  Stream<int> stream(data.begin(), data.end());
   auto result = stream.groupedBy([](auto number) { return number % 2 == 0 ? "even" : "odd"; });
   EXPECT_EQ(2, result.size());
   EXPECT_THAT(result["even"], ::testing::ElementsAre(20, 10, 16, 40, 50));
@@ -117,8 +111,7 @@ TEST(StreamTestFixture, ReturnGroupedByStream) {
 
 Stream<int>::View getStream() {
   std::vector data{21, 20, 29, 10, 17, 16, 40, 50};
-  ListIterator iter(data.begin(), data.end());
-  Stream<int> stream(iter);
+  Stream<int> stream(data.begin(), data.end());
   return stream.view();
 }
 

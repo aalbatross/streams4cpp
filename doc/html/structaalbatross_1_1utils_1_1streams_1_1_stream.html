@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('structaalbatross_1_1utils_1_1streams_1
 </div><!--header-->
 <div class="contents">
 
-<p>A sequence of elements supporting sequential and parallel aggregate operations.  
+<p>AType sequence of elements supporting sequential and parallel aggregate operations.  
  <a href="structaalbatross_1_1utils_1_1streams_1_1_stream.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="stream_8h_source.html">stream.h</a>&gt;</code></p>
@@ -106,15 +106,18 @@ $(document).ready(function(){initNavTree('structaalbatross_1_1utils_1_1streams_1
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream_1_1_view.html">View</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a view of underlying <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="A sequence of elements supporting sequential and parallel aggregate operations.">Stream</a>.  <a href="structaalbatross_1_1utils_1_1streams_1_1_stream_1_1_view.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a view of underlying <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="AType sequence of elements supporting sequential and parallel aggregate operations.">Stream</a>.  <a href="structaalbatross_1_1utils_1_1streams_1_1_stream_1_1_view.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a249b8782adeb76677dfd6ee39d96a3ee"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html#a249b8782adeb76677dfd6ee39d96a3ee">Stream</a> (<a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; S &gt; &amp;source, std::function&lt; std::unique_ptr&lt; <a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; T &gt; &gt;(<a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; S &gt; &amp;)&gt; mapper)</td></tr>
-<tr class="separator:a249b8782adeb76677dfd6ee39d96a3ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac799217425aa695d0d22e25fc602cc2b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html#ac799217425aa695d0d22e25fc602cc2b">Stream</a> (<a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; S &gt; &amp;source)</td></tr>
-<tr class="separator:ac799217425aa695d0d22e25fc602cc2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4365896733d44b155ad5f6f3948a6523"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html#a4365896733d44b155ad5f6f3948a6523">Stream</a> (std::shared_ptr&lt; <a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; S &gt; &gt; source, std::function&lt; std::unique_ptr&lt; <a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; T &gt; &gt;(<a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; S &gt; &amp;)&gt; mapper)</td></tr>
+<tr class="separator:a4365896733d44b155ad5f6f3948a6523"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab792fc5392cbe829658ebbc437146d9f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html#ab792fc5392cbe829658ebbc437146d9f">Stream</a> (std::shared_ptr&lt; <a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; S &gt; &gt; &amp;&amp;source)</td></tr>
+<tr class="separator:ab792fc5392cbe829658ebbc437146d9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34bce9d4eb452a155ef81089c899792d"><td class="memTemplParams" colspan="2">template&lt;typename Iter &gt; </td></tr>
+<tr class="memitem:a34bce9d4eb452a155ef81089c899792d"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html#a34bce9d4eb452a155ef81089c899792d">Stream</a> (Iter &amp;&amp;begin, Iter &amp;&amp;end)</td></tr>
+<tr class="separator:a34bce9d4eb452a155ef81089c899792d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d4a329c78c2a2ca874be8edba2bb79d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html#a9d4a329c78c2a2ca874be8edba2bb79d">allMatch</a> (std::function&lt; bool(T)&gt; predicate)</td></tr>
 <tr class="memdesc:a9d4a329c78c2a2ca874be8edba2bb79d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether all elements of this stream match the provided predicate. May not evaluate the predicate on all elements if not necessary for determining the result. If the stream is empty then true is returned and the predicate is not evaluated.  <br /></td></tr>
 <tr class="separator:a9d4a329c78c2a2ca874be8edba2bb79d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,7 +159,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aaf9a3cc5f5004253135ec25f7838e30c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a stream consisting of the distinct elements (according to element1 == element2) of this stream.  <br /></td></tr>
 <tr class="separator:aaf9a3cc5f5004253135ec25f7838e30c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25f3163bac8029ba1221b87081496f4a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html">Stream</a>&lt; T, S &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html#a25f3163bac8029ba1221b87081496f4a">reverse</a> ()</td></tr>
-<tr class="memdesc:a25f3163bac8029ba1221b87081496f4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list consisting of all elements of this list in reverse order.  <br /></td></tr>
+<tr class="memdesc:a25f3163bac8029ba1221b87081496f4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">AType list consisting of all elements of this list in reverse order.  <br /></td></tr>
 <tr class="separator:a25f3163bac8029ba1221b87081496f4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ed1e8eed678c16e9ee842a76c8903b5"><td class="memItemLeft" align="right" valign="top">std::optional&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html#a4ed1e8eed678c16e9ee842a76c8903b5">max</a> ()</td></tr>
 <tr class="memdesc:a4ed1e8eed678c16e9ee842a76c8903b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Max of all the elements in this stream.  <br /></td></tr>
@@ -195,13 +198,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a5b4567e0515bde107a0c817351a94939"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns deque of input elements.  <br /></td></tr>
 <tr class="separator:a5b4567e0515bde107a0c817351a94939"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a618f2ae42a37d92f0e58b171c6e4e19e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream_1_1_view.html">View</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html#a618f2ae42a37d92f0e58b171c6e4e19e">view</a> ()</td></tr>
-<tr class="memdesc:a618f2ae42a37d92f0e58b171c6e4e19e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="A sequence of elements supporting sequential and parallel aggregate operations.">Stream</a> <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream_1_1_view.html" title="Creates a view of underlying Stream.">View</a> which copies internal iterator.  <br /></td></tr>
+<tr class="memdesc:a618f2ae42a37d92f0e58b171c6e4e19e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="AType sequence of elements supporting sequential and parallel aggregate operations.">Stream</a> <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream_1_1_view.html" title="Creates a view of underlying Stream.">View</a> which copies internal iterator.  <br /></td></tr>
 <tr class="separator:a618f2ae42a37d92f0e58b171c6e4e19e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T, typename S = T&gt;<br />
-class aalbatross::utils::streams::Stream&lt; T, S &gt;</div><p>A sequence of elements supporting sequential and parallel aggregate operations. </p>
-<p>To perform a computation, stream operations are composed into a stream pipeline. A stream pipeline consists of a source (which might be an array, a collection, a generator function, an I/O channel, etc), zero or more intermediate operations (which transform a stream into another stream, such as filter(Predicate)), and a terminal operation (which produces a result or side-effect, such as <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html#a93cfed41d531e1898a783c45919fabf6" title="Returns the count of elements in this stream. This is a special case of a reduction and is equivalent...">count()</a> or forEach(Consumer)). Streams are lazy; computation on the source data is only performed when the terminal operation is initiated, and source elements are consumed only as needed. Collections and streams, while bearing some superficial similarities, have different goals. Collections are primarily concerned with the efficient management of, and access to, their elements. By contrast, streams do not provide a means to directly access or manipulate their elements, and are instead concerned with declaratively describing their source and the computational operations which will be performed in aggregate on that source. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+class aalbatross::utils::streams::Stream&lt; T, S &gt;</div><p>AType sequence of elements supporting sequential and parallel aggregate operations. </p>
+<p>To perform a computation, stream operations are composed into a stream pipeline. AType stream pipeline consists of a source (which might be an array, a collection, a generator function, an I/O channel, etc), zero or more intermediate operations (which transform a stream into another stream, such as filter(Predicate)), and a terminal operation (which produces a result or side-effect, such as <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html#a93cfed41d531e1898a783c45919fabf6" title="Returns the count of elements in this stream. This is a special case of a reduction and is equivalent...">count()</a> or forEach(Consumer)). Streams are lazy; computation on the source data is only performed when the terminal operation is initiated, and source elements are consumed only as needed. Collections and streams, while bearing some superficial similarities, have different goals. Collections are primarily concerned with the efficient management of, and access to, their elements. By contrast, streams do not provide a means to directly access or manipulate their elements, and are instead concerned with declaratively describing their source and the computational operations which will be performed in aggregate on that source. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>target stream type </td></tr>
     <tr><td class="paramname">S</td><td>source stream type </td></tr>
@@ -209,8 +212,8 @@ class aalbatross::utils::streams::Stream&lt; T, S &gt;</div><p>A sequence of ele
   </dd>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a249b8782adeb76677dfd6ee39d96a3ee" name="a249b8782adeb76677dfd6ee39d96a3ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a249b8782adeb76677dfd6ee39d96a3ee">&#9670;&#160;</a></span>Stream() <span class="overload">[1/2]</span></h2>
+<a id="a4365896733d44b155ad5f6f3948a6523" name="a4365896733d44b155ad5f6f3948a6523"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4365896733d44b155ad5f6f3948a6523">&#9670;&#160;</a></span>Stream() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -223,7 +226,7 @@ template&lt;typename T , typename S  = T&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html">aalbatross::utils::streams::Stream</a>&lt; T, S &gt;::Stream </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; S &gt; &amp;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; S &gt; &gt;&#160;</td>
           <td class="paramname"><em>source</em>, </td>
         </tr>
         <tr>
@@ -247,8 +250,8 @@ template&lt;typename T , typename S  = T&gt; </div>
 
 </div>
 </div>
-<a id="ac799217425aa695d0d22e25fc602cc2b" name="ac799217425aa695d0d22e25fc602cc2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac799217425aa695d0d22e25fc602cc2b">&#9670;&#160;</a></span>Stream() <span class="overload">[2/2]</span></h2>
+<a id="ab792fc5392cbe829658ebbc437146d9f" name="ab792fc5392cbe829658ebbc437146d9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab792fc5392cbe829658ebbc437146d9f">&#9670;&#160;</a></span>Stream() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -261,9 +264,49 @@ template&lt;typename T , typename S  = T&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html">aalbatross::utils::streams::Stream</a>&lt; T, S &gt;::Stream </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; S &gt; &amp;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; S &gt; &gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>source</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a34bce9d4eb452a155ef81089c899792d" name="a34bce9d4eb452a155ef81089c899792d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34bce9d4eb452a155ef81089c899792d">&#9670;&#160;</a></span>Stream() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename S  = T&gt; </div>
+<div class="memtemplate">
+template&lt;typename Iter &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html">aalbatross::utils::streams::Stream</a>&lt; T, S &gt;::Stream </td>
+          <td>(</td>
+          <td class="paramtype">Iter &amp;&amp;&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iter &amp;&amp;&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -473,7 +516,7 @@ template&lt;typename T , typename S  = T&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="A sequence of elements supporting sequential and parallel aggregate operations.">Stream</a> of filtered elements as per predicate. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="AType sequence of elements supporting sequential and parallel aggregate operations.">Stream</a> of filtered elements as per predicate. </dd></dl>
 
 </div>
 </div>
@@ -649,7 +692,7 @@ template&lt;typename T , typename S  = T&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="A sequence of elements supporting sequential and parallel aggregate operations.">Stream</a> object returning elements of the provided size. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="AType sequence of elements supporting sequential and parallel aggregate operations.">Stream</a> object returning elements of the provided size. </dd></dl>
 
 </div>
 </div>
@@ -694,7 +737,7 @@ template&lt;typename Fun &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="A sequence of elements supporting sequential and parallel aggregate operations.">Stream</a> object with composed mapper function. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="AType sequence of elements supporting sequential and parallel aggregate operations.">Stream</a> object with composed mapper function. </dd></dl>
 
 </div>
 </div>
@@ -868,7 +911,7 @@ template&lt;typename T , typename S  = T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>A list consisting of all elements of this list in reverse order. </p>
+<p>AType list consisting of all elements of this list in reverse order. </p>
 <dl class="section return"><dt>Returns</dt><dd>a new stream representing original stream elements in reverse order. </dd></dl>
 
 </div>
@@ -1182,8 +1225,8 @@ template&lt;typename T , typename S  = T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Creates <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="A sequence of elements supporting sequential and parallel aggregate operations.">Stream</a> <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream_1_1_view.html" title="Creates a view of underlying Stream.">View</a> which copies internal iterator. </p>
-<dl class="section return"><dt>Returns</dt><dd>Stream&lt;S&gt;::View of the <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="A sequence of elements supporting sequential and parallel aggregate operations.">Stream</a> </dd></dl>
+<p>Creates <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="AType sequence of elements supporting sequential and parallel aggregate operations.">Stream</a> <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream_1_1_view.html" title="Creates a view of underlying Stream.">View</a> which copies internal iterator. </p>
+<dl class="section return"><dt>Returns</dt><dd>Stream&lt;S&gt;::View of the <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html" title="AType sequence of elements supporting sequential and parallel aggregate operations.">Stream</a> </dd></dl>
 
 </div>
 </div>

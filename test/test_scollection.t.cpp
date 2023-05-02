@@ -22,9 +22,12 @@ TEST(SVectorTestFixture, ReturnTransformedStream) {
   auto stream = svector.stream().map(doubler).filter(greaterThan4);
   EXPECT_THAT(stream.toVector(), ::testing::ElementsAre(6, 8, 10));
   std::vector<int> values;
-  auto &iter = svector.iterator();
-  while (iter.hasNext()) {
-    values.push_back(iter.next().value());
+  auto iter = svector.iterator();
+  while (iter->hasNext()) {
+    auto next = iter->next();
+    if (next.has_value()) {
+      values.emplace_back(next.value());
+    }
   }
   EXPECT_THAT(values, ::testing::ElementsAre(1, 2, 3, 4, 5));
   collection::SVector<int> svector1;
@@ -37,9 +40,12 @@ TEST(SListTestFixture, ReturnTransformedStream) {
   auto stream = slist.stream().map(doubler).filter(greaterThan4);
   EXPECT_THAT(stream.toVector(), ::testing::ElementsAre(6, 8, 10));
   std::vector<int> values;
-  auto &iter = slist.iterator();
-  while (iter.hasNext()) {
-    values.push_back(iter.next().value());
+  auto iter = slist.iterator();
+  while (iter->hasNext()) {
+    auto next = iter->next();
+    if (next.has_value()) {
+      values.emplace_back(next.value());
+    }
   }
   EXPECT_THAT(values, ::testing::ElementsAre(1, 2, 3, 4, 5));
   collection::SList<int> slist1;
@@ -52,9 +58,12 @@ TEST(SDequeTestFixture, ReturnTransformedStream) {
   auto stream = sdq.stream().map(doubler).filter(greaterThan4);
   EXPECT_THAT(stream.toVector(), ::testing::ElementsAre(6, 8, 10));
   std::vector<int> values;
-  auto &iter = sdq.iterator();
-  while (iter.hasNext()) {
-    values.push_back(iter.next().value());
+  auto iter = sdq.iterator();
+  while (iter->hasNext()) {
+    auto next = iter->next();
+    if (next.has_value()) {
+      values.emplace_back(next.value());
+    }
   }
   EXPECT_THAT(values, ::testing::ElementsAre(1, 2, 3, 4, 5));
   collection::SDeque<int> sdq1;
@@ -67,9 +76,12 @@ TEST(SSetTestFixture, ReturnTransformedStream) {
   auto stream = sset.stream().map(doubler).filter(greaterThan4);
   EXPECT_THAT(stream.toVector(), ::testing::ElementsAre(6, 8, 10));
   std::vector<int> values;
-  auto &iter = sset.iterator();
-  while (iter.hasNext()) {
-    values.push_back(iter.next().value());
+  auto iter = sset.iterator();
+  while (iter->hasNext()) {
+    auto next = iter->next();
+    if (next.has_value()) {
+      values.emplace_back(next.value());
+    }
   }
   EXPECT_THAT(values, ::testing::ElementsAre(1, 2, 3, 4, 5));
   collection::SSet<int> sset1;
@@ -82,9 +94,12 @@ TEST(SUSetTestFixture, ReturnTransformedStream) {
   auto stream = sset.stream().map(doubler).filter(greaterThan4);
   EXPECT_THAT(stream.toVector(), ::testing::UnorderedElementsAre(6, 8, 10));
   std::vector<int> values;
-  auto &iter = sset.iterator();
-  while (iter.hasNext()) {
-    values.push_back(iter.next().value());
+  auto iter = sset.iterator();
+  while (iter->hasNext()) {
+    auto next = iter->next();
+    if (next.has_value()) {
+      values.emplace_back(next.value());
+    }
   }
   EXPECT_THAT(values, ::testing::UnorderedElementsAre(1, 2, 3, 4, 5));
   collection::SUSet<int> sset1;
@@ -97,9 +112,12 @@ TEST(SMapTestFixture, ReturnTransformedStream) {
   auto stream = smap.stream().map([](auto element) { return element.second; });
   EXPECT_THAT(stream.toVector(), ::testing::ElementsAre("one", "two", "three"));
   std::vector<int> values;
-  auto &iter = smap.iterator();
-  while (iter.hasNext()) {
-    values.push_back(iter.next().value().first);
+  auto iter = smap.iterator();
+  while (iter->hasNext()) {
+    auto next = iter->next();
+    if (next.has_value()) {
+      values.emplace_back(next.value().first);
+    }
   }
   EXPECT_THAT(values, ::testing::ElementsAre(1, 2, 3));
   collection::SMap<int, std::string> smap1;
@@ -112,9 +130,12 @@ TEST(SUMapTestFixture, ReturnTransformedStream) {
   auto stream = smap.stream().map([](auto element) { return element.second; });
   EXPECT_THAT(stream.toVector(), ::testing::UnorderedElementsAre("one", "two", "three"));
   std::vector<int> values;
-  auto &iter = smap.iterator();
-  while (iter.hasNext()) {
-    values.push_back(iter.next().value().first);
+  auto iter = smap.iterator();
+  while (iter->hasNext()) {
+    auto next = iter->next();
+    if (next.has_value()) {
+      values.emplace_back(next.value().first);
+    }
   }
   EXPECT_THAT(values, ::testing::UnorderedElementsAre(1, 2, 3));
   collection::SUMap<int, std::string> smap1;

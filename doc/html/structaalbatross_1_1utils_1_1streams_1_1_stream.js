@@ -1,8 +1,9 @@
 var structaalbatross_1_1utils_1_1streams_1_1_stream =
 [
     [ "View", "structaalbatross_1_1utils_1_1streams_1_1_stream_1_1_view.html", "structaalbatross_1_1utils_1_1streams_1_1_stream_1_1_view" ],
-    [ "Stream", "structaalbatross_1_1utils_1_1streams_1_1_stream.html#a249b8782adeb76677dfd6ee39d96a3ee", null ],
-    [ "Stream", "structaalbatross_1_1utils_1_1streams_1_1_stream.html#ac799217425aa695d0d22e25fc602cc2b", null ],
+    [ "Stream", "structaalbatross_1_1utils_1_1streams_1_1_stream.html#a4365896733d44b155ad5f6f3948a6523", null ],
+    [ "Stream", "structaalbatross_1_1utils_1_1streams_1_1_stream.html#ab792fc5392cbe829658ebbc437146d9f", null ],
+    [ "Stream", "structaalbatross_1_1utils_1_1streams_1_1_stream.html#a34bce9d4eb452a155ef81089c899792d", null ],
     [ "allMatch", "structaalbatross_1_1utils_1_1streams_1_1_stream.html#a9d4a329c78c2a2ca874be8edba2bb79d", null ],
     [ "anyMatch", "structaalbatross_1_1utils_1_1streams_1_1_stream.html#a11998bec9ec28f0adcd439925c2dc709", null ],
     [ "collect", "structaalbatross_1_1utils_1_1streams_1_1_stream.html#a4d6f59a8873c9cc53b23d3de14b4781e", null ],

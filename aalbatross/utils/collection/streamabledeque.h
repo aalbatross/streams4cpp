@@ -20,10 +20,10 @@ namespace aalbatross::utils::collection {
 template<typename S, typename Allocator = std::allocator<S>>
 struct SDeque final : public std::deque<S, Allocator>, public SCollection<S> {
 
-  explicit SDeque() : std::deque<S, Allocator>(), dIterator_(std::make_unique<iterators::ListIterator<typename std::deque<S>::iterator>>(this->begin(), this->end())) {}
+  explicit SDeque() : std::deque<S, Allocator>() {}
 
   explicit SDeque(std::initializer_list<S> init,
-                  const Allocator &alloc = Allocator()) : std::deque<S, Allocator>(init, alloc), dIterator_(std::make_unique<iterators::ListIterator<typename std::deque<S>::iterator>>(this->begin(), this->end())) {}
+                  const Allocator &alloc = Allocator()) : std::deque<S, Allocator>(init, alloc) {}
 
   SDeque(const SDeque &) = default;
   SDeque(SDeque &&) noexcept = default;
@@ -33,17 +33,12 @@ struct SDeque final : public std::deque<S, Allocator>, public SCollection<S> {
   ~SDeque() = default;
 
   streams::Stream<S, S> stream() override {
-    dIterator_ = std::move(std::make_unique<iterators::ListIterator<typename std::deque<S>::iterator>>(this->begin(), this->end()));
-    return streams::Stream<S, S>(*dIterator_);
+    return streams::Stream<S, S>(this->begin(), this->end());
   }
 
-  iterators::Iterator<S> &iterator() override {
-    dIterator_ = std::move(std::make_unique<iterators::ListIterator<typename std::deque<S>::iterator>>(this->begin(), this->end()));
-    return *dIterator_;
+  std::shared_ptr<iterators::Iterator<S>> iterator() override {
+    return std::make_shared<iterators::ListIteratorView<SDeque>>(*this);
   }
-
- private:
-  std::unique_ptr<iterators::Iterator<S>> dIterator_;
 };
 
 template<typename S, typename Allocator = std::allocator<S>>

@@ -6,13 +6,11 @@ var hierarchy =
       [ "aalbatross::utils::collection::SDeque< S, Allocator >", "structaalbatross_1_1utils_1_1collection_1_1_s_deque.html", null ]
     ] ],
     [ "aalbatross::utils::iterators::Iterator< T >", "structaalbatross_1_1utils_1_1iterators_1_1_iterator.html", [
-      [ "aalbatross::utils::iterators::ListIterator< typename std::vector< S >::iterator >", "structaalbatross_1_1utils_1_1iterators_1_1_list_iterator.html", null ],
       [ "aalbatross::utils::iterators::ListIterator< Iter, T >", "structaalbatross_1_1utils_1_1iterators_1_1_list_iterator.html", null ],
       [ "aalbatross::utils::iterators::ListIteratorView< Container, T >", "structaalbatross_1_1utils_1_1iterators_1_1_list_iterator_view.html", null ]
     ] ],
     [ "aalbatross::utils::iterators::Iterator< typename Container::value_type >", "structaalbatross_1_1utils_1_1iterators_1_1_iterator.html", null ],
     [ "aalbatross::utils::iterators::Iterator< typename std::iterator_traits< Iter >::value_type >", "structaalbatross_1_1utils_1_1iterators_1_1_iterator.html", null ],
-    [ "aalbatross::utils::iterators::Iterator< typename std::iterator_traits< typename std::vector< S >::iterator >::value_type >", "structaalbatross_1_1utils_1_1iterators_1_1_iterator.html", null ],
     [ "std::list", null, [
       [ "aalbatross::utils::collection::SList< S, Allocator >", "structaalbatross_1_1utils_1_1collection_1_1_s_list.html", null ]
     ] ],

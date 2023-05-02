@@ -24,14 +24,12 @@ template<
     typename KeyEqual = std::equal_to<Key>,
     typename Allocator = std::allocator<Key>>
 struct SUSet final : public std::unordered_set<Key, Hash, KeyEqual, Allocator>, public SCollection<Key> {
-  explicit SUSet(const Allocator &alloc = Allocator()) : std::unordered_set<Key, Hash, KeyEqual, Allocator>(alloc),
-                                                         dIterator_(std::make_unique<iterators::ListIterator<typename std::unordered_set<Key>::iterator>>(this->begin(), this->end())) {}
+  explicit SUSet(const Allocator &alloc = Allocator()) : std::unordered_set<Key, Hash, KeyEqual, Allocator>(alloc) {}
   explicit SUSet(std::initializer_list<Key> init,
                  size_t bucket_count = NUM_OF_BUCKETS,
                  const Hash &hash = Hash(),
                  const KeyEqual &equal = KeyEqual(),
-                 const Allocator &alloc = Allocator()) : std::unordered_set<Key, Hash, KeyEqual, Allocator>(init, bucket_count, hash, equal, alloc),
-                                                         dIterator_(std::make_unique<iterators::ListIterator<typename std::unordered_set<Key>::iterator>>(this->begin(), this->end())) {}
+                 const Allocator &alloc = Allocator()) : std::unordered_set<Key, Hash, KeyEqual, Allocator>(init, bucket_count, hash, equal, alloc) {}
   SUSet(const SUSet &) = default;
   SUSet(SUSet &&) noexcept = default;
 
@@ -40,17 +38,14 @@ struct SUSet final : public std::unordered_set<Key, Hash, KeyEqual, Allocator>, 
   ~SUSet() = default;
 
   streams::Stream<Key, Key> stream() override {
-    dIterator_ = std::move(std::make_unique<iterators::ListIterator<typename std::unordered_set<Key>::iterator>>(this->begin(), this->end()));
-    return streams::Stream<Key, Key>(*dIterator_);
+    return streams::Stream<Key, Key>(this->begin(), this->end());
   }
 
-  iterators::Iterator<Key> &iterator() override {
-    dIterator_ = std::move(std::make_unique<iterators::ListIterator<typename std::unordered_set<Key>::iterator>>(this->begin(), this->end()));
-    return *dIterator_;
+  std::shared_ptr<iterators::Iterator<Key>> iterator() override {
+    return std::make_shared<iterators::ListIteratorView<SUSet>>(*this);
   }
 
  private:
-  std::unique_ptr<iterators::Iterator<Key>> dIterator_;
   static const size_t NUM_OF_BUCKETS = 10;
 };
 }// namespace aalbatross::utils::collection

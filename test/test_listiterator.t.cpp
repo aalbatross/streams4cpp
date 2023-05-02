@@ -10,7 +10,10 @@ TEST(ListIteratorFixture, ReturnListOfValues) {
 
   std::vector<int> out;
   while (iter.hasNext()) {
-    out.emplace_back(iter.next().value());
+    auto next = iter.next();
+    if (next.has_value()) {
+      out.emplace_back(next.value());
+    }
   }
 
   ASSERT_EQ(out.size(), vec.size());
@@ -23,7 +26,10 @@ TEST(ListIteratorFixture, ReturnListOfStrings) {
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
-    out.emplace_back(iter.next().value());
+    auto next = iter.next();
+    if (next.has_value()) {
+      out.emplace_back(next.value());
+    }
   }
 
   ASSERT_EQ(out.size(), vec.size());
@@ -37,13 +43,19 @@ TEST(ListIteratorFivecture, ReturnListOfStringsWithReplay) {
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
-    out.emplace_back(iter.next().value());
+    auto next = iter.next();
+    if (next.has_value()) {
+      out.emplace_back(next.value());
+    }
   }
 
   iter.reset();
   std::vector<std::string> out1;
   while (iter.hasNext()) {
-    out1.emplace_back(iter.next().value());
+    auto next = iter.next();
+    if (next.has_value()) {
+      out1.emplace_back(next.value());
+    }
   }
 
   ASSERT_EQ(out.size(), vec.size());
@@ -61,13 +73,19 @@ TEST(ListIteratorFixture, ReturnListOfArraysWithReplay) {
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
-    out.emplace_back(iter.next().value());
+    auto next = iter.next();
+    if (next.has_value()) {
+      out.emplace_back(next.value());
+    }
   }
 
   iter.reset();
   std::vector<std::string> out1;
   while (iter.hasNext()) {
-    out1.emplace_back(iter.next().value());
+    auto next = iter.next();
+    if (next.has_value()) {
+      out1.emplace_back(next.value());
+    }
   }
 
   ASSERT_EQ(out.size(), arr.size());
@@ -85,13 +103,19 @@ TEST(ListIteratorFixture, ReturnSetWithReplay) {
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
-    out.emplace_back(iter.next().value());
+    auto next = iter.next();
+    if (next.has_value()) {
+      out.emplace_back(next.value());
+    }
   }
 
   iter.reset();
   std::vector<std::string> out1;
   while (iter.hasNext()) {
-    out1.emplace_back(iter.next().value());
+    auto next = iter.next();
+    if (next.has_value()) {
+      out1.emplace_back(next.value());
+    }
   }
 
   ASSERT_EQ(out.size(), set.size());
@@ -109,7 +133,10 @@ TEST(ListIteratorFixture, ReturnEmptyListIterator) {
 
   std::vector<std::string> out;
   while (iter.hasNext()) {
-    out.emplace_back(iter.next().value());
+    auto next = iter.next();
+    if (next.has_value()) {
+      out.emplace_back(next.value());
+    }
   }
 
   ASSERT_EQ(out.size(), set.size());

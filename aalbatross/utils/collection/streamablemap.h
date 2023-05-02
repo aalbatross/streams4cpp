@@ -28,12 +28,10 @@ template<
 struct SMap final : public std::map<Key, T, Compare, Allocator>, public SCollection<std::pair<const Key, T>> {
 
   explicit SMap(const Compare &comp = Compare(),
-                const Allocator &alloc = Allocator()) : std::map<Key, T, Compare, Allocator>(comp, alloc),
-                                                        dIterator_(std::make_unique<iterators::ListIterator<typename std::map<Key, T, Compare, Allocator>::iterator>>(this->begin(), this->end())) {}
+                const Allocator &alloc = Allocator()) : std::map<Key, T, Compare, Allocator>(comp, alloc) {}
   explicit SMap(std::initializer_list<std::pair<const Key, T>> init,
                 const Compare &comp = Compare(),
-                const Allocator &alloc = Allocator()) : std::map<Key, T>(init, comp, alloc),
-                                                        dIterator_(std::make_unique<iterators::ListIterator<typename std::map<Key, T, Compare, Allocator>::iterator>>(this->begin(), this->end())) {}
+                const Allocator &alloc = Allocator()) : std::map<Key, T>(init, comp, alloc) {}
   SMap(const SMap &) = default;
   SMap(SMap &&) noexcept = default;
 
@@ -42,17 +40,12 @@ struct SMap final : public std::map<Key, T, Compare, Allocator>, public SCollect
   ~SMap() = default;
 
   streams::Stream<std::pair<const Key, T>, std::pair<const Key, T>> stream() override {
-    dIterator_ = std::move(std::make_unique<iterators::ListIterator<typename std::map<Key, T>::iterator>>(this->begin(), this->end()));
-    return streams::Stream<std::pair<const Key, T>, std::pair<const Key, T>>(*dIterator_);
+    return streams::Stream<std::pair<const Key, T>, std::pair<const Key, T>>(this->begin(), this->end());
   }
 
-  iterators::Iterator<std::pair<const Key, T>> &iterator() override {
-    dIterator_ = std::move(std::make_unique<iterators::ListIterator<typename std::map<Key, T>::iterator>>(this->begin(), this->end()));
-    return *dIterator_;
+  std::shared_ptr<iterators::Iterator<std::pair<const Key, T>>> iterator() override {
+    return std::make_shared<iterators::ListIteratorView<SMap>>(*this);
   }
-
- private:
-  std::unique_ptr<iterators::Iterator<std::pair<const Key, T>>> dIterator_;
 };
 
 template<

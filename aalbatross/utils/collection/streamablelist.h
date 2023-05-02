@@ -19,10 +19,10 @@ namespace aalbatross::utils::collection {
 template<typename S, typename Allocator = std::allocator<S>>
 struct SList final : public std::list<S, Allocator>, public SCollection<S> {
 
-  explicit SList() : std::list<S, Allocator>(), dIterator_(std::make_unique<iterators::ListIterator<typename std::list<S>::iterator>>(this->begin(), this->end())) {}
+  explicit SList() : std::list<S, Allocator>() {}
 
   explicit SList(std::initializer_list<S> init,
-                 const Allocator &alloc = Allocator()) : std::list<S, Allocator>(init, alloc), dIterator_(std::make_unique<iterators::ListIterator<typename std::list<S>::iterator>>(this->begin(), this->end())) {}
+                 const Allocator &alloc = Allocator()) : std::list<S, Allocator>(init, alloc) {}
   SList(const SList &) = default;
   SList(SList &&) noexcept = default;
 
@@ -31,17 +31,12 @@ struct SList final : public std::list<S, Allocator>, public SCollection<S> {
   ~SList() = default;
 
   streams::Stream<S, S> stream() override {
-    dIterator_ = std::move(std::make_unique<iterators::ListIterator<typename std::list<S>::iterator>>(this->begin(), this->end()));
-    return streams::Stream<S, S>(*dIterator_);
+    return streams::Stream<S, S>(this->begin(), this->end());
   }
 
-  iterators::Iterator<S> &iterator() override {
-    dIterator_ = std::move(std::make_unique<iterators::ListIterator<typename std::list<S>::iterator>>(this->begin(), this->end()));
-    return *dIterator_;
+  std::shared_ptr<iterators::Iterator<S>> iterator() override {
+    return std::make_shared<iterators::ListIteratorView<SList>>(*this);
   }
-
- private:
-  std::unique_ptr<iterators::Iterator<S>> dIterator_;
 };
 
 template<typename S, typename Allocator = std::allocator<S>>

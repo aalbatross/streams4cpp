@@ -7,7 +7,7 @@
 
 namespace aalbatross::utils::test {
 
-struct A {
+struct AType {
   int a;
   char b;
   std::string c;
@@ -16,10 +16,10 @@ struct A {
 TEST(CollectorFixtureTest, AveragingDoubleTest) {
   std::vector vector{12, 2, 13, 4, 5};
   std::vector pods{
-      A{23, 'a', "xyz"},
-      A{45, 'b', "ayz"},
-      A{69, 'c', "uyz"},
-      A{13, 'a', "byz"},
+      AType{23, 'a', "xyz"},
+      AType{45, 'b', "ayz"},
+      AType{69, 'c', "uyz"},
+      AType{13, 'a', "byz"},
   };
   auto collector1 = streams::Collectors::averaging([](auto element) { return element * 1.0; });
   EXPECT_EQ(7.2, collector1.apply(vector));
@@ -31,10 +31,10 @@ TEST(CollectorFixtureTest, AveragingDoubleTest) {
 TEST(CollectorFixtureTest, CountingTest) {
   std::vector vector{12, 2, 13, 4, 5};
   std::vector pods{
-      A{23, 'a', "xyz"},
-      A{45, 'b', "ayz"},
-      A{69, 'c', "uyz"},
-      A{13, 'a', "byz"},
+      AType{23, 'a', "xyz"},
+      AType{45, 'b', "ayz"},
+      AType{69, 'c', "uyz"},
+      AType{13, 'a', "byz"},
   };
   auto collector1 = streams::Collectors::counting();
   EXPECT_EQ(5, collector1.apply(vector));
@@ -82,17 +82,17 @@ TEST(CollectorFixtureTest, JoiningTest) {
 
   auto collector = streams::Collectors::joining();
   auto result = collector.apply(vector);
-  auto expected = "apple boy cat dog elephant fish girl";
+  const auto *expected = "apple boy cat dog elephant fish girl";
   EXPECT_STREQ(expected, result.c_str());
 
   auto collector1 = streams::Collectors::joining(",");
   auto result1 = collector1.apply(vector);
-  auto expected1 = "apple,boy,cat,dog,elephant,fish,girl";
+  const auto *expected1 = "apple,boy,cat,dog,elephant,fish,girl";
   EXPECT_STREQ(expected1, result1.c_str());
 
   auto collector2 = streams::Collectors::joining(", ", "[", "]");
   auto result2 = collector2.apply(vector);
-  auto expected2 = "[apple, boy, cat, dog, elephant, fish, girl]";
+  const auto *expected2 = "[apple, boy, cat, dog, elephant, fish, girl]";
   EXPECT_STREQ(expected2, result2.c_str());
 }
 
@@ -102,11 +102,13 @@ TEST(CollectorFixtureTest, MaxMinTest) {
   auto collector1 = streams::Collectors::maxBy<int>(std::less<>());
   auto result1 = collector1.apply(vector);
   auto expected1 = 13;
+  EXPECT_TRUE(result1.has_value());
   EXPECT_EQ(expected1, result1.value());
 
   auto collector2 = streams::Collectors::minBy<int>(std::less<>());
   auto result2 = collector2.apply(vector);
   auto expected2 = 2;
+  EXPECT_TRUE(result2.has_value());
   EXPECT_EQ(expected2, result2.value());
 }
 
@@ -165,22 +167,31 @@ TEST(CollectorFixtureTest, CollectToSummingTest) {
   EXPECT_EQ(result2, 36.0);
 }
 
-TEST(CollectorFixtureTest, CollectToMapTest) {
+TEST(CollectorFixtureTest, CollectToMapTest1) {
   std::vector pods{
-      A{23, 'a', "xyz"},
-      A{45, 'b', "ayz"},
-      A{69, 'c', "uyz"},
-      A{13, 'a', "byz"},
+      AType{23, 'a', "xyz"},
+      AType{45, 'b', "ayz"},
+      AType{69, 'c', "uyz"},
+      AType{13, 'a', "byz"},
   };
-  auto collector1 = streams::Collectors::toMap<A>([](auto pod) { return pod.a; }, [](auto pod) { return pod.c; });
+  auto collector1 = streams::Collectors::toMap<AType>([](auto pod) { return pod.a; }, [](auto pod) { return pod.c; });
   auto result1 = collector1.apply(pods);
 
   EXPECT_STREQ(result1[23].c_str(), "xyz");
   EXPECT_STREQ(result1[45].c_str(), "ayz");
   EXPECT_STREQ(result1[69].c_str(), "uyz");
   EXPECT_STREQ(result1[13].c_str(), "byz");
+}
 
-  auto collector2 = streams::Collectors::toMap<A>([](auto pod) { return pod.b; }, [](auto pod) { return pod.c; }, [](auto a1, auto a2) { return a1 + ", " + a2; });
+TEST(CollectorFixtureTest, CollectToMapTest2) {
+  std::vector pods{
+      AType{23, 'a', "xyz"},
+      AType{45, 'b', "ayz"},
+      AType{69, 'c', "uyz"},
+      AType{13, 'a', "byz"},
+  };
+
+  auto collector2 = streams::Collectors::toMap<AType>([](auto pod) { return pod.b; }, [](auto pod) { return pod.c; }, [](auto a_1, auto a_2) { return a_1 + ", " + a_2; });
   auto result2 = collector2.apply(pods);
   EXPECT_STREQ(result2['a'].c_str(), ", xyz, byz");
   EXPECT_STREQ(result2['b'].c_str(), ", ayz");
@@ -190,18 +201,18 @@ TEST(CollectorFixtureTest, CollectToMapTest) {
 
 TEST(CollectorFixtureTest, CollectReducingTest) {
   std::vector pods{
-      A{23, 'a', "xyz"},
-      A{45, 'b', "ayz"},
-      A{69, 'c', "uyz"},
-      A{13, 'a', "byz"},
+      AType{23, 'a', "xyz"},
+      AType{45, 'b', "ayz"},
+      AType{69, 'c', "uyz"},
+      AType{13, 'a', "byz"},
   };
-  auto collector1 = streams::Collectors::reducing<A>([](auto pod1, auto pod2) { return A{pod1.a + pod2.a, pod2.b, pod1.c + "," + pod2.c}; });
+  auto collector1 = streams::Collectors::reducing<AType>([](auto pod1, auto pod2) { return AType{pod1.a + pod2.a, pod2.b, pod1.c + "," + pod2.c}; });
   auto result1 = collector1.apply(pods);
   EXPECT_EQ(150, result1.a);
   EXPECT_EQ(((char) 97), result1.b);
   EXPECT_STREQ(",xyz,ayz,uyz,byz", result1.c.c_str());
 
-  auto collector2 = streams::Collectors::reducing<A>(A{256, 'd', "def"}, [](auto pod1, auto pod2) { return A{pod1.a + pod2.a, pod2.b, pod1.c + "," + pod2.c}; });
+  auto collector2 = streams::Collectors::reducing<AType>(AType{256, 'd', "def"}, [](auto pod1, auto pod2) { return AType{pod1.a + pod2.a, pod2.b, pod1.c + "," + pod2.c}; });
   auto result2 = collector2.apply(pods);
   EXPECT_EQ(406, result2.a);
   EXPECT_EQ(((char) 97), result2.b);

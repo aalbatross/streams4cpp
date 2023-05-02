@@ -20,7 +20,7 @@ struct SCollection {
    * \brief Provides internal Iterator reference for the underlying container.
    * @return get reference of internal Iterator of underlying container.
    */
-  virtual iterators::Iterator<S> &iterator() = 0;
+  virtual std::shared_ptr<iterators::Iterator<S>> iterator() = 0;
 
   /**
    * \fn streams::Stream<S, S> stream()

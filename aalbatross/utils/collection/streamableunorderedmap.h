@@ -27,14 +27,12 @@ template<
     typename Allocator = std::allocator<std::pair<const Key, T>>>
 struct SUMap final : public std::unordered_map<Key, T, Hash, KeyEqual, Allocator>, public SCollection<std::pair<const Key, T>> {
 
-  explicit SUMap(const Allocator &alloc = Allocator()) : std::unordered_map<Key, T, Hash, KeyEqual, Allocator>(alloc),
-                                                         dIterator_(std::make_unique<iterators::ListIterator<typename std::unordered_map<Key, T, Hash, KeyEqual, Allocator>::iterator>>(this->begin(), this->end())) {}
+  explicit SUMap(const Allocator &alloc = Allocator()) : std::unordered_map<Key, T, Hash, KeyEqual, Allocator>(alloc) {}
   explicit SUMap(std::initializer_list<std::pair<const Key, T>> init,
                  size_t bucket_count = NUM_OF_BUCKETS,
                  const Hash &hash = Hash(),
                  const KeyEqual &equal = KeyEqual(),
-                 const Allocator &alloc = Allocator()) : std::unordered_map<Key, T, Hash, KeyEqual, Allocator>(init, bucket_count, hash, equal, alloc),
-                                                         dIterator_(std::make_unique<iterators::ListIterator<typename std::unordered_map<Key, T, Hash, KeyEqual, Allocator>::iterator>>(this->begin(), this->end())) {}
+                 const Allocator &alloc = Allocator()) : std::unordered_map<Key, T, Hash, KeyEqual, Allocator>(init, bucket_count, hash, equal, alloc) {}
   SUMap(const SUMap &) = default;
   SUMap(SUMap &&) noexcept = default;
 
@@ -43,17 +41,14 @@ struct SUMap final : public std::unordered_map<Key, T, Hash, KeyEqual, Allocator
   ~SUMap() = default;
 
   streams::Stream<std::pair<const Key, T>, std::pair<const Key, T>> stream() override {
-    dIterator_ = std::move(std::make_unique<iterators::ListIterator<typename std::unordered_map<Key, T, Hash, KeyEqual, Allocator>::iterator>>(this->begin(), this->end()));
-    return streams::Stream<std::pair<const Key, T>, std::pair<const Key, T>>(*dIterator_);
+    return streams::Stream<std::pair<const Key, T>, std::pair<const Key, T>>(this->begin(), this->end());
   }
 
-  iterators::Iterator<std::pair<const Key, T>> &iterator() override {
-    dIterator_ = std::move(std::make_unique<iterators::ListIterator<typename std::unordered_map<Key, T, Hash, KeyEqual, Allocator>::iterator>>(this->begin(), this->end()));
-    return *dIterator_;
+  std::shared_ptr<iterators::Iterator<std::pair<const Key, T>>> iterator() override {
+    return std::make_shared<iterators::ListIteratorView<SUMap>>(*this);
   }
 
  private:
-  std::unique_ptr<iterators::Iterator<std::pair<const Key, T>>> dIterator_;
   static const size_t NUM_OF_BUCKETS = 10;
 };
 

@@ -38,12 +38,12 @@ collection::SVector<BlogPost> getPosts() {
 }
 
 struct PostCountTitles {
-  friend std::ostream &operator<<(std::ostream &os, const PostCountTitles &titles) {
-    os << "postCount: " << titles.postCount << " titles: " << titles.titles;
-    return os;
+  friend std::ostream &operator<<(std::ostream &ost, const PostCountTitles &titles) {
+    ost << "postCount: " << titles.postCount << " titles: " << titles.titles;
+    return ost;
   }
-  long postCount;
-  std::string titles;
+  long postCount = 0;
+  std::string titles = "";
 };
 
 TEST(GroupingByFixture, GroupingBySingleColumn) {
@@ -71,8 +71,8 @@ TEST(GroupingByFixture, GroupingBySingleColumnModifiedKeyType) {
 TEST(GroupingByFixture, GroupingBySingleColumnModifiedValueType) {
   auto dataset = getPosts();
 
-  auto comparator = [](auto a1, auto a2) {
-    return a1.likes < a2.likes;
+  auto comparator = [](auto a_1, auto a_2) {
+    return a_1.likes < a_2.likes;
   };
 
   auto groupedBy = dataset.stream().collect(
@@ -120,6 +120,9 @@ TEST(GroupingByFixture, MaxMinFromGroupedResult) {
   auto groupedBy = dataset.stream().collect(
       streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; },
                                                 streams::Collectors::maxBy<BlogPost>([](auto post1, auto post2) { return post2.likes - post1.likes; })));
+  EXPECT_TRUE(groupedBy[NEWS].has_value());
+  EXPECT_TRUE(groupedBy[REVIEW].has_value());
+  EXPECT_TRUE(groupedBy[GUIDE].has_value());
 
   EXPECT_EQ(groupedBy[NEWS].value().likes, 90);
   EXPECT_EQ(groupedBy[REVIEW].value().likes, 1905);
@@ -144,8 +147,7 @@ TEST(GroupingByFixture, AggregatingMultipleAttributesGroupedResult) {
   auto groupedBy = dataset.stream().collect(
       streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.author; },
                                                 streams::Collectors::collectingAndThen(streams::Collectors::toVector<BlogPost>(), [](auto posts) {
-                                                  iterators::ListIterator iterator(posts.begin(), posts.end());
-                                                  streams::Stream<BlogPost> postStream(iterator);
+                                                  streams::Stream<BlogPost> postStream(posts.begin(), posts.end());
                                                   long count = postStream
                                                                    .map([](auto post) { return post.title; })
                                                                    .collect(streams::Collectors::counting());
