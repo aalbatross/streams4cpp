@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['illustrative_20usage_0',['Illustrative Usage',['../md_doc__usage.html',1,'']]],
-  ['introduction_1',['Introduction',['../index.html',1,'']]],
-  ['introduction_20to_20collectors_2',['Introduction to Collectors',['../md_doc__collectors.html',1,'']]],
+  ['introduction_0',['Introduction',['../index.html',1,'']]],
+  ['introduction_20to_20collectors_1',['Introduction to Collectors',['../md_doc__collectors.html',1,'']]],
+  ['introduction_20to_20streams_2',['Introduction to Streams',['../md_doc__usage.html',1,'']]],
   ['iterator_3',['Iterator',['../structaalbatross_1_1utils_1_1iterators_1_1_iterator.html',1,'aalbatross::utils::iterators']]],
   ['iterator_4',['iterator',['../structaalbatross_1_1utils_1_1collection_1_1_s_collection.html#ad7d9f8f78480a3e2794df8de26cb9527',1,'aalbatross::utils::collection::SCollection::iterator()'],['../structaalbatross_1_1utils_1_1collection_1_1_s_deque.html#a27d380f1626abb2ababdabc9ad31912a',1,'aalbatross::utils::collection::SDeque::iterator()'],['../structaalbatross_1_1utils_1_1collection_1_1_s_list.html#ab0f657795bc303fac26c017df71a7ae9',1,'aalbatross::utils::collection::SList::iterator()'],['../structaalbatross_1_1utils_1_1collection_1_1_s_map.html#aba8a5eb5309af32a90d88ce62f6cdb39',1,'aalbatross::utils::collection::SMap::iterator()'],['../structaalbatross_1_1utils_1_1collection_1_1_s_set.html#a3c6128542abc33c43ba29065a25a8efc',1,'aalbatross::utils::collection::SSet::iterator()'],['../structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#ade0c2b28ff577502fdf113f632c2cf01',1,'aalbatross::utils::collection::SUMap::iterator()'],['../structaalbatross_1_1utils_1_1collection_1_1_s_u_set.html#a0c8a570512c6bdcf00c650a61d5942cd',1,'aalbatross::utils::collection::SUSet::iterator()'],['../structaalbatross_1_1utils_1_1collection_1_1_s_vector.html#a5a0359eb4fae9481f0ec00a0901908fc',1,'aalbatross::utils::collection::SVector::iterator()']]],
   ['iterator_2eh_5',['iterator.h',['../iterator_8h.html',1,'']]],

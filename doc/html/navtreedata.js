@@ -49,7 +49,7 @@ var NAVTREE =
         [ "Summing", "md_doc__collectors.html#autotoc_md18", null ]
       ] ]
     ] ],
-    [ "Illustrative Usage", "md_doc__usage.html", null ],
+    [ "Introduction to Streams", "md_doc__usage.html", null ],
     [ "LICENSE", "md_venv_lib_python3_11_site_packages_conan_2_0_4_dist_info__l_i_c_e_n_s_e.html", null ],
     [ "LICENSE", "md_venv_lib_python3_11_site_packages_idna_3_4_dist_info__l_i_c_e_n_s_e.html", null ],
     [ "Namespaces", "namespaces.html", [

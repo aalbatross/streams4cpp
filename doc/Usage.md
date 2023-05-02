@@ -1,4 +1,4 @@
-## Illustrative Usage
+## Introduction to Streams
 
 An example of using Streams is provided below:
 
