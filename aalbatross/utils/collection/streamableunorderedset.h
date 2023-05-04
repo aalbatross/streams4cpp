@@ -41,10 +41,6 @@ struct SUSet final : public std::unordered_set<Key, Hash, KeyEqual, Allocator>, 
     return streams::Stream<Key, Key>(this->begin(), this->end());
   }
 
-  std::shared_ptr<iterators::Iterator<Key>> iterator() override {
-    return std::make_shared<iterators::ListIteratorView<SUSet>>(*this);
-  }
-
  private:
   static const size_t NUM_OF_BUCKETS = 10;
 };

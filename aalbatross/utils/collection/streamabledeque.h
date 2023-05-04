@@ -35,10 +35,6 @@ struct SDeque final : public std::deque<S, Allocator>, public SCollection<S> {
   streams::Stream<S, S> stream() override {
     return streams::Stream<S, S>(this->begin(), this->end());
   }
-
-  std::shared_ptr<iterators::Iterator<S>> iterator() override {
-    return std::make_shared<iterators::ListIteratorView<SDeque>>(*this);
-  }
 };
 
 template<typename S, typename Allocator = std::allocator<S>>

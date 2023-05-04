@@ -36,10 +36,6 @@ struct SSet final : public std::set<Key, Compare, Allocator>, public SCollection
   streams::Stream<Key, Key> stream() override {
     return streams::Stream<Key, Key>(this->begin(), this->end());
   }
-
-  std::shared_ptr<iterators::Iterator<Key>> iterator() override {
-    return std::make_shared<iterators::ListIteratorView<SSet>>(*this);
-  }
 };
 }// namespace aalbatross::utils::collection
 #endif//INCLUDED_STREAMS4CPP_STREAMEDSET_H

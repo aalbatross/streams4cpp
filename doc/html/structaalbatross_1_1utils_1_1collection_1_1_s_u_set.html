@@ -130,15 +130,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af32d90fe9d9fcfa795bd0bf37a11a3af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html">streams::Stream</a>&lt; Key, Key &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_u_set.html#af32d90fe9d9fcfa795bd0bf37a11a3af">stream</a> () override</td></tr>
 <tr class="memdesc:af32d90fe9d9fcfa795bd0bf37a11a3af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create stream from the underlying container.  <br /></td></tr>
 <tr class="separator:af32d90fe9d9fcfa795bd0bf37a11a3af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c8a570512c6bdcf00c650a61d5942cd"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; Key &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_u_set.html#a0c8a570512c6bdcf00c650a61d5942cd">iterator</a> () override</td></tr>
-<tr class="memdesc:a0c8a570512c6bdcf00c650a61d5942cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides internal Iterator reference for the underlying container.  <br /></td></tr>
-<tr class="separator:a0c8a570512c6bdcf00c650a61d5942cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structaalbatross_1_1utils_1_1collection_1_1_s_collection"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structaalbatross_1_1utils_1_1collection_1_1_s_collection')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_collection.html">aalbatross::utils::collection::SCollection&lt; Key &gt;</a></td></tr>
 <tr class="memitem:a4c1344d457236b2db8141ad0ef686c7d inherit pub_methods_structaalbatross_1_1utils_1_1collection_1_1_s_collection"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_collection.html#a4c1344d457236b2db8141ad0ef686c7d">~SCollection</a> ()=default</td></tr>
 <tr class="separator:a4c1344d457236b2db8141ad0ef686c7d inherit pub_methods_structaalbatross_1_1utils_1_1collection_1_1_s_collection"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7d9f8f78480a3e2794df8de26cb9527 inherit pub_methods_structaalbatross_1_1utils_1_1collection_1_1_s_collection"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; Key &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_collection.html#ad7d9f8f78480a3e2794df8de26cb9527">iterator</a> ()=0</td></tr>
-<tr class="memdesc:ad7d9f8f78480a3e2794df8de26cb9527 inherit pub_methods_structaalbatross_1_1utils_1_1collection_1_1_s_collection"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides internal Iterator reference for the underlying container.  <br /></td></tr>
-<tr class="separator:ad7d9f8f78480a3e2794df8de26cb9527 inherit pub_methods_structaalbatross_1_1utils_1_1collection_1_1_s_collection"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e5a565f6b9fb32ac2babadf8e8d9c23 inherit pub_methods_structaalbatross_1_1utils_1_1collection_1_1_s_collection"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html">streams::Stream</a>&lt; Key, Key &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_collection.html#a4e5a565f6b9fb32ac2babadf8e8d9c23">stream</a> ()=0</td></tr>
 <tr class="memdesc:a4e5a565f6b9fb32ac2babadf8e8d9c23 inherit pub_methods_structaalbatross_1_1utils_1_1collection_1_1_s_collection"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create stream from the underlying container.  <br /></td></tr>
 <tr class="separator:a4e5a565f6b9fb32ac2babadf8e8d9c23 inherit pub_methods_structaalbatross_1_1utils_1_1collection_1_1_s_collection"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -324,38 +318,6 @@ template&lt;typename Key , typename Hash  = std::hash&lt;Key&gt;, typename KeyEq
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a0c8a570512c6bdcf00c650a61d5942cd" name="a0c8a570512c6bdcf00c650a61d5942cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c8a570512c6bdcf00c650a61d5942cd">&#9670;&#160;</a></span>iterator()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Key , typename Hash  = std::hash&lt;Key&gt;, typename KeyEqual  = std::equal_to&lt;Key&gt;, typename Allocator  = std::allocator&lt;Key&gt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt; <a class="el" href="structaalbatross_1_1utils_1_1iterators_1_1_iterator.html">iterators::Iterator</a>&lt; Key &gt; &gt; <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_u_set.html">aalbatross::utils::collection::SUSet</a>&lt; Key, Hash, KeyEqual, Allocator &gt;::iterator </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Provides internal Iterator reference for the underlying container. </p>
-<dl class="section return"><dt>Returns</dt><dd>get reference of internal Iterator of underlying container. </dd></dl>
-
-<p>Implements <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_collection.html#ad7d9f8f78480a3e2794df8de26cb9527">aalbatross::utils::collection::SCollection&lt; Key &gt;</a>.</p>
-
-</div>
-</div>
 <a id="a11f0147f073f761bea8ba6b6d47f5b73" name="a11f0147f073f761bea8ba6b6d47f5b73"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a11f0147f073f761bea8ba6b6d47f5b73">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
 

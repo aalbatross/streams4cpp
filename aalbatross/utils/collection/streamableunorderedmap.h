@@ -44,10 +44,6 @@ struct SUMap final : public std::unordered_map<Key, T, Hash, KeyEqual, Allocator
     return streams::Stream<std::pair<const Key, T>, std::pair<const Key, T>>(this->begin(), this->end());
   }
 
-  std::shared_ptr<iterators::Iterator<std::pair<const Key, T>>> iterator() override {
-    return std::make_shared<iterators::ListIteratorView<SUMap>>(*this);
-  }
-
  private:
   static const size_t NUM_OF_BUCKETS = 10;
 };

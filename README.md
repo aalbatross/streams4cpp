@@ -13,7 +13,6 @@ Streams differ from collections in several ways:
 
 ## Features
 
-- **Iterators**: Interfaces and classes defining bound or unbound traversal of data containers or any data source.
 - **Stream**: Perform map/reduce operation on the bounded data containers or Iterators.
 - **Streamable Collection**: Streamable STL containers supporting functional style transforms.
 - **Collectors**: Implementations of Collector that implement various useful common reduction operations.

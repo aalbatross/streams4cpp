@@ -42,10 +42,6 @@ struct SMap final : public std::map<Key, T, Compare, Allocator>, public SCollect
   streams::Stream<std::pair<const Key, T>, std::pair<const Key, T>> stream() override {
     return streams::Stream<std::pair<const Key, T>, std::pair<const Key, T>>(this->begin(), this->end());
   }
-
-  std::shared_ptr<iterators::Iterator<std::pair<const Key, T>>> iterator() override {
-    return std::make_shared<iterators::ListIteratorView<SMap>>(*this);
-  }
 };
 
 template<
