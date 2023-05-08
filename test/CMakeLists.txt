@@ -6,7 +6,8 @@ add_executable(${NAME}
         test_stream.t.cpp
         test_scollection.t.cpp
         test_collector.t.cpp
-        test_streamcollector.t.cpp )
+        test_streamcollector.t.cpp
+        test_ub_stream.t.cpp)
 
 find_package(GTest CONFIG REQUIRED)
 include_directories(${GTest_INCLUDE_DIR})

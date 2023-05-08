@@ -96,7 +96,8 @@ add_library(${PROJECT_NAME} INTERFACE
         aalbatross/utils/collection/streamableunorderedmap.h
         aalbatross/utils/streams/collectors.h
         aalbatross/utils/streams/collector.h
-        )
+        aalbatross/utils/streams/processor.h
+        aalbatross/utils/streams/ub_stream.h )
 
 target_include_directories(${PROJECT_NAME} INTERFACE aalbatross/utils)
 
