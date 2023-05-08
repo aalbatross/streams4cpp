@@ -71,7 +71,7 @@ TEST(UBStreamTestFixture, FixedWindowingTest) {
 TEST(UBStreamTestFixture, FlatMapTest) {
   std::vector data{1, 2, 3, 4, 5, 6};
   streams::UBStream<int> stream(data.begin(), data.end());
-  auto flatMappedStream = stream.fixed(2).flatMap([](auto element) { return element; });
+  auto flatMappedStream = stream.fixed(2).flatten([](auto element) { return element; });
   auto elements = flatMappedStream.toVector();
 
   EXPECT_THAT(elements, ::testing::ElementsAre(1, 2, 3, 4, 5, 6));
@@ -80,7 +80,7 @@ TEST(UBStreamTestFixture, FlatMapTest) {
 TEST(UBStreamTestFixture, MapWithFlatMapTest) {
   std::vector data{1, 2, 3, 4, 5, 6};
   streams::UBStream<int> stream(data.begin(), data.end());
-  auto flatMappedStream = stream.fixed(2).flatMap([](auto element) { return element; }).map([](auto element) { return element * 10; });
+  auto flatMappedStream = stream.fixed(2).flatten([](auto element) { return element; }).map([](auto element) { return element * 10; });
   auto elements = flatMappedStream.toVector();
 
   EXPECT_THAT(elements, ::testing::ElementsAre(10, 20, 30, 40, 50, 60));

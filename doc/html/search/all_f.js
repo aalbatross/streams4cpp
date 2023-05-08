@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['tail_0',['tail',['../structaalbatross_1_1utils_1_1streams_1_1_stream.html#a37ea3f0ad0606ae9a5ee61a0a0caba2b',1,'aalbatross::utils::streams::Stream']]],
+  ['tail_0',['tail',['../structaalbatross_1_1utils_1_1streams_1_1_stream.html#a37ea3f0ad0606ae9a5ee61a0a0caba2b',1,'aalbatross::utils::streams::Stream::tail()'],['../structaalbatross_1_1utils_1_1streams_1_1_u_b_stream.html#afe762ef95d70e521bb51a6f644f5d932',1,'aalbatross::utils::streams::UBStream::tail()']]],
   ['tocontainer_1',['toContainer',['../structaalbatross_1_1utils_1_1streams_1_1_collectors.html#a15ef8d44a51a4929fddebd3263c23212',1,'aalbatross::utils::streams::Collectors']]],
   ['todeque_2',['toDeque',['../structaalbatross_1_1utils_1_1streams_1_1_stream.html#a5b4567e0515bde107a0c817351a94939',1,'aalbatross::utils::streams::Stream']]],
   ['tolist_3',['toList',['../structaalbatross_1_1utils_1_1streams_1_1_stream.html#ad644574f4c70aec870341838989565ee',1,'aalbatross::utils::streams::Stream']]],
