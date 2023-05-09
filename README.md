@@ -13,12 +13,42 @@ Streams differ from collections in several ways:
 
 ## Features
 
-- **Stream**: Perform map/reduce operation on the bounded data containers or Iterators.
+- **Stream**: Perform map/reduce operation on the bounded/ unbounded data containers or Iterators.
 - **Streamable Collection**: Streamable STL containers supporting functional style transforms.
 - **Collectors**: Implementations of Collector that implement various useful common reduction operations.
 
 ## Documentation
 Refer [documentation](https://aalbatross.github.io/streams4cpp/doc/html/index.html) for detailed API review.
+
+## Illustrative Examples
+### Word Count in a File
+Counting frequency of each word in the file.
+```c++
+std::ifstream file("story.txt");
+std::istream_iterator<std::string> begin_it(file);
+std::istream_iterator<std::string> end_it;
+
+streams::UBStream<std::string> newStream(std::move(begin_it), std::move(end_it));
+  auto wordCount = newStream
+      .map([] (auto line){
+            std::vector<std::string> words;
+            std::stringstream ss(line);
+            std::string word;
+            while (ss >> word) { // Extract word from the stream.
+              words.emplace_back(word);
+            }
+            return words;
+      })
+      .flatten([](auto element){return element;})
+      .collect(streams::Collectors::groupingBy<std::string>(
+                   [] (auto element) {return element;},
+                   streams::Collectors::counting()
+                   ));
+
+  for (const auto& word: wordCount) {
+    std::cout << word.first << " -> " << word.second << std::endl;
+  }
+```
 
 ## Installation Guide
 ### Pre-requisites

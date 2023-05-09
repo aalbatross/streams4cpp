@@ -40,6 +40,7 @@ struct ListIteratorView;
  * \ingroup aalbatross::utils::streams
  */
 namespace streams {
+struct UBStream;
 struct Stream;
 struct Collectors;
 class Collector;

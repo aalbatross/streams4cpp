@@ -105,7 +105,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <h1><a class="anchor" id="autotoc_md33"></a>
 Features</h1>
 <ul>
-<li><b>Stream</b>: Perform map/reduce operation on the bounded data containers or Iterators.</li>
+<li><b>Stream</b>: Perform map/reduce operation on the bounded/ unbounded data containers or Iterators.</li>
 <li><b>Streamable Collection</b>: Streamable STL containers supporting functional style transforms.</li>
 <li><b>Collectors</b>: Implementations of Collector that implement various useful common reduction operations.</li>
 </ul>
@@ -113,8 +113,37 @@ Features</h1>
 Documentation</h1>
 <p>Refer <a href="https://aalbatross.github.io/streams4cpp/doc/html/index.html">documentation</a> for detailed API review.</p>
 <h1><a class="anchor" id="autotoc_md35"></a>
-Installation Guide</h1>
+Illustrative Examples</h1>
 <h2><a class="anchor" id="autotoc_md36"></a>
+Word Count in a File</h2>
+<p>Counting frequency of each word in the file. </p><div class="fragment"><div class="line"> {c++}</div>
+<div class="line">std::ifstream file(&quot;story.txt&quot;);</div>
+<div class="line">std::istream_iterator&lt;std::string&gt; begin_it(file);</div>
+<div class="line">std::istream_iterator&lt;std::string&gt; end_it;</div>
+<div class="line"> </div>
+<div class="line">streams::UBStream&lt;std::string&gt; newStream(std::move(begin_it), std::move(end_it));</div>
+<div class="line">  auto wordCount = newStream</div>
+<div class="line">      .map([] (auto line){</div>
+<div class="line">            std::vector&lt;std::string&gt; words;</div>
+<div class="line">            std::stringstream ss(line);</div>
+<div class="line">            std::string word;</div>
+<div class="line">            while (ss &gt;&gt; word) { // Extract word from the stream.</div>
+<div class="line">              words.emplace_back(word);</div>
+<div class="line">            }</div>
+<div class="line">            return words;</div>
+<div class="line">      })</div>
+<div class="line">      .flatten([](auto element){return element;})</div>
+<div class="line">      .collect(streams::Collectors::groupingBy&lt;std::string&gt;(</div>
+<div class="line">                   [] (auto element) {return element;},</div>
+<div class="line">                   streams::Collectors::counting()</div>
+<div class="line">                   ));</div>
+<div class="line"> </div>
+<div class="line">  for (const auto&amp; word: wordCount) {</div>
+<div class="line">    std::cout &lt;&lt; word.first &lt;&lt; &quot; -&gt; &quot; &lt;&lt; word.second &lt;&lt; std::endl;</div>
+<div class="line">  }</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md37"></a>
+Installation Guide</h1>
+<h2><a class="anchor" id="autotoc_md38"></a>
 Pre-requisites</h2>
 <ul>
 <li>doxygen -1.9.6</li>

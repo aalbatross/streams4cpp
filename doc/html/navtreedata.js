@@ -78,8 +78,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#acf91a7a4af0cd84534e5ce57813819c1",
-"structaalbatross_1_1utils_1_1streams_1_1_stream_1_1_view.html"
+"structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#abffca61dc766bf55b0668a0326481b82",
+"structaalbatross_1_1utils_1_1streams_1_1_stream.html#af5698b36ee84d43a5d927a79f9668709"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

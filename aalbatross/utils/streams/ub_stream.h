@@ -7,11 +7,23 @@
 #include <iostream>
 #include <utility>
 #include <vector>
+
 namespace aalbatross::utils::streams {
+/**
+ * \class UBStream
+ * \brief A sequence of elements supporting sequential and parallel aggregate operations on unbounded stream.
+ *
+ * To perform a computation, stream operations are composed into a stream pipeline. AType stream pipeline consists of a source (which might be an array, a collection, a generator function, an I/O channel, etc), zero or more intermediate operations (which transform a stream into another stream, such as filter(Predicate)), and a terminal operation (which produces a result or side-effect, such as count() or forEach(Consumer)). Streams are lazy; computation on the source data is only performed when the terminal operation is initiated, and source elements are consumed only as needed.
+ * Collections and streams, while bearing some superficial similarities, have different goals. Collections are primarily concerned with the efficient management of, and access to, their elements. By contrast, streams do not provide a means to directly access or manipulate their elements, and are instead concerned with declaratively describing their source and the computational operations which will be performed in aggregate on that source.
+ * @tparam T target stream type
+ * @tparam S source stream type
+ */
 template<typename T, typename S = T, typename BASE = T>
 struct UBStream {
   template<typename Iter>
-  UBStream(Iter &&begin, Iter &&end) : dSourceData_(std::make_shared<iterators::ListIterator<Iter>>(std::forward<Iter>(begin), std::forward<Iter>(end))), dProcessors_(std::vector<std::shared_ptr<Processor>>()) {}
+  explicit UBStream(Iter &&begin, Iter &&end) : dSourceData_(std::make_shared<iterators::ListIterator<Iter>>(std::forward<Iter>(begin), std::forward<Iter>(end))), dProcessors_(std::vector<std::shared_ptr<Processor>>()) {}
+
+  explicit UBStream(std::shared_ptr<iterators::Iterator<BASE>> &&source) : dProcessors_(std::vector<std::shared_ptr<Processor>>()), dSourceData_(std::move(source)) {}
 
   UBStream(std::vector<std::shared_ptr<Processor>> processorsList, std::shared_ptr<iterators::Iterator<BASE>> sourceData) : dProcessors_(std::move(processorsList)), dSourceData_(sourceData) {}
 

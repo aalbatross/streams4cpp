@@ -6,7 +6,10 @@
 #include <iostream>
 #include <memory>
 namespace aalbatross::utils::streams {
-
+/**
+ * \class Processor
+ * \brief Unbound stream processor base class for all Streaming Processors.
+ */
 struct Processor {
   virtual ~Processor() = default;
 
@@ -25,7 +28,12 @@ struct Processor {
   std::shared_ptr<Processor> dListener_;
   virtual void processImpl(const std::any &value) = 0;
 };
-
+/**
+ * \class MapProcessor
+ * \brief Unbound stream processor derived from Processor, applies mapping to incoming streaming inputs.
+ * @tparam Mapper
+ * @tparam IN
+ */
 template<typename Mapper, typename IN>
 struct MapProcessor : public Processor {
   MapProcessor(Mapper &&mapper) : dMapper_(std::forward<Mapper>(mapper)) {
@@ -51,6 +59,12 @@ struct MapProcessor : public Processor {
   Mapper dMapper_;
 };
 
+/**
+ * \class FlatMapProcessor
+ * \brief Unbound stream processor derived from Processor, applies mapping to incoming streaming inputs. Note the incoming inputs are of container type.
+ * @tparam Mapper
+ * @tparam IN
+ */
 template<typename Mapper, typename IN>
 struct FlatMapProcessor : public Processor {
   FlatMapProcessor(Mapper &&mapper) : dMapper_(std::forward<Mapper>(mapper)) {
@@ -78,6 +92,12 @@ struct FlatMapProcessor : public Processor {
   Mapper dMapper_;
 };
 
+/**
+ * \class ConsumerProcessor
+ * \brief Unbound stream processor derived from Processor, applies Consumer function to incoming streaming inputs.
+ * @tparam Mapper
+ * @tparam IN
+ */
 template<typename Consumer, typename IN>
 struct ConsumerProcessor : public Processor {
 
@@ -97,7 +117,12 @@ struct ConsumerProcessor : public Processor {
  private:
   Consumer dConsumer_;
 };
-
+/**
+ * \class FilterProcessor
+ * \brief Unbound stream processor derived from Processor, applies Predicate function to incoming streaming inputs to filter the appropriate element from stream.
+ * @tparam Mapper
+ * @tparam IN
+ */
 template<typename Predicate, typename IN>
 struct FilterProcessor : public Processor {
   FilterProcessor(Predicate &&predicate) : dPredicate_(std::forward<Predicate>(predicate)) {
@@ -124,7 +149,11 @@ struct FilterProcessor : public Processor {
  private:
   Predicate dPredicate_;
 };
-
+/**
+ * \class LimitProcessor
+ * \brief Unbound stream processor derived from Processor, limits the incoming stream to provided size.
+ * @tparam IN
+ */
 template<typename IN>
 struct LimitProcessor : public Processor {
   LimitProcessor(size_t limit) : dLimit_(limit) {}
@@ -157,7 +186,11 @@ struct LimitProcessor : public Processor {
   size_t dCount_ = 0;
   size_t dLimit_;
 };
-
+/**
+ * \class SkipProcessor
+ * \brief Unbound stream processor derived from Processor, skips elements from incoming stream.
+ * @tparam IN
+ */
 template<typename IN>
 struct SkipProcessor : public Processor {
   SkipProcessor(size_t skipLimit) : dLimit_(skipLimit) {}
@@ -188,7 +221,11 @@ struct SkipProcessor : public Processor {
   size_t dCount_ = 0;
   size_t dLimit_;
 };
-
+/**
+ * \class SlidingWindowProcessor
+ * \brief Unbound stream processor derived from Processor, groups elements into sliding windows of provided size.
+ * @tparam IN
+ */
 template<typename IN>
 struct SlidingWindowProcessor : public Processor {
   SlidingWindowProcessor(size_t windowSize) : dWindowSize_(windowSize) {}
@@ -220,7 +257,11 @@ struct SlidingWindowProcessor : public Processor {
   std::deque<IN> dElements_;
   size_t dWindowSize_;
 };
-
+/**
+ * \class FixedWindowProcessor
+ * \brief Unbound stream processor derived from Processor, groups elements into fixed size windows of provided size.
+ * @tparam IN
+ */
 template<typename IN>
 struct FixedWindowProcessor : public Processor {
   FixedWindowProcessor(size_t windowSize) : dWindowSize_(windowSize) {}
