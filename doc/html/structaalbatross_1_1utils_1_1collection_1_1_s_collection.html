@@ -121,9 +121,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4e5a565f6b9fb32ac2babadf8e8d9c23"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_stream.html">streams::Stream</a>&lt; S, S &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_collection.html#a4e5a565f6b9fb32ac2babadf8e8d9c23">stream</a> ()=0</td></tr>
 <tr class="memdesc:a4e5a565f6b9fb32ac2babadf8e8d9c23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create stream from the underlying container.  <br /></td></tr>
 <tr class="separator:a4e5a565f6b9fb32ac2babadf8e8d9c23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d5cb102865c346a6c29ad4f718e744f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_u_b_stream.html">streams::UBStream</a>&lt; S &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_collection.html#a1d5cb102865c346a6c29ad4f718e744f">ubstream</a> ()=0</td></tr>
-<tr class="memdesc:a1d5cb102865c346a6c29ad4f718e744f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create stream from the underlying container in unbounded style.  <br /></td></tr>
-<tr class="separator:a1d5cb102865c346a6c29ad4f718e744f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename S&gt;<br />
@@ -192,38 +189,6 @@ template&lt;typename S &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>stream from the underlying container. </dd></dl>
 
 <p>Implemented in <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_deque.html#ad7cef099808669f2265ecad93d2900e6">aalbatross::utils::collection::SDeque&lt; S, Allocator &gt;</a>, <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_deque.html#ad7cef099808669f2265ecad93d2900e6">aalbatross::utils::collection::SDeque&lt; IN &gt;</a>, <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_list.html#a37d7160970bcd2a67d21f727bb874e3c">aalbatross::utils::collection::SList&lt; S, Allocator &gt;</a>, <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_map.html#a1445b6e589997bc05fb298faf48e6190">aalbatross::utils::collection::SMap&lt; Key, T, Compare, Allocator &gt;</a>, <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_set.html#a19dcaeb02c76cb5e05c82bfaca06f74d">aalbatross::utils::collection::SSet&lt; Key, Compare, Allocator &gt;</a>, <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#a379b80afd2eac4d7c21b3dabaa53e7bc">aalbatross::utils::collection::SUMap&lt; Key, T, Hash, KeyEqual, Allocator &gt;</a>, <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_u_set.html#af32d90fe9d9fcfa795bd0bf37a11a3af">aalbatross::utils::collection::SUSet&lt; Key, Hash, KeyEqual, Allocator &gt;</a>, and <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_vector.html#adf25770a991ee0d95a2a02f11b562780">aalbatross::utils::collection::SVector&lt; S, Allocator &gt;</a>.</p>
-
-</div>
-</div>
-<a id="a1d5cb102865c346a6c29ad4f718e744f" name="a1d5cb102865c346a6c29ad4f718e744f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d5cb102865c346a6c29ad4f718e744f">&#9670;&#160;</a></span>ubstream()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename S &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_u_b_stream.html">streams::UBStream</a>&lt; S, S &gt; <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_collection.html">aalbatross::utils::collection::SCollection</a>&lt; S &gt;::ubstream </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Create stream from the underlying container in unbounded style. </p>
-<dl class="section return"><dt>Returns</dt><dd>stream from the underlying container. </dd></dl>
-
-<p>Implemented in <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_deque.html#a077015edc4151becc355795a586e3fba">aalbatross::utils::collection::SDeque&lt; S, Allocator &gt;</a>, <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_deque.html#a077015edc4151becc355795a586e3fba">aalbatross::utils::collection::SDeque&lt; IN &gt;</a>, <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_list.html#a1a821752ce2a24c7d393295dd71c1645">aalbatross::utils::collection::SList&lt; S, Allocator &gt;</a>, <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_map.html#a00148b7e1bdb51833bbf88f3107c9910">aalbatross::utils::collection::SMap&lt; Key, T, Compare, Allocator &gt;</a>, <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_set.html#a5e1ceb9280e4fc428eae6cadd4d7842e">aalbatross::utils::collection::SSet&lt; Key, Compare, Allocator &gt;</a>, <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#ab15eb4867db0409d6a3b5be9b7b57cdc">aalbatross::utils::collection::SUMap&lt; Key, T, Hash, KeyEqual, Allocator &gt;</a>, <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_u_set.html#a65292a7614e6dffa80c9481e19112dc1">aalbatross::utils::collection::SUSet&lt; Key, Hash, KeyEqual, Allocator &gt;</a>, and <a class="el" href="structaalbatross_1_1utils_1_1collection_1_1_s_vector.html#a50c10a06caaec2c7d6fb1d1f4ffde810">aalbatross::utils::collection::SVector&lt; S, Allocator &gt;</a>.</p>
 
 </div>
 </div>

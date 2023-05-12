@@ -7,6 +7,5 @@ var structaalbatross_1_1utils_1_1collection_1_1_s_vector =
     [ "~SVector", "structaalbatross_1_1utils_1_1collection_1_1_s_vector.html#a1f4dd77672da7d6f086cb807a68b5d0e", null ],
     [ "operator=", "structaalbatross_1_1utils_1_1collection_1_1_s_vector.html#a7ad65e5e626e655cee65dbc575fefc92", null ],
     [ "operator=", "structaalbatross_1_1utils_1_1collection_1_1_s_vector.html#af41434e288e0390a4c745860b641fd74", null ],
-    [ "stream", "structaalbatross_1_1utils_1_1collection_1_1_s_vector.html#adf25770a991ee0d95a2a02f11b562780", null ],
-    [ "ubstream", "structaalbatross_1_1utils_1_1collection_1_1_s_vector.html#a50c10a06caaec2c7d6fb1d1f4ffde810", null ]
+    [ "stream", "structaalbatross_1_1utils_1_1collection_1_1_s_vector.html#adf25770a991ee0d95a2a02f11b562780", null ]
 ];

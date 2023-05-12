@@ -108,6 +108,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ac1da19b71f97b87e1f0a89a5e7ebd0e9"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_collectors.html#ac1da19b71f97b87e1f0a89a5e7ebd0e9">averaging</a> (TypeToDouble &amp;&amp;mapper)</td></tr>
 <tr class="memdesc:ac1da19b71f97b87e1f0a89a5e7ebd0e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classaalbatross_1_1utils_1_1streams_1_1_collector.html" title="A mutable reduction operation that accumulates input elements into a mutable result container,...">Collector</a> that produces the arithmetic mean of a double-valued function applied to the input elements. If no elements are present, the result is 0.  <br /></td></tr>
 <tr class="separator:ac1da19b71f97b87e1f0a89a5e7ebd0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafdf5d9200c9e19a9bf39209531f0519"><td class="memItemLeft" align="right" valign="top">static auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_collectors.html#aafdf5d9200c9e19a9bf39209531f0519">averaging</a> ()</td></tr>
+<tr class="memdesc:aafdf5d9200c9e19a9bf39209531f0519"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classaalbatross_1_1utils_1_1streams_1_1_collector.html" title="A mutable reduction operation that accumulates input elements into a mutable result container,...">Collector</a> that produces the arithmetic mean of the input elements. If no elements are present, the result is 0.  <br /></td></tr>
+<tr class="separator:aafdf5d9200c9e19a9bf39209531f0519"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b62d73ad3a8fb422bf364a494373d02"><td class="memItemLeft" align="right" valign="top">static auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_collectors.html#a5b62d73ad3a8fb422bf364a494373d02">counting</a> ()</td></tr>
 <tr class="memdesc:a5b62d73ad3a8fb422bf364a494373d02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <a class="el" href="classaalbatross_1_1utils_1_1streams_1_1_collector.html" title="A mutable reduction operation that accumulates input elements into a mutable result container,...">Collector</a> accepting elements of type T that counts the number of input elements.  <br /></td></tr>
 <tr class="separator:a5b62d73ad3a8fb422bf364a494373d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -198,8 +201,36 @@ Static Public Member Functions</h2></td></tr>
 <p>// Partition students into passing and failing <br  />
  std::map&lt;bool, std::vector&lt;Student&gt;&gt; passingFailing = students.stream() .collect(<a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_collectors.html#aa027e827913c7934632494eae768098c" title="Returns a Collector which partitions the input elements according to a Predicate, and organizes them ...">Collectors::partitioningBy&lt;Student&gt;</a>([](auto student) {return s.getGrade() &gt;= PASS_THRESHOLD})); </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aafdf5d9200c9e19a9bf39209531f0519" name="aafdf5d9200c9e19a9bf39209531f0519"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafdf5d9200c9e19a9bf39209531f0519">&#9670;&#160;</a></span>averaging() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto aalbatross::utils::streams::Collectors::averaging </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a <a class="el" href="classaalbatross_1_1utils_1_1streams_1_1_collector.html" title="A mutable reduction operation that accumulates input elements into a mutable result container,...">Collector</a> that produces the arithmetic mean of the input elements. If no elements are present, the result is 0. </p>
+<dl class="section return"><dt>Returns</dt><dd>a <a class="el" href="classaalbatross_1_1utils_1_1streams_1_1_collector.html" title="A mutable reduction operation that accumulates input elements into a mutable result container,...">Collector</a> that produces the arithmetic mean of a derived property </dd></dl>
+
+</div>
+</div>
 <a id="ac1da19b71f97b87e1f0a89a5e7ebd0e9" name="ac1da19b71f97b87e1f0a89a5e7ebd0e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac1da19b71f97b87e1f0a89a5e7ebd0e9">&#9670;&#160;</a></span>averaging()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1da19b71f97b87e1f0a89a5e7ebd0e9">&#9670;&#160;</a></span>averaging() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

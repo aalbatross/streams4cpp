@@ -7,6 +7,5 @@ var structaalbatross_1_1utils_1_1collection_1_1_s_deque =
     [ "~SDeque", "structaalbatross_1_1utils_1_1collection_1_1_s_deque.html#aaf0f5b2405bfd9345abd2a66ec19f2d7", null ],
     [ "operator=", "structaalbatross_1_1utils_1_1collection_1_1_s_deque.html#a74013f0faad42e7eefdc7b81fc54fed5", null ],
     [ "operator=", "structaalbatross_1_1utils_1_1collection_1_1_s_deque.html#ad6c9a887ab6fa77b5e17b7eee1e1f251", null ],
-    [ "stream", "structaalbatross_1_1utils_1_1collection_1_1_s_deque.html#ad7cef099808669f2265ecad93d2900e6", null ],
-    [ "ubstream", "structaalbatross_1_1utils_1_1collection_1_1_s_deque.html#a077015edc4151becc355795a586e3fba", null ]
+    [ "stream", "structaalbatross_1_1utils_1_1collection_1_1_s_deque.html#ad7cef099808669f2265ecad93d2900e6", null ]
 ];

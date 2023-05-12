@@ -7,6 +7,5 @@ var structaalbatross_1_1utils_1_1collection_1_1_s_list =
     [ "~SList", "structaalbatross_1_1utils_1_1collection_1_1_s_list.html#a05c820bb633253e5abbc0ffad01fc241", null ],
     [ "operator=", "structaalbatross_1_1utils_1_1collection_1_1_s_list.html#a9cd10fe70111c544db84eebce92d55bd", null ],
     [ "operator=", "structaalbatross_1_1utils_1_1collection_1_1_s_list.html#a01a2a532e06a161ea678104340a8157c", null ],
-    [ "stream", "structaalbatross_1_1utils_1_1collection_1_1_s_list.html#a37d7160970bcd2a67d21f727bb874e3c", null ],
-    [ "ubstream", "structaalbatross_1_1utils_1_1collection_1_1_s_list.html#a1a821752ce2a24c7d393295dd71c1645", null ]
+    [ "stream", "structaalbatross_1_1utils_1_1collection_1_1_s_list.html#a37d7160970bcd2a67d21f727bb874e3c", null ]
 ];

@@ -123,27 +123,92 @@ Word Count in a File</h2>
 <div class="line"> </div>
 <div class="line">streams::UBStream&lt;std::string&gt; newStream(std::move(begin_it), std::move(end_it));</div>
 <div class="line">  auto wordCount = newStream</div>
-<div class="line">      .map([] (auto line){</div>
-<div class="line">            std::vector&lt;std::string&gt; words;</div>
-<div class="line">            std::stringstream ss(line);</div>
-<div class="line">            std::string word;</div>
-<div class="line">            while (ss &gt;&gt; word) { // Extract word from the stream.</div>
-<div class="line">              words.emplace_back(word);</div>
-<div class="line">            }</div>
-<div class="line">            return words;</div>
-<div class="line">      })</div>
-<div class="line">      .flatten([](auto element){return element;})</div>
-<div class="line">      .collect(streams::Collectors::groupingBy&lt;std::string&gt;(</div>
-<div class="line">                   [] (auto element) {return element;},</div>
-<div class="line">                   streams::Collectors::counting()</div>
-<div class="line">                   ));</div>
+<div class="line">                      .collect(streams::Collectors::groupingBy&lt;std::string&gt;(</div>
+<div class="line">                        [] (auto element) {return element;},</div>
+<div class="line">                        streams::Collectors::counting()</div>
+<div class="line">                        ));</div>
 <div class="line"> </div>
 <div class="line">  for (const auto&amp; word: wordCount) {</div>
 <div class="line">    std::cout &lt;&lt; word.first &lt;&lt; &quot; -&gt; &quot; &lt;&lt; word.second &lt;&lt; std::endl;</div>
 <div class="line">  }</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md39"></a>
+</div><!-- fragment --> <h2><a class="anchor" id="autotoc_md39"></a>
+Moving average on stream</h2>
+<p>Calculating moving average from prices in sliding window of 2. </p><div class="fragment"><div class="line"> {c++}</div>
+<div class="line">std::vector prices{110.0, 213.90, 311.69, 412.23, 512.1, 610.03, 1000.0, 2102.12};</div>
+<div class="line">streams::UBStream&lt;double&gt; stream(data.begin(), data.end());</div>
+<div class="line">auto movingAverageStream = stream</div>
+<div class="line">                              .sliding(2)</div>
+<div class="line">                              .map([](auto window) { return window.stream().collect(Collectors::averaging()); });</div>
+<div class="line">auto movingAverage = movingAverageStream.toVector();</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md40"></a>
+Reading CSV file line by line to POD(Plain Old data)</h2>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">struct Employee {</div>
+<div class="line">  long employeeId;</div>
+<div class="line">  std::string firstName;</div>
+<div class="line">  std::string lastName;</div>
+<div class="line">  std::string email;</div>
+<div class="line">  std::string phoneNo;</div>
+<div class="line">  std::string hireDate;</div>
+<div class="line">  std::string jobId;</div>
+<div class="line">  long salary;</div>
+<div class="line">  long commissionPct;</div>
+<div class="line">  long managerId;</div>
+<div class="line">  long departmentId;</div>
+<div class="line"> </div>
+<div class="line">  friend std::ostream &amp;operator&lt;&lt;(std::ostream &amp;os, const Employee &amp;employee) {</div>
+<div class="line">    os &lt;&lt; &quot;employeeId: &quot; &lt;&lt; employee.employeeId &lt;&lt; &quot; firstName: &quot; &lt;&lt; employee.firstName &lt;&lt; &quot; lastName: &quot; &lt;&lt; employee.lastName &lt;&lt; &quot; email: &quot; &lt;&lt; employee.email &lt;&lt; &quot; phoneNo: &quot; &lt;&lt; employee.phoneNo &lt;&lt; &quot; hireDate: &quot; &lt;&lt; employee.hireDate &lt;&lt; &quot; jobId: &quot; &lt;&lt; employee.jobId &lt;&lt; &quot; salary: &quot; &lt;&lt; employee.salary &lt;&lt; &quot; commissionPct: &quot; &lt;&lt; employee.commissionPct &lt;&lt; &quot; managerId: &quot; &lt;&lt; employee.managerId &lt;&lt; &quot; departmentId: &quot; &lt;&lt; employee.departmentId;</div>
+<div class="line">    return os;</div>
+<div class="line">  }</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line">class Line: public std::string {</div>
+<div class="line">  friend std::istream &amp; operator&gt;&gt;(std::istream &amp; is, Line &amp; line)</div>
+<div class="line">  {</div>
+<div class="line">    return std::getline(is, line);</div>
+<div class="line">  }</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line">std::ifstream file(&quot;/Users/ravipathak/Downloads/employees.csv&quot;);</div>
+<div class="line">std::istream_iterator&lt;Line&gt; begin_it(file);</div>
+<div class="line">std::istream_iterator&lt;Line&gt; end_it;</div>
+<div class="line"> </div>
+<div class="line">streams::UBStream&lt;Line&gt; newStream(std::move(begin_it), std::move(end_it));</div>
+<div class="line">// skip 1 skips the header</div>
+<div class="line">auto employees = newStream.skip(1).map([](auto line) {</div>
+<div class="line">                                      size_t pos = 0;</div>
+<div class="line">                                      std::string token;</div>
+<div class="line">                                      std::vector&lt;std::string&gt; words;</div>
+<div class="line">                                      std::string delimiter = &quot;,&quot;;</div>
+<div class="line">                                      while ((pos = line.find(delimiter)) != std::string::npos) {</div>
+<div class="line">                                        token = line.substr(0, pos);</div>
+<div class="line">                                        words.emplace_back(token);</div>
+<div class="line">                                        line.erase(0, pos + delimiter.length());</div>
+<div class="line">                                      }</div>
+<div class="line"> </div>
+<div class="line">                                      return Employee{</div>
+<div class="line">                                          std::strtol(words[0].c_str(), nullptr, 10),</div>
+<div class="line">                                          words[1],</div>
+<div class="line">                                          words[2],</div>
+<div class="line">                                          words[3],</div>
+<div class="line">                                          words[4],</div>
+<div class="line">                                          words[5],</div>
+<div class="line">                                          words[6],</div>
+<div class="line">                                          std::strtol(words[7].c_str(), nullptr, 10),</div>
+<div class="line">                                          std::strtol(words[8].c_str(), nullptr, 10),</div>
+<div class="line">                                          std::strtol(words[9].c_str(), nullptr, 10),</div>
+<div class="line">                                          std::strtol(words[10].c_str(), nullptr, 10)};</div>
+<div class="line">                                    })</div>
+<div class="line">                                    //filters all the employees whose salary is greater than equals to 10000</div>
+<div class="line">                                    .filter([](const auto emp) {return emp.salary &gt;= 10000;})</div>
+<div class="line">                                    .toVector();</div>
+<div class="line"> </div>
+<div class="line">for (const auto &amp;employee : employees) {</div>
+<div class="line">  std::cout &lt;&lt; employee &lt;&lt; std::endl;</div>
+<div class="line">}</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md41"></a>
 Installation Guide</h1>
-<h2><a class="anchor" id="autotoc_md40"></a>
+<h2><a class="anchor" id="autotoc_md42"></a>
 Pre-requisites</h2>
 <ul>
 <li>doxygen -1.9.6</li>

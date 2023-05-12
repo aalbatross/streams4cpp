@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>streams4cpp: Class Members</title>
+<title>streams4cpp: User Guide</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,7 +64,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('functions_u.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('md_doc__user_guide.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -89,13 +89,22 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 </div>
 </div>
 
+<div><div class="header">
+  <div class="headertitle"><div class="title">User Guide </div></div>
+</div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
-
-<h3><a id="index_u" name="index_u"></a>- u -</h3><ul>
-<li>UBStream()&#160;:&#160;<a class="el" href="structaalbatross_1_1utils_1_1streams_1_1_u_b_stream.html#a755f7aa1e1f9631beb277a5f4d4cd077">aalbatross::utils::streams::UBStream&lt; T, S, BASE &gt;</a></li>
-</ul>
-</div><!-- contents -->
+<div class="textblock"><h2><a class="anchor" id="autotoc_md33"></a>
+Introduction</h2>
+<p>stream4cpp library contains 2 types of streams implementation.</p><ol type="1">
+<li>Batch Processing based implementation is called Stream. Batch Processing based implementation applies the transforms and reduction operation parallely on the entire dataset in lazy way. Hence at any time there are more than 1 copy of data/ its transform available in memory when the computation is performed. This type of streams can be useful when we want to do reductions/aggregation on the entire dataset.</li>
+<li>Stream Processing based implementation is called UBStream. Stream Processing based application process the tranform and reduction in streaming way where one element from source is transformed one by one in a lazy way. This type of Stream is useful when we want to work on continuos stream of infinite data where aggregation on all data is difficult or impossible, However working on small windows of data for reduction and aggregations will be useful.</li>
+</ol>
+<p>Each of the above implementations provide some common set of operations categorised as:</p><ol type="1">
+<li>Transformation: These operation transforms the incoming data without aggregating it. This step where the source input can be enriched with variety of common transforms like, map, flatmap, filter, skip, limit, sorted, distinct, sliding, fixed etc.</li>
+<li>Reduction: These operation reduces data to results, they are also terminal operations in the stream processing which concludes processing by yielding aggregate of data, some common operations are toVector, groupingBy, reduce, collect, joining, partitioningBy etc. </li>
+</ol>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
