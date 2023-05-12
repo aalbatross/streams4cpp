@@ -127,6 +127,7 @@ for (const auto &employee : employees) {
 - GCC/ any c++ compiler (latest version C++17 supported) like GCC-12.0, Apple-CLang 14.0 etc
 - git
 
+### Installation Steps
 Run the following command to get the library installed:
 ```commandline
 % git clone https://github.com/aalbatross/streams4cpp.git

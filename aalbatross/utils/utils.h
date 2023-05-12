@@ -10,7 +10,7 @@ namespace aalbatross {
 namespace utils {
 
 /**
- * @brief This namespace defines Interfaces and Classes needed to implement Iterators.
+ * @brief This namespace defines Interfaces and Classes needed to implement Custom Iterators.
  * Iterators as structure let us read objects in queryable way from any bound or unbound sources.
  * Bound sources like STL classes, and unbound sources like IO based sources stream of characters on screen
  * and stream of bytes from networks or from files.

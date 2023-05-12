@@ -93,7 +93,7 @@ $(document).ready(function(){initNavTree('md_doc__user_guide.html',''); initResi
   <div class="headertitle"><div class="title">User Guide </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md33"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md1"></a>
 Introduction</h1>
 <p>stream4cpp library facilitates 2 types of processing.</p><ol type="1">
 <li><b>Batch Processing</b>: Batch Processing runs the computation/transformation/reduction/operation on the entire dataset one by one in parallel. This is memory intensive processing and keeps the copy of data and its intermediate states in memory for processing. This type of streams can be useful when we want to do reductions/aggregation on the entire dataset where dataset size fits in system memory. Use <em>streams::Stream</em> class to perform Batch processing.</li>
@@ -104,10 +104,10 @@ Introduction</h1>
 <li><b>Transformation</b>: These operation transforms the incoming data. This step where the source input can be enriched with variety of common transforms like, map, flatmap, filter, skip, limit, sorted, distinct, sliding, fixed etc.</li>
 <li><b>Reduction</b>: These operation reduces data to results, they are also terminal operations which concludes processing by yielding aggregate of data, some common operations are toVector, groupingBy, reduce, collect, joining, partitioningBy etc.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md34"></a>
+<h1><a class="anchor" id="autotoc_md2"></a>
 Transformations</h1>
 <p>Transformation are the operations which transform the incoming data. </p>
-<h2><a class="anchor" id="autotoc_md35"></a>
+<h2><a class="anchor" id="autotoc_md3"></a>
 Map</h2>
 <p>Map is a transform which works on copy of data to transform it into another type/ or structure. For example:</p>
 <div class="fragment"><div class="line"> {c++}</div>
@@ -119,7 +119,7 @@ Map</h2>
 <div class="line">// input: 1,2,3,4,5</div>
 <div class="line">// output: 102 times, 104 times, 106 times ...</div>
 </div><!-- fragment --><p> Consider the above example, here the input stream is first mapped to double its value then to the doubled value add hunderead, and then to that value add times as suffix. In this entire flow the input element is first converted to double, than add hunderead operation is performed and then the results is converted to string.</p>
-<h2><a class="anchor" id="autotoc_md36"></a>
+<h2><a class="anchor" id="autotoc_md4"></a>
 Flatten</h2>
 <p>Flatten function flattens the incoming iterator and applies the provided map function to the flattened iterator. For example:</p>
 <div class="fragment"><div class="line"> {c++}</div>
@@ -128,7 +128,7 @@ Flatten</h2>
 <div class="line">//input: {1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {20, 30, 40, 50}</div>
 <div class="line">//output: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50</div>
 </div><!-- fragment --><p> Consider the above example here input stream has vector of vectors, then the flatten function above returns the vector with all ints.</p>
-<h2><a class="anchor" id="autotoc_md37"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 Filter</h2>
 <p>Filter function filter all the elements from input stream which follows the predicate. For example:</p>
 <div class="fragment"><div class="line"> {c++}</div>
@@ -136,7 +136,7 @@ Filter</h2>
 <div class="line">// input: 70, 80, 90, 100, 110, 120</div>
 <div class="line">// output: 100, 110, 120</div>
 </div><!-- fragment --><p> Consider the above example here, where the input stream contains series of ints, and the operation above filters out all elements which is greater than equal to 100 as output.</p>
-<h2><a class="anchor" id="autotoc_md38"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 Skip</h2>
 <p>Skip function skips provided number of element in the stream, and sends the remaining elements in the stream. For example:</p>
 <div class="fragment"><div class="line"> {c++}</div>
@@ -144,7 +144,7 @@ Skip</h2>
 <div class="line">//input: 1, 2, 3, 4, 5, 6, 7, 8</div>
 <div class="line">//output: 5, 6, 7, 8</div>
 </div><!-- fragment --><p> Consider the above example here, where the input stream contains series of ints, and the operation above skips the first 4 elements and returns remaining as output.</p>
-<h2><a class="anchor" id="autotoc_md39"></a>
+<h2><a class="anchor" id="autotoc_md7"></a>
 Limit</h2>
 <p>Limit function limits provided number of element in the stream, and skips all the remaining elements from the stream. For example:</p>
 <div class="fragment"><div class="line"> {c++}</div>
@@ -152,7 +152,27 @@ Limit</h2>
 <div class="line">//input: 1, 2, 3, 4, 5, 6, 7, 8</div>
 <div class="line">//output: 1, 2, 3, 4</div>
 </div><!-- fragment --><p> Consider the above example here, where the input stream contains series of ints, and the operation above prints the first 4 elements from the input stream as output.</p>
-<h2><a class="anchor" id="autotoc_md40"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
+Distinct</h2>
+<p>Distinct function transform the input stream to a stream with non-repeating input elements in an ordered way, For example: </p><div class="fragment"><div class="line"> {c++}</div>
+<div class="line">auto output = stream.distinct().toVector();</div>
+<div class="line">//input: 1, 2, 3, 3, 4, 4, 5, 4, 4, 5</div>
+<div class="line">//output: 1, 2, 3, 4, 5</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md9"></a>
+Sorted</h2>
+<p>Sorted function transform the input stream to a stream with sorted order of input elements, For example: </p><div class="fragment"><div class="line"> {c++}</div>
+<div class="line">auto greaterOutput = stream.sorted(std::greater&lt;&gt;()).toVector();</div>
+<div class="line">auto lesserOutput = stream.sorted(std::less&lt;&gt;()).toVector();</div>
+<div class="line">//input: 121, 12, 123, 41, 59</div>
+<div class="line">//greaterOutput: 123, 121, 59, 41, 12;</div>
+<div class="line">//lesserOutput: 12, 41, 59, 121, 123</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md10"></a>
+Reverse</h2>
+<p>Reverse function transform the input stream to a stream in a opposite direction, For example: </p><div class="fragment"><div class="line"> {c++}</div>
+<div class="line">auto output = stream.reverse().toVector();</div>
+<div class="line">//input: 1, 2, 3, 4, 5 </div>
+<div class="line">//output: 5, 4, 3, 2, 1</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md11"></a>
 Sliding Window</h2>
 <p>Sliding window function creates a sliding window of defined size on incoming stream. For example:</p>
 <div class="fragment"><div class="line"> {c++}</div>
@@ -160,15 +180,224 @@ Sliding Window</h2>
 <div class="line">//input: 1, 2, 3, 4, 5, 6, 7, 8 ....</div>
 <div class="line">//output: [1, 2, 3, 4], [2 ,3, 4, 5], [3, 4, 5, 6], [4, 5, 6, 7], [5, 6, 7, 8]</div>
 </div><!-- fragment --><p>Consider the above example here, where the input stream contains series of ints, and the operation above create sliding window of defined elements from the incoming stream as output.</p>
-<h2><a class="anchor" id="autotoc_md41"></a>
+<h2><a class="anchor" id="autotoc_md12"></a>
 Fixed Window</h2>
 <p>Fixed window function creates a non overlapping window of defined size on incoming stream. For example:</p>
 <div class="fragment"><div class="line"> {c++}</div>
 <div class="line">auto output = stream.fixed(4).toVector();</div>
 <div class="line">//input: 1, 2, 3, 4, 5, 6, 7, 8 ....</div>
 <div class="line">//output: [1, 2, 3, 4], [5 ,6, 7, 8] ...</div>
-</div><!-- fragment --><p>Consider the above example here, where the input stream contains series of ints, and the operation above create fixed non overlapping window of defined size from the incoming stream as output. </p>
-</div></div><!-- contents -->
+</div><!-- fragment --><p>Consider the above example here, where the input stream contains series of ints, and the operation above create fixed non overlapping window of defined size from the incoming stream as output.</p>
+<h1><a class="anchor" id="autotoc_md13"></a>
+Reductions</h1>
+<p>These operations reduce the stream of data to results. These are terminal operations.</p>
+<h2><a class="anchor" id="autotoc_md14"></a>
+Reduce</h2>
+<p>Reduce operation takes 2 inputs one seed value of result and other as binary operation on input to yield reduction on result. For example: </p><div class="fragment"><div class="line"> {c++}</div>
+<div class="line">const auto sumAccumulator = [](auto x_1, auto y_1) { return x_1 + y_1; };</div>
+<div class="line">auto sum = newStream.reduce(0, sumAccumulator);</div>
+<div class="line"> </div>
+<div class="line">//input: 1, 2, 3, 4, 5</div>
+<div class="line">//sum: 15</div>
+</div><!-- fragment --><p> Example above shows sum of input stream as reduce operation. Here the 0 in the reduce is seed value, and sumAccumulator is binary operation which is applied on input data from left to right to yield sum of the stream.</p>
+<h2><a class="anchor" id="autotoc_md15"></a>
+For Each</h2>
+<p>For Each Operation is applied on the input stream of elements, and the function is provided with consumer which accept the element from the input stream. For example:</p>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">const auto print = [](const auto &amp;element) { std::cout &lt;&lt; element &lt;&lt; std::endl; };</div>
+<div class="line">const auto doubler = [](const auto element) { return element * 2.0; };</div>
+<div class="line">const auto plusHunderead = [](const auto element) { return element + 100; };</div>
+<div class="line">const auto addTimes = [](const auto element) { return std::to_string(element) + &quot; times&quot;; };</div>
+<div class="line">stream.map(doubler).map(plusHunderead).map(addTimes).forEach(print);</div>
+<div class="line">//input: 1,2,3,4,5</div>
+<div class="line">//output:</div>
+<div class="line">102 times</div>
+<div class="line">104 times</div>
+<div class="line">106 times</div>
+<div class="line">108 times</div>
+<div class="line">110 times</div>
+</div><!-- fragment --><p> In the above example we demonstrate an example of printing underlying stream of data.</p>
+<h2><a class="anchor" id="autotoc_md16"></a>
+Match</h2>
+<p>Match function checks the entire stream for a given predicate and return true/false if match predicate succeeds. Examples of different type of matches are given below:</p>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">EXPECT_TRUE(stream.allMatch([](auto num) { return num &gt;= 10; }));</div>
+<div class="line">EXPECT_FALSE(stream.allMatch([](auto num) { return num &gt;= 20; }));</div>
+<div class="line">EXPECT_TRUE(stream.anyMatch([](auto num) { return num &gt;= 20; }));</div>
+<div class="line">EXPECT_FALSE(stream.anyMatch([](auto num) { return num &lt;= 0; }));</div>
+<div class="line">EXPECT_TRUE(stream.noneMatch([](auto num) { return num &lt;= 0; }));</div>
+<div class="line">EXPECT_FALSE(stream.noneMatch([](auto num) { return num &gt;= 0; }));</div>
+<div class="line">//input: 21, 20, 10, 16, 40, 50</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md17"></a>
+Head, Tail and Find</h2>
+<p>Head, Tail and Find function provides first, last and finds an element in the input stream respectively. Example of Head, tail and find is as follows:</p>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">EXPECT_EQ(stream.head().value(), 21);</div>
+<div class="line">EXPECT_EQ(stream.tail().value(), 50);</div>
+<div class="line">EXPECT_EQ(stream.find([](auto num) { return num % 25 == 0; }).value(), 50);</div>
+<div class="line">//input: 21, 20, 10, 16, 40, 50</div>
+</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md18"></a>
+Collectors</h1>
+<p>Collectors are special set of reducers which provide some common pattern of reductions on stream. This section we provide examples of Collectors on Blogpost type. Let's define BlogPost as a structure to show examples on this type. </p><div class="fragment"><div class="line"> {c++}</div>
+<div class="line">enum BlogPostType {</div>
+<div class="line">  NEWS,</div>
+<div class="line">  REVIEW,</div>
+<div class="line">  GUIDE</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line">struct BlogPost {</div>
+<div class="line">  std::string title;</div>
+<div class="line">  std::string author;</div>
+<div class="line">  BlogPostType type;</div>
+<div class="line">  int likes;</div>
+<div class="line">};</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md19"></a>
+Group by</h2>
+<h3><a class="anchor" id="autotoc_md20"></a>
+Group by on Single Column</h3>
+<p>Get all blog posts grouped by post type </p><div class="fragment"><div class="line"> {c++}</div>
+<div class="line">map&lt;BlogPostType, vector&lt;BlogPost&gt;&gt; groupedBy = dataset.stream().collect(streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.type; }));</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md21"></a>
+Group by on Single Column with modified key type</h3>
+<ul>
+<li>Get all blog posts grouped by blog author and blog post type. <div class="fragment"><div class="line"> {c++}</div>
+<div class="line">map&lt;pair&lt;BlogPostType, string&gt;, vector&lt;BlogPost&gt;&gt; groupedBy = dataset.stream().collect(</div>
+<div class="line">      streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return std::pair{post.type, post.author}; }));</div>
+</div><!-- fragment --></li>
+<li>Get all blog posts grouped by blog author ,blog post type and number of likes. <div class="fragment"><div class="line"> {c++}</div>
+<div class="line">map&lt;tuple&lt;BlogPostType, string, int&gt;, vector&lt;BlogPost&gt;&gt; groupedBy = dataset.stream().collect(</div>
+<div class="line">      streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return std::tuple{post.type, post.author, post.likes}; }));</div>
+</div><!-- fragment --></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md22"></a>
+Group by on Single Column with modified value type</h3>
+<ul>
+<li>Get set of blog posts grouped by post type <div class="fragment"><div class="line"> {c++}</div>
+<div class="line">auto comparator = [](auto a1, auto a2) {</div>
+<div class="line">  return a1.likes &lt; a2.likes;</div>
+<div class="line">};</div>
+<div class="line">auto groupedBy = dataset.stream().collect(</div>
+<div class="line">    streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.type; },</div>
+<div class="line">                                              streams::Collectors::toSet&lt;BlogPost, decltype(comparator)&gt;(comparator)));</div>
+</div><!-- fragment --></li>
+</ul>
+<h3><a class="anchor" id="autotoc_md23"></a>
+Cascading Group by</h3>
+<p>Get all blog posts group by author and then blogpost type </p><div class="fragment"><div class="line"> {c++}</div>
+<div class="line">map&lt;string, map&lt;BlogPostType, vector&lt;BlogPost&gt;&gt;&gt; groupedBy = dataset.stream().collect(</div>
+<div class="line">      streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.author; },</div>
+<div class="line">                                                streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.type; })));</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md24"></a>
+Aggregate results</h3>
+<ul>
+<li>Get sum of all likes per post type <div class="fragment"><div class="line"> {c++}</div>
+<div class="line">map&lt;BlogPostType, long&gt; groupedBy = dataset.stream().collect(</div>
+<div class="line">                                          streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.type; },</div>
+<div class="line">                                                                                    streams::Collectors::summingLong([](auto post) { return post.likes; })));</div>
+</div><!-- fragment --></li>
+<li>Get average likes per post type <div class="fragment"><div class="line"> {c++}</div>
+<div class="line">map&lt;BlogPostType, double&gt; groupedBy = dataset.stream().collect(</div>
+<div class="line">                                          streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.type; },</div>
+<div class="line">                                                                                    streams::Collectors::averaging([](auto post) { return post.likes; })));</div>
+</div><!-- fragment --></li>
+<li>Get number of posts and there titles for each author <div class="fragment"><div class="line"> {c++}</div>
+<div class="line">struct PostCountTitles {</div>
+<div class="line">  long postCount;</div>
+<div class="line">  std::string titles;</div>
+<div class="line">}; </div>
+<div class="line">map&lt;string, PostCountTitles&gt; groupedBy = dataset.stream().collect(</div>
+<div class="line">                                               streams::Collectors::groupingBy&lt;BlogPost&gt;([](auto post) { return post.author; },</div>
+<div class="line">                                                                                         streams::Collectors::collectingAndThen(streams::Collectors::toVector&lt;BlogPost&gt;(), [](auto posts) {</div>
+<div class="line">                                                                                           iterators::ListIterator iterator(posts.begin(), posts.end());</div>
+<div class="line">                                                                                           streams::Stream&lt;BlogPost&gt; postStream(iterator);</div>
+<div class="line">                                                                                           auto count = postStream.collect(streams::Collectors::counting());</div>
+<div class="line">                                                                                           auto titles = postStream.map([](auto post) { return post.title; })</div>
+<div class="line">                                                                                                                    .collect(streams::Collectors::joining(&quot; : &quot;));</div>
+<div class="line">                                                                                           return PostCountTitles{count, titles};</div>
+<div class="line">                                                                                         })));</div>
+</div><!-- fragment --></li>
+</ul>
+<h2><a class="anchor" id="autotoc_md25"></a>
+Collect as containers</h2>
+<h3><a class="anchor" id="autotoc_md26"></a>
+Collect as vector</h3>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">auto vector = data.stream().collect(streams::Collectors::toVector&lt;int&gt;());</div>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md27"></a>
+Collect as set</h3>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">auto set = data.stream().collect(streams::Collectors::toSet&lt;int&gt;());</div>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md28"></a>
+Collect as any container</h3>
+<div class="fragment"><div class="line">{c++}</div>
+<div class="line"> std::unordered_set&lt;int&gt; unorderedSet;</div>
+<div class="line"> auto outSet = data.stream().collect(streams::Collectors::toContainer(unorderedSet));</div>
+<div class="line"> std::list&lt;int&gt; list;</div>
+<div class="line"> auto outList = data.stream().collect(streams::Collectors::toContainer(list));</div>
+<div class="line"> std::deque&lt;int&gt; dq;</div>
+<div class="line"> auto outDq = data.stream().collect(streams::Collectors::toContainer(dq));</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md29"></a>
+Collect as map</h3>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">struct AType {</div>
+<div class="line">  int a;</div>
+<div class="line">  char b;</div>
+<div class="line">  std::string c;</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line">map&lt;int, string&gt; result1= dataset.stream().collect(streams::Collectors::toMap&lt;AType&gt;([](auto pod) { return pod.a; }, [](auto pod) { return pod.c; }));</div>
+<div class="line">  </div>
+<div class="line">map&lt;char,string&gt; result2 = dataset.stream().collect(streams::Collectors::toMap&lt;AType&gt;([](auto pod) { return pod.b; }, [](auto pod) { return pod.c; }, [](auto a1, auto a2) { return a1 + &quot;, &quot; + a2; }));</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md30"></a>
+Counting and Then</h2>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">collection::Svector vector{12, 2, 13, 4, 5};</div>
+<div class="line">vector.stream().collect(streams::Collectors::collectingAndThen(streams::Collectors::counting(), [](auto count) { std::cout &lt;&lt; count &lt;&lt; std::endl; }));</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md31"></a>
+Joining string</h2>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">collection::Svector vector{&quot;apple&quot;, &quot;boy&quot;, &quot;cat&quot;, &quot;dog&quot;, &quot;elephant&quot;, &quot;fish&quot;, &quot;girl&quot;};</div>
+<div class="line">string joined1 = vector.stream().collect(streams::Collectors::joining());</div>
+<div class="line">// apple boy cat dog elephant fish girl</div>
+<div class="line">string joined2 = vector.stream().collect(streams::Collectors::joining(&quot;,&quot;));</div>
+<div class="line">// apple,boy,cat,dog,elephant,fish,girl</div>
+<div class="line">string joined3 = vector.stream().collect(streams::Collectors::joining(&quot;, &quot;, &quot;[&quot;, &quot;]&quot;));</div>
+<div class="line">// [apple, boy, cat, dog, elephant, fish, girl]</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md32"></a>
+Partitioning by</h2>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">collection::SVector data{21, 20, 29, 10, 17, 16, 40, 50};</div>
+<div class="line"> </div>
+<div class="line">map&lt;bool, vector&lt;int&gt;&gt; result1 = data.stream().collect(streams::Collectors::partitioningBy&lt;int&gt;([](auto element) { return element % 2 == 0; }));</div>
+<div class="line">EXPECT_EQ(2, result1.size());</div>
+<div class="line">EXPECT_THAT(result1[true], ::testing::ElementsAre(20, 10, 16, 40, 50));</div>
+<div class="line">EXPECT_THAT(result1[false], ::testing::ElementsAre(21, 29, 17));</div>
+<div class="line"> </div>
+<div class="line">map&lt;bool, long&gt; result2 = data.stream().collect(streams::Collectors::partitioningBy&lt;int&gt;([](auto element) { return element % 2 == 0; }, streams::Collectors::counting()));</div>
+<div class="line">EXPECT_EQ(2, result2.size());</div>
+<div class="line">EXPECT_EQ(result2[true], 5);</div>
+<div class="line">EXPECT_EQ(result2[false], 3);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md33"></a>
+Averaging</h2>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">collection::SVector data{12, 2, 13, 4, 5};</div>
+<div class="line">double avg = data.stream().collect(streams::Collectors::::averaging([](auto element) { return element * 1.0; });</div>
+<div class="line">// 7.2</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md34"></a>
+Counting</h2>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">collection::SVector data{12, 2, 13, 4, 5};</div>
+<div class="line">size_t count = data.stream().collect(streams::Collectors::::counting());</div>
+<div class="line">// 5</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md35"></a>
+Summing</h2>
+<div class="fragment"><div class="line"> {c++}</div>
+<div class="line">collection::SVector data{12, 2, 13, 4, 5};</div>
+<div class="line">long sum1 = data.stream().collect(streams::Collectors::::summingLong([](auto element) { return element; });</div>
+<div class="line">// 36</div>
+<div class="line">double sum2 = data.stream().collect(streams::Collectors::::summingLong([](auto element) { return element * 1.0; });</div>
+<div class="line">// 36.0</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->

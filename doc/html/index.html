@@ -102,19 +102,19 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <li><b>Possibly unbounded</b>: While collections have a finite size, streams need not. Short-circuiting operations such as limit(n) or findFirst() can allow computations on infinite streams to complete in finite time.</li>
 <li><b>Consumable</b>: The elements of a stream are consumable w.r.t to operations defined in the pipeline.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md43"></a>
+<h1><a class="anchor" id="autotoc_md37"></a>
 Features</h1>
 <ul>
 <li><b>Stream</b>: Perform map/reduce operation on the bounded/ unbounded data containers or Iterators.</li>
 <li><b>Streamable Collection</b>: Streamable STL containers supporting functional style transforms.</li>
 <li><b>Collectors</b>: Implementations of Collector that implement various useful common reduction operations.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md44"></a>
+<h1><a class="anchor" id="autotoc_md38"></a>
 Documentation</h1>
 <p>Refer <a href="https://aalbatross.github.io/streams4cpp/doc/html/index.html">documentation</a> for detailed API review.</p>
-<h1><a class="anchor" id="autotoc_md45"></a>
+<h1><a class="anchor" id="autotoc_md39"></a>
 Illustrative Examples</h1>
-<h2><a class="anchor" id="autotoc_md46"></a>
+<h2><a class="anchor" id="autotoc_md40"></a>
 Word Count in a File</h2>
 <p>Counting frequency of each word in the file. </p><div class="fragment"><div class="line"> {c++}</div>
 <div class="line">std::ifstream file(&quot;story.txt&quot;);</div>
@@ -131,7 +131,7 @@ Word Count in a File</h2>
 <div class="line">  for (const auto&amp; word: wordCount) {</div>
 <div class="line">    std::cout &lt;&lt; word.first &lt;&lt; &quot; -&gt; &quot; &lt;&lt; word.second &lt;&lt; std::endl;</div>
 <div class="line">  }</div>
-</div><!-- fragment --> <h2><a class="anchor" id="autotoc_md47"></a>
+</div><!-- fragment --> <h2><a class="anchor" id="autotoc_md41"></a>
 Moving average on stream</h2>
 <p>Calculating moving average from prices in sliding window of 2. </p><div class="fragment"><div class="line"> {c++}</div>
 <div class="line">std::vector prices{110.0, 213.90, 311.69, 412.23, 512.1, 610.03, 1000.0, 2102.12};</div>
@@ -140,7 +140,7 @@ Moving average on stream</h2>
 <div class="line">                              .sliding(2)</div>
 <div class="line">                              .map([](auto window) { return window.stream().collect(Collectors::averaging()); });</div>
 <div class="line">auto movingAverage = movingAverageStream.toVector();</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md48"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md42"></a>
 Reading CSV file line by line to POD(Plain Old data)</h2>
 <div class="fragment"><div class="line"> {c++}</div>
 <div class="line">struct Employee {</div>
@@ -206,9 +206,9 @@ Reading CSV file line by line to POD(Plain Old data)</h2>
 <div class="line">for (const auto &amp;employee : employees) {</div>
 <div class="line">  std::cout &lt;&lt; employee &lt;&lt; std::endl;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md49"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md43"></a>
 Installation Guide</h1>
-<h2><a class="anchor" id="autotoc_md50"></a>
+<h2><a class="anchor" id="autotoc_md44"></a>
 Pre-requisites</h2>
 <ul>
 <li>doxygen -1.9.6</li>
@@ -219,6 +219,8 @@ Pre-requisites</h2>
 <li>GCC/ any c++ compiler (latest version C++17 supported) like GCC-12.0, Apple-CLang 14.0 etc</li>
 <li>git</li>
 </ul>
+<h2><a class="anchor" id="autotoc_md45"></a>
+Installation Steps</h2>
 <p>Run the following command to get the library installed: </p><div class="fragment"><div class="line">% git clone https://github.com/aalbatross/streams4cpp.git</div>
 <div class="line">% cmake -S. -Brelease -DCMAKE_BUILD_TYPE=Release</div>
 <div class="line">% cmake --build release/.</div>

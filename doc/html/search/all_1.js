@@ -6,8 +6,7 @@ var searchData=
   ['collector_2eh_3',['collector.h',['../collector_8h.html',1,'']]],
   ['collectors_4',['Collectors',['../structaalbatross_1_1utils_1_1streams_1_1_collectors.html',1,'aalbatross::utils::streams']]],
   ['collectors_2eh_5',['collectors.h',['../collectors_8h.html',1,'']]],
-  ['collectors_2emd_6',['Collectors.md',['../_collectors_8md.html',1,'']]],
-  ['consumerprocessor_7',['ConsumerProcessor',['../structaalbatross_1_1utils_1_1streams_1_1_consumer_processor.html',1,'aalbatross::utils::streams::ConsumerProcessor&lt; Consumer, IN &gt;'],['../structaalbatross_1_1utils_1_1streams_1_1_consumer_processor.html#a9b12a511728e88e92de50dc22daf1982',1,'aalbatross::utils::streams::ConsumerProcessor::ConsumerProcessor()']]],
-  ['count_8',['count',['../structaalbatross_1_1utils_1_1streams_1_1_stream.html#a93cfed41d531e1898a783c45919fabf6',1,'aalbatross::utils::streams::Stream']]],
-  ['counting_9',['counting',['../structaalbatross_1_1utils_1_1streams_1_1_collectors.html#a5b62d73ad3a8fb422bf364a494373d02',1,'aalbatross::utils::streams::Collectors']]]
+  ['consumerprocessor_6',['ConsumerProcessor',['../structaalbatross_1_1utils_1_1streams_1_1_consumer_processor.html',1,'aalbatross::utils::streams::ConsumerProcessor&lt; Consumer, IN &gt;'],['../structaalbatross_1_1utils_1_1streams_1_1_consumer_processor.html#a9b12a511728e88e92de50dc22daf1982',1,'aalbatross::utils::streams::ConsumerProcessor::ConsumerProcessor()']]],
+  ['count_7',['count',['../structaalbatross_1_1utils_1_1streams_1_1_stream.html#a93cfed41d531e1898a783c45919fabf6',1,'aalbatross::utils::streams::Stream']]],
+  ['counting_8',['counting',['../structaalbatross_1_1utils_1_1streams_1_1_collectors.html#a5b62d73ad3a8fb422bf364a494373d02',1,'aalbatross::utils::streams::Collectors']]]
 ];
