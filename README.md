@@ -1,6 +1,6 @@
 ## Introduction
 
-streams4cpp is a header only C++ library which implements jvm like streams in C++. It aims to provide C++ programmers
+streams4cpp is a header only C++ library which implements [MapReduce](https://en.wikipedia.org/wiki/MapReduce) programming primitive in C++ 17. It aims to provide C++ programmers
 with map/reduce style stream based one-liner operations on bounded and unbounded container of elements.
 
 Streams differ from collections in several ways:
@@ -127,6 +127,7 @@ for (const auto &employee : employees) {
 - GCC/ any c++ compiler (latest version C++17 supported) like GCC-12.0, Apple-CLang 14.0 etc
 - git
 
+Run the following command to get the library installed:
 ```commandline
 % git clone https://github.com/aalbatross/streams4cpp.git
 % cmake -S. -Brelease -DCMAKE_BUILD_TYPE=Release

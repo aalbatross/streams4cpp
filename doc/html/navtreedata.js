@@ -50,7 +50,18 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Introduction to Streams", "md_doc__usage.html", null ],
-    [ "User Guide", "md_doc__user_guide.html", null ],
+    [ "User Guide", "md_doc__user_guide.html", [
+      [ "Introduction", "md_doc__user_guide.html#autotoc_md33", null ],
+      [ "Transformations", "md_doc__user_guide.html#autotoc_md34", [
+        [ "Map", "md_doc__user_guide.html#autotoc_md35", null ],
+        [ "Flatten", "md_doc__user_guide.html#autotoc_md36", null ],
+        [ "Filter", "md_doc__user_guide.html#autotoc_md37", null ],
+        [ "Skip", "md_doc__user_guide.html#autotoc_md38", null ],
+        [ "Limit", "md_doc__user_guide.html#autotoc_md39", null ],
+        [ "Sliding Window", "md_doc__user_guide.html#autotoc_md40", null ],
+        [ "Fixed Window", "md_doc__user_guide.html#autotoc_md41", null ]
+      ] ]
+    ] ],
     [ "LICENSE", "md_venv_lib_python3_11_site_packages_conan_2_0_4_dist_info__l_i_c_e_n_s_e.html", null ],
     [ "LICENSE", "md_venv_lib_python3_11_site_packages_idna_3_4_dist_info__l_i_c_e_n_s_e.html", null ],
     [ "Namespaces", "namespaces.html", [
@@ -79,8 +90,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#a6b17c460fa699139a85e092d6312a3f9",
-"structaalbatross_1_1utils_1_1streams_1_1_stream.html#ae77b75ab264a3f184863be878c3683f5"
+"structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html",
+"structaalbatross_1_1utils_1_1streams_1_1_stream.html#aaf9a3cc5f5004253135ec25f7838e30c"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
