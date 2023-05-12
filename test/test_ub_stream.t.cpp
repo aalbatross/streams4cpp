@@ -1,3 +1,4 @@
+#include <aalbatross/utils/streams/collectors.h>
 #include <aalbatross/utils/streams/ub_stream.h>
 
 #include <gmock/gmock.h>
@@ -84,6 +85,25 @@ TEST(UBStreamTestFixture, MapWithFlatMapTest) {
   auto elements = flatMappedStream.toVector();
 
   EXPECT_THAT(elements, ::testing::ElementsAre(10, 20, 30, 40, 50, 60));
+}
+
+TEST(UBStreamTestFixture, OnStreamAggregationTest) {
+  std::vector data{1, 2, 3, 4, 5, 6};
+  streams::UBStream<int> stream(data.begin(), data.end());
+  auto flatMappedStream = stream.sliding(2).map([](auto element) { return element.stream().sum(); });
+  auto elements = flatMappedStream.toVector();
+  EXPECT_THAT(elements, ::testing::ElementsAre(3, 5, 7, 9, 11));
+}
+
+TEST(UBStreamTestFixture, MovingAverageTest) {
+  std::vector data{110.0, 213.90, 311.69, 412.23, 512.1, 610.03, 1000.0, 2102.12};
+  streams::UBStream<double> stream(data.begin(), data.end());
+  auto movingAverageStream = stream
+                                 .sliding(2)
+                                 .map([](auto element) { return element.stream().collect(streams::Collectors::averaging()); });
+  auto elements = movingAverageStream.toVector();
+  using namespace ::testing;
+  EXPECT_THAT(elements, ::testing::ElementsAre(DoubleEq(161.95), DoubleEq(262.795), DoubleEq(361.96), DoubleEq(462.165), DoubleEq(561.065), DoubleEq(805.015), DoubleEq(1551.06)));
 }
 
 }// namespace aalbatross::utils::test

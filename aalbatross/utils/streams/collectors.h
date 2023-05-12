@@ -77,6 +77,25 @@ struct Collectors final {
   }
 
   /**
+  * \fn auto averaging()
+  * \brief Returns a Collector that produces the arithmetic mean of the input elements. If no elements are present, the result is 0.
+  * @return a Collector that produces the arithmetic mean of a derived property
+  */
+  static auto averaging() {
+    return streams::Collector{[] { return std::vector<double>(); },
+                              [](std::vector<double> &intermediate, auto element) {
+                                intermediate.emplace_back(element);
+                              },
+                              [](std::vector<double> &intermediate) -> double {
+                                double sum = 0;
+                                for (const double &item : intermediate) {
+                                  sum += item;
+                                }
+                                return (sum / intermediate.size());
+                              }};
+  }
+
+  /**
    * \fn auto counting()
    * \brief Returns a Collector accepting elements of type T that counts the number of input elements.
    * @return a Collector that counts the input elements

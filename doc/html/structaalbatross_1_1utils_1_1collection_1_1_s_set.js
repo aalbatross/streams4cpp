@@ -7,5 +7,6 @@ var structaalbatross_1_1utils_1_1collection_1_1_s_set =
     [ "~SSet", "structaalbatross_1_1utils_1_1collection_1_1_s_set.html#af3f8a985c6455f816788a467a7b67e51", null ],
     [ "operator=", "structaalbatross_1_1utils_1_1collection_1_1_s_set.html#a55656d9020c0a81c07c759a3d8943fd3", null ],
     [ "operator=", "structaalbatross_1_1utils_1_1collection_1_1_s_set.html#a51737187c193ae6eed0c34ea41eedaf7", null ],
-    [ "stream", "structaalbatross_1_1utils_1_1collection_1_1_s_set.html#a19dcaeb02c76cb5e05c82bfaca06f74d", null ]
+    [ "stream", "structaalbatross_1_1utils_1_1collection_1_1_s_set.html#a19dcaeb02c76cb5e05c82bfaca06f74d", null ],
+    [ "ubstream", "structaalbatross_1_1utils_1_1collection_1_1_s_set.html#a5e1ceb9280e4fc428eae6cadd4d7842e", null ]
 ];

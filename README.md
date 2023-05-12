@@ -5,7 +5,7 @@ with map/reduce style stream based one-liner operations on bounded and unbounded
 
 Streams differ from collections in several ways:
 
-- **No storage**:  AType stream does not store elements; instead, it transforms element from backing source such as a data structure, an array, a generator function, or an I/O channel, through a series of computational operations.
+- **No storage**:  A stream does not store elements; instead, it transforms element from backing source such as a data structure, an array, a generator function, or an I/O channel, through a series of computational operations.
 - **Functional in nature**: Streaming operations are defined as functions, which produces a result, but does not modify its source.
 - **Lazy evaluation**: Stream is evaluated in lazily on reduce or collect operation, all the other operations like map, filter, distinct, sorted which are non-terminal operations only updates the internal computation. 
 - **Possibly unbounded**: While collections have a finite size, streams need not. Short-circuiting operations such as limit(n) or findFirst() can allow computations on infinite streams to complete in finite time.
@@ -30,24 +30,91 @@ std::istream_iterator<std::string> end_it;
 
 streams::UBStream<std::string> newStream(std::move(begin_it), std::move(end_it));
   auto wordCount = newStream
-      .map([] (auto line){
-            std::vector<std::string> words;
-            std::stringstream ss(line);
-            std::string word;
-            while (ss >> word) { // Extract word from the stream.
-              words.emplace_back(word);
-            }
-            return words;
-      })
-      .flatten([](auto element){return element;})
-      .collect(streams::Collectors::groupingBy<std::string>(
-                   [] (auto element) {return element;},
-                   streams::Collectors::counting()
-                   ));
+                      .collect(streams::Collectors::groupingBy<std::string>(
+                        [] (auto element) {return element;},
+                        streams::Collectors::counting()
+                        ));
 
   for (const auto& word: wordCount) {
     std::cout << word.first << " -> " << word.second << std::endl;
   }
+```
+### Moving average on stream
+Calculating moving average from prices in sliding window of 2.
+```c++
+std::vector prices{110.0, 213.90, 311.69, 412.23, 512.1, 610.03, 1000.0, 2102.12};
+streams::UBStream<double> stream(data.begin(), data.end());
+auto movingAverageStream = stream
+                              .sliding(2)
+                              .map([](auto window) { return window.stream().collect(Collectors::averaging()); });
+auto movingAverage = movingAverageStream.toVector();
+```
+
+### Reading CSV file line by line to POD(Plain Old data)
+```c++
+struct Employee {
+  long employeeId;
+  std::string firstName;
+  std::string lastName;
+  std::string email;
+  std::string phoneNo;
+  std::string hireDate;
+  std::string jobId;
+  long salary;
+  long commissionPct;
+  long managerId;
+  long departmentId;
+
+  friend std::ostream &operator<<(std::ostream &os, const Employee &employee) {
+    os << "employeeId: " << employee.employeeId << " firstName: " << employee.firstName << " lastName: " << employee.lastName << " email: " << employee.email << " phoneNo: " << employee.phoneNo << " hireDate: " << employee.hireDate << " jobId: " << employee.jobId << " salary: " << employee.salary << " commissionPct: " << employee.commissionPct << " managerId: " << employee.managerId << " departmentId: " << employee.departmentId;
+    return os;
+  }
+};
+
+class Line: public std::string {
+  friend std::istream & operator>>(std::istream & is, Line & line)
+  {
+    return std::getline(is, line);
+  }
+};
+
+std::ifstream file("/Users/ravipathak/Downloads/employees.csv");
+std::istream_iterator<Line> begin_it(file);
+std::istream_iterator<Line> end_it;
+
+streams::UBStream<Line> newStream(std::move(begin_it), std::move(end_it));
+// skip 1 skips the header
+auto employees = newStream.skip(1).map([](auto line) {
+                                      size_t pos = 0;
+                                      std::string token;
+                                      std::vector<std::string> words;
+                                      std::string delimiter = ",";
+                                      while ((pos = line.find(delimiter)) != std::string::npos) {
+                                        token = line.substr(0, pos);
+                                        words.emplace_back(token);
+                                        line.erase(0, pos + delimiter.length());
+                                      }
+
+                                      return Employee{
+                                          std::strtol(words[0].c_str(), nullptr, 10),
+                                          words[1],
+                                          words[2],
+                                          words[3],
+                                          words[4],
+                                          words[5],
+                                          words[6],
+                                          std::strtol(words[7].c_str(), nullptr, 10),
+                                          std::strtol(words[8].c_str(), nullptr, 10),
+                                          std::strtol(words[9].c_str(), nullptr, 10),
+                                          std::strtol(words[10].c_str(), nullptr, 10)};
+                                    })
+                                    //filters all the employees whose salary is greater than equals to 10000
+                                    .filter([](const auto emp) {return emp.salary >= 10000;})
+                                    .toVector();
+
+for (const auto &employee : employees) {
+  std::cout << employee << std::endl;
+}
 ```
 
 ## Installation Guide

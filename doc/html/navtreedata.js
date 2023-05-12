@@ -50,6 +50,7 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Introduction to Streams", "md_doc__usage.html", null ],
+    [ "User Guide", "md_doc__user_guide.html", null ],
     [ "LICENSE", "md_venv_lib_python3_11_site_packages_conan_2_0_4_dist_info__l_i_c_e_n_s_e.html", null ],
     [ "LICENSE", "md_venv_lib_python3_11_site_packages_idna_3_4_dist_info__l_i_c_e_n_s_e.html", null ],
     [ "Namespaces", "namespaces.html", [
@@ -78,8 +79,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#abffca61dc766bf55b0668a0326481b82",
-"structaalbatross_1_1utils_1_1streams_1_1_stream.html#af5698b36ee84d43a5d927a79f9668709"
+"structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html",
+"structaalbatross_1_1utils_1_1streams_1_1_stream.html#a93cfed41d531e1898a783c45919fabf6"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -3,6 +3,7 @@ var hierarchy =
     [ "aalbatross::utils::streams::Collector< Supplier, Accumulator, Finisher >", "classaalbatross_1_1utils_1_1streams_1_1_collector.html", null ],
     [ "aalbatross::utils::streams::Collectors", "structaalbatross_1_1utils_1_1streams_1_1_collectors.html", null ],
     [ "std::deque", null, [
+      [ "aalbatross::utils::collection::SDeque< IN >", "structaalbatross_1_1utils_1_1collection_1_1_s_deque.html", null ],
       [ "aalbatross::utils::collection::SDeque< S, Allocator >", "structaalbatross_1_1utils_1_1collection_1_1_s_deque.html", null ]
     ] ],
     [ "aalbatross::utils::iterators::Iterator< T >", "structaalbatross_1_1utils_1_1iterators_1_1_iterator.html", [
@@ -28,10 +29,12 @@ var hierarchy =
       [ "aalbatross::utils::streams::SlidingWindowProcessor< IN >", "structaalbatross_1_1utils_1_1streams_1_1_sliding_window_processor.html", null ]
     ] ],
     [ "aalbatross::utils::collection::SCollection< S >", "structaalbatross_1_1utils_1_1collection_1_1_s_collection.html", [
+      [ "aalbatross::utils::collection::SDeque< IN >", "structaalbatross_1_1utils_1_1collection_1_1_s_deque.html", null ],
       [ "aalbatross::utils::collection::SDeque< S, Allocator >", "structaalbatross_1_1utils_1_1collection_1_1_s_deque.html", null ],
       [ "aalbatross::utils::collection::SList< S, Allocator >", "structaalbatross_1_1utils_1_1collection_1_1_s_list.html", null ],
       [ "aalbatross::utils::collection::SVector< S, Allocator >", "structaalbatross_1_1utils_1_1collection_1_1_s_vector.html", null ]
     ] ],
+    [ "aalbatross::utils::collection::SCollection< IN >", "structaalbatross_1_1utils_1_1collection_1_1_s_collection.html", null ],
     [ "aalbatross::utils::collection::SCollection< Key >", "structaalbatross_1_1utils_1_1collection_1_1_s_collection.html", [
       [ "aalbatross::utils::collection::SSet< Key, Compare, Allocator >", "structaalbatross_1_1utils_1_1collection_1_1_s_set.html", null ],
       [ "aalbatross::utils::collection::SUSet< Key, Hash, KeyEqual, Allocator >", "structaalbatross_1_1utils_1_1collection_1_1_s_u_set.html", null ]

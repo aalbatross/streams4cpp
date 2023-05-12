@@ -7,5 +7,6 @@ var structaalbatross_1_1utils_1_1collection_1_1_s_u_map =
     [ "~SUMap", "structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#abffca61dc766bf55b0668a0326481b82", null ],
     [ "operator=", "structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#a3769b0b60bb67564df9975cedcbaafb0", null ],
     [ "operator=", "structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#af1484bf9a5cc8a71fdf253a41802b70c", null ],
-    [ "stream", "structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#a379b80afd2eac4d7c21b3dabaa53e7bc", null ]
+    [ "stream", "structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#a379b80afd2eac4d7c21b3dabaa53e7bc", null ],
+    [ "ubstream", "structaalbatross_1_1utils_1_1collection_1_1_s_u_map.html#ab15eb4867db0409d6a3b5be9b7b57cdc", null ]
 ];

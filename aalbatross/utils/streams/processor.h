@@ -1,8 +1,9 @@
 #ifndef INCLUDED_STREAMS4CPP_PROCESSOR_H_
 #define INCLUDED_STREAMS4CPP_PROCESSOR_H_
 
+#include "collection/streamabledeque.h"
+
 #include <any>
-#include <deque>
 #include <iostream>
 #include <memory>
 namespace aalbatross::utils::streams {
@@ -254,7 +255,7 @@ struct SlidingWindowProcessor : public Processor {
   }
 
  private:
-  std::deque<IN> dElements_;
+  collection::SDeque<IN> dElements_;
   size_t dWindowSize_;
 };
 /**
@@ -290,7 +291,7 @@ struct FixedWindowProcessor : public Processor {
   }
 
  private:
-  std::deque<IN> dElements_;
+  collection::SDeque<IN> dElements_;
   size_t dWindowSize_;
 };
 

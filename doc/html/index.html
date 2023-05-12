@@ -96,25 +96,25 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="textblock"><p><a class="anchor" id="md_README"></a> streams4cpp is a header only C++ library which implements jvm like streams in C++. It aims to provide C++ programmers with map/reduce style stream based one-liner operations on bounded and unbounded container of elements.</p>
 <p>Streams differ from collections in several ways:</p>
 <ul>
-<li><b>No storage</b>: AType stream does not store elements; instead, it transforms element from backing source such as a data structure, an array, a generator function, or an I/O channel, through a series of computational operations.</li>
+<li><b>No storage</b>: A stream does not store elements; instead, it transforms element from backing source such as a data structure, an array, a generator function, or an I/O channel, through a series of computational operations.</li>
 <li><b>Functional in nature</b>: Streaming operations are defined as functions, which produces a result, but does not modify its source.</li>
 <li><b>Lazy evaluation</b>: Stream is evaluated in lazily on reduce or collect operation, all the other operations like map, filter, distinct, sorted which are non-terminal operations only updates the internal computation.</li>
 <li><b>Possibly unbounded</b>: While collections have a finite size, streams need not. Short-circuiting operations such as limit(n) or findFirst() can allow computations on infinite streams to complete in finite time.</li>
 <li><b>Consumable</b>: The elements of a stream are consumable w.r.t to operations defined in the pipeline.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md33"></a>
+<h1><a class="anchor" id="autotoc_md35"></a>
 Features</h1>
 <ul>
 <li><b>Stream</b>: Perform map/reduce operation on the bounded/ unbounded data containers or Iterators.</li>
 <li><b>Streamable Collection</b>: Streamable STL containers supporting functional style transforms.</li>
 <li><b>Collectors</b>: Implementations of Collector that implement various useful common reduction operations.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md34"></a>
+<h1><a class="anchor" id="autotoc_md36"></a>
 Documentation</h1>
 <p>Refer <a href="https://aalbatross.github.io/streams4cpp/doc/html/index.html">documentation</a> for detailed API review.</p>
-<h1><a class="anchor" id="autotoc_md35"></a>
+<h1><a class="anchor" id="autotoc_md37"></a>
 Illustrative Examples</h1>
-<h2><a class="anchor" id="autotoc_md36"></a>
+<h2><a class="anchor" id="autotoc_md38"></a>
 Word Count in a File</h2>
 <p>Counting frequency of each word in the file. </p><div class="fragment"><div class="line"> {c++}</div>
 <div class="line">std::ifstream file(&quot;story.txt&quot;);</div>
@@ -141,9 +141,9 @@ Word Count in a File</h2>
 <div class="line">  for (const auto&amp; word: wordCount) {</div>
 <div class="line">    std::cout &lt;&lt; word.first &lt;&lt; &quot; -&gt; &quot; &lt;&lt; word.second &lt;&lt; std::endl;</div>
 <div class="line">  }</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md37"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md39"></a>
 Installation Guide</h1>
-<h2><a class="anchor" id="autotoc_md38"></a>
+<h2><a class="anchor" id="autotoc_md40"></a>
 Pre-requisites</h2>
 <ul>
 <li>doxygen -1.9.6</li>

@@ -94,10 +94,10 @@ struct UBStream {
    * @param windowSize
    * @return a new stream of containers
    */
-  UBStream<std::deque<T>, T, BASE> sliding(size_t windowSize) {
+  UBStream<collection::SDeque<T>, T, BASE> sliding(size_t windowSize) {
     std::vector<std::shared_ptr<Processor>> copy(dProcessors_);
     copy.emplace_back(std::make_shared<SlidingWindowProcessor<T>>(windowSize));
-    return UBStream<std::deque<T>, T, BASE>(copy, dSourceData_);
+    return UBStream<collection::SDeque<T>, T, BASE>(copy, dSourceData_);
   }
   /**
    * \fn UBStream<std::deque<T>, T, BASE> fixed(size_t windowSize)
@@ -105,10 +105,10 @@ struct UBStream {
    * @param windowSize
    * @return a new stream of containers
    */
-  UBStream<std::deque<T>, T, BASE> fixed(size_t windowSize) {
+  UBStream<collection::SDeque<T>, T, BASE> fixed(size_t windowSize) {
     std::vector<std::shared_ptr<Processor>> copy(dProcessors_);
     copy.emplace_back(std::make_shared<FixedWindowProcessor<T>>(windowSize));
-    return UBStream<std::deque<T>, T, BASE>(copy, dSourceData_);
+    return UBStream<collection::SDeque<T>, T, BASE>(copy, dSourceData_);
   }
 
   /**
