@@ -78,7 +78,7 @@ class Line: public std::string {
   }
 };
 
-std::ifstream file("/Users/ravipathak/Downloads/employees.csv");
+std::ifstream file("/path/to/file/employees.csv");
 std::istream_iterator<Line> begin_it(file);
 std::istream_iterator<Line> end_it;
 
