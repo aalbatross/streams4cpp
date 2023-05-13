@@ -352,7 +352,7 @@ struct Stream {
 
   template<typename Supplier, typename Accumulator, typename Finisher>
   auto collect(Collector<Supplier, Accumulator, Finisher> &&collector) {
-    std::vector<T> vec = toVector();
+    std::vector<T> vec = std::move(toVector());
     return collector.apply(vec);
   }
 

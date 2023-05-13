@@ -103,3 +103,4 @@ target_include_directories(${PROJECT_NAME} INTERFACE aalbatross/utils)
 
 install(DIRECTORY aalbatross DESTINATION include/)
 add_subdirectory(test)
+add_subdirectory(benchmark)

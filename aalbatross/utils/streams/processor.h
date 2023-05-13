@@ -20,7 +20,7 @@ struct Processor {
 
   template<typename T>
   void process(T input) {
-    processImpl(std::any(input));
+    processImpl(std::move(std::any(input)));
   }
 
   virtual void reset() = 0;
@@ -48,8 +48,8 @@ struct MapProcessor : public Processor {
   void processImpl(const std::any &value) override {
     if (dListener_) {
       try {
-        auto input = std::any_cast<IN>(value);
-        dListener_->process(dMapper_(input));
+        const auto &input = std::any_cast<IN>(value);
+        dListener_->process(std::move(dMapper_(input)));
       } catch (const std::bad_any_cast &e) {
         std::cout << e.what() << " Expected type:" << value.type().name() << '\n';
       }
@@ -79,9 +79,9 @@ struct FlatMapProcessor : public Processor {
   void processImpl(const std::any &value) override {
     if (dListener_) {
       try {
-        auto input = std::any_cast<IN>(value);
+        const auto &input = std::any_cast<IN>(value);
         for (const auto &element : input) {
-          dListener_->process(dMapper_(element));
+          dListener_->process(std::move(dMapper_(element)));
         }
       } catch (const std::bad_any_cast &e) {
         std::cout << e.what() << " Expected type:" << value.type().name() << '\n';
@@ -111,7 +111,7 @@ struct ConsumerProcessor : public Processor {
 
  protected:
   void processImpl(const std::any &value) override {
-    auto input = std::any_cast<IN>(value);
+    const auto &input = std::any_cast<IN>(value);
     dConsumer_(input);
   }
 
@@ -137,7 +137,7 @@ struct FilterProcessor : public Processor {
   void processImpl(const std::any &value) override {
     if (dListener_) {
       try {
-        auto input = std::any_cast<IN>(value);
+        const auto &input = std::any_cast<IN>(value);
         if (dPredicate_(input)) {
           dListener_->process(input);
         }
@@ -169,7 +169,7 @@ struct LimitProcessor : public Processor {
   void processImpl(const std::any &value) override {
     if (dListener_) {
       try {
-        auto input = std::any_cast<IN>(value);
+        const auto &input = std::any_cast<IN>(value);
         if (dCount_ >= dLimit_) {
           return;
         }
@@ -206,7 +206,7 @@ struct SkipProcessor : public Processor {
   void processImpl(const std::any &value) override {
     if (dListener_) {
       try {
-        auto input = std::any_cast<IN>(value);
+        const auto &input = std::any_cast<IN>(value);
         if (dCount_ >= dLimit_) {
           dListener_->process(input);
         } else {
@@ -241,7 +241,7 @@ struct SlidingWindowProcessor : public Processor {
   void processImpl(const std::any &value) override {
     if (dListener_) {
       try {
-        auto input = std::any_cast<IN>(value);
+        const auto &input = std::any_cast<IN>(value);
         dElements_.emplace_back(std::move(input));
         if (dElements_.size() == dWindowSize_) {
           dListener_->process(dElements_);
@@ -277,7 +277,7 @@ struct FixedWindowProcessor : public Processor {
   void processImpl(const std::any &value) override {
     if (dListener_) {
       try {
-        auto input = std::any_cast<IN>(value);
+        const auto &input = std::any_cast<IN>(value);
         dElements_.emplace_back(std::move(input));
         if (dElements_.size() == dWindowSize_) {
           dListener_->process(dElements_);
