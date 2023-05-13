@@ -26,7 +26,9 @@ var NAVTREE =
 [
   [ "streams4cpp", "index.html", [
     [ "Introduction", "index.html", "index" ],
-    [ "Benchmarks", "md_doc__benchmark.html", null ],
+    [ "Benchmarks", "md_doc__benchmark.html", [
+      [ "Collectors Benchmark Results", "md_doc__benchmark.html#autotoc_md1", null ]
+    ] ],
     [ "User Guide", "md_doc__user_guide.html", [
       [ "Introduction", "md_doc__user_guide.html#autotoc_md3", null ],
       [ "Transformations", "md_doc__user_guide.html#autotoc_md4", [
@@ -97,8 +99,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"structaalbatross_1_1utils_1_1collection_1_1_s_set.html#a563415ef0dd43c93a6d2aee9f14c9211",
-"structaalbatross_1_1utils_1_1streams_1_1_stream.html#a914d1b4638843814ae0ea3e846c03613"
+"structaalbatross_1_1utils_1_1collection_1_1_s_set.html#a55656d9020c0a81c07c759a3d8943fd3",
+"structaalbatross_1_1utils_1_1streams_1_1_stream.html#a7a12108b8c6dfc76c411da94a2a01479"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
