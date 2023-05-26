@@ -17,6 +17,12 @@ struct BlogPost {
     os << "{title: " << post.title << " author: " << post.author << " type: " << post.type << " likes: " << post.likes << "}";
     return os;
   }
+  bool operator==(const BlogPost &rhs) const {
+    return title == rhs.title && author == rhs.author && type == rhs.type && likes == rhs.likes;
+  }
+  bool operator!=(const BlogPost &rhs) const {
+    return !(rhs == *this);
+  }
   std::string title;
   std::string author;
   BlogPostType type;
@@ -54,16 +60,43 @@ TEST(GroupingByFixture, GroupingBySingleColumn) {
   EXPECT_EQ(groupedBy[NEWS].size(), 5);
 }
 
+struct PairHash {
+  std::size_t operator()(const std::pair<BlogPostType, std::string> &k) const {
+    return std::hash<std::string>()(std::to_string(k.first) + "," + k.second);
+  }
+};
+
+struct TripletHash {
+  std::size_t operator()(const std::tuple<BlogPostType, std::string, int> &k) const {
+    auto [postType, author, likes] = k;
+    return std::hash<std::string>()(std::to_string(postType) + "," + author + "," + std::to_string(likes));
+  }
+};
+
+struct PairEqual {
+  bool operator()(const std::pair<BlogPostType, std::string> &lhs, const std::pair<BlogPostType, std::string> &rhs) const {
+    return lhs.first == rhs.first && lhs.second == rhs.second;
+  }
+};
+
+struct TripletEqual {
+  bool operator()(const std::tuple<BlogPostType, std::string, int> &lhs, const std::tuple<BlogPostType, std::string, int> &rhs) const {
+    auto [postType1, author1, likes1] = lhs;
+    auto [postType2, author2, likes2] = rhs;
+    return postType1 == postType2 && author1 == author2 && likes1 == likes2;
+  }
+};
+
 TEST(GroupingByFixture, GroupingBySingleColumnModifiedKeyType) {
   auto dataset = getPosts();
 
   auto groupedBy = dataset.stream().collect(
-      streams::Collectors::groupingBy<BlogPost>([](auto post) { return std::pair{post.type, post.author}; }));
+      streams::Collectors::groupingBy<BlogPost>([](auto post) { return std::pair{post.type, post.author}; }, PairHash(), PairEqual()));
 
   EXPECT_EQ(groupedBy.size(), 7);
 
   auto groupedBy2 = dataset.stream().collect(
-      streams::Collectors::groupingBy<BlogPost>([](auto post) { return std::tuple{post.type, post.author, post.likes}; }));
+      streams::Collectors::groupingBy<BlogPost>([](auto post) { return std::tuple{post.type, post.author, post.likes}; }, TripletHash(), TripletEqual()));
 
   EXPECT_EQ(groupedBy2.size(), 10);
 }

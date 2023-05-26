@@ -40,11 +40,11 @@ namespace aalbatross::utils::streams {
 *
 *    // Group employees by department <br/>
 *    std::map<Department, std::vector<Employee>> byDept = employees.stream()
-*                                             .collect(Collectors.groupingBy<Employee>([](auto emp){return emp.dept;}));
+*                                             .collect(Collectors.groupingByOrdered<Employee>([](auto emp){return emp.dept;}));
 *
 *    // Compute sum of salaries by department <br/>
 *    std::map<Department, double> totalByDept = employees.stream()
-*                                           .collect(Collectors.groupingBy<Employee>([](auto emp){return emp.dept;},
+*                                           .collect(Collectors.groupingByOrdered<Employee>([](auto emp){return emp.dept;},
 *                                                                          Collectors::summingDouble([](auto emp){return emp.salary;})));
 *
 *    // Partition students into passing and failing <br/>
@@ -64,7 +64,7 @@ struct Collectors final {
   template<typename TypeToDouble>
   static auto averaging(TypeToDouble &&mapper) {
     return streams::Collector{[] { return std::vector<double>(); },
-                              [mapper](std::vector<double> &intermediate, auto element) {
+                              [mapper](std::vector<double> &intermediate, const auto &element) {
                                 intermediate.emplace_back(mapper(element));
                               },
                               [](std::vector<double> &intermediate) -> double {
@@ -82,17 +82,7 @@ struct Collectors final {
   * @return a Collector that produces the arithmetic mean of a derived property
   */
   static auto averaging() {
-    return streams::Collector{[] { return std::vector<double>(); },
-                              [](std::vector<double> &intermediate, auto element) {
-                                intermediate.emplace_back(element);
-                              },
-                              [](std::vector<double> &intermediate) -> double {
-                                double sum = 0;
-                                for (const double &item : intermediate) {
-                                  sum += item;
-                                }
-                                return (sum / intermediate.size());
-                              }};
+    return averaging([](auto &element) { return element; });
   }
 
   /**
@@ -101,16 +91,12 @@ struct Collectors final {
    * @return a Collector that counts the input elements
    */
   static auto counting() {
-    return streams::Collector{[] { return std::vector<size_t>(); },
-                              [](std::vector<size_t> &intermediate, auto element) {
-                                intermediate.emplace_back(1);
+    return streams::Collector{[] { return std::vector<int>(); },
+                              [](std::vector<int> &intermediate, const auto &element) {
+                                intermediate.emplace_back(0);
                               },
-                              [](std::vector<size_t> &intermediate) -> size_t {
-                                size_t sum = 0;
-                                for (const auto &item : intermediate) {
-                                  sum += item;
-                                }
-                                return sum;
+                              [](std::vector<int> &intermediate) -> size_t {
+                                return intermediate.size();
                               }};
   }
 
@@ -124,7 +110,7 @@ struct Collectors final {
   template<typename TypeToLong>
   static auto summingLong(TypeToLong &&mapper) {
     return streams::Collector{[] { return std::vector<long>(); },
-                              [mapper](std::vector<long> &intermediate, auto element) {
+                              [mapper](std::vector<long> &intermediate, const auto &element) {
                                 intermediate.emplace_back(mapper(element));
                               },
                               [](std::vector<long> &intermediate) -> long {
@@ -146,7 +132,7 @@ struct Collectors final {
   template<typename TypeToDouble>
   static auto summingDouble(TypeToDouble &&mapper) {
     return streams::Collector{[] { return std::vector<double>(); },
-                              [mapper](std::vector<double> &intermediate, auto element) {
+                              [mapper](std::vector<double> &intermediate, const auto &element) {
                                 intermediate.emplace_back(mapper(element));
                               },
                               [](std::vector<double> &intermediate) -> double {
@@ -179,7 +165,7 @@ struct Collectors final {
   }
 
   /**
-   * \fn auto groupingBy(Classifier &&mapper, Compare cmp = Compare(), Allocator allocator = Allocator())
+   * \fn auto groupingByOrdered(Classifier &&mapper, Compare cmp = Compare(), Allocator allocator = Allocator())
    * \brief Returns a Collector implementing a "group by" operation on input elements of type T, grouping elements according to a classification function, and returning the results in a Map.
    * @tparam T input element type
    * @tparam Classifier the type of classifier function mapping input elements to keys
@@ -193,14 +179,14 @@ struct Collectors final {
    */
   template<typename T, typename Classifier, typename K = typename std::invoke_result_t<Classifier, T>, typename Compare = std::less<K>,
            class Allocator = std::allocator<std::pair<const K, std::vector<T>>>>
-  static auto groupingBy(Classifier &&mapper, Compare cmp = Compare(), Allocator allocator = Allocator()) {
+  static auto groupingByOrdered(Classifier &&mapper, Compare cmp = Compare(), Allocator allocator = Allocator()) {
     return streams::Collector{[] { return std::vector<std::pair<K, T>>(); },
-                              [mapper](std::vector<std::pair<K, T>> &intermediate, T element) {
+                              [mapper](std::vector<std::pair<K, T>> &intermediate, const T &element) {
                                 intermediate.emplace_back(std::pair<K, T>{mapper(element), element});
                               },
                               [cmp, allocator](auto &intermediate) {
                                 std::map<K, std::vector<T>, Compare, Allocator> result(cmp, allocator);
-                                for (auto item : intermediate) {
+                                for (auto &item : intermediate) {
                                   result.try_emplace(item.first, std::vector<T>());
                                   result[item.first].emplace_back(item.second);
                                 }
@@ -209,13 +195,46 @@ struct Collectors final {
   }
 
   /**
-   * \fn auto groupingBy(Classifier &&mapper, Collector<Supplier, Accumulator, Finisher> &&collector, Compare cmp = Compare(), Allocator allocator = Allocator())
+   * \fn auto groupingBy(Classifier &&mapper, Hash hash = Hash(), KeyEqual keyEqual = KeyEqual(), Allocator allocator = Allocator())
+   * \brief Returns a Collector implementing a "group by" operation on input elements of type T, grouping elements according to a classification function, and returning the results in a Unordered Map.
+   * @tparam T input elements type
+   * @tparam Classifier the type of classifier function mapping input elements to keys
+   * @tparam K Key type
+   * @tparam Hash Hash of Key
+   * @tparam KeyEqual Equals for Key
+   * @tparam Allocator Allocator for resulting map
+   * @param mapper
+   * @param hash
+   * @param keyEqual
+   * @param allocator
+   * @return
+   */
+  template<typename T, typename Classifier, typename K = typename std::invoke_result_t<Classifier, T>, class Hash = std::hash<K>,
+           class KeyEqual = std::equal_to<K>,
+           class Allocator = std::allocator<std::pair<const K, std::vector<T>>>>
+  static auto groupingBy(Classifier &&mapper, const Hash &hash = Hash(), const KeyEqual &keyEqual = KeyEqual(), const Allocator &allocator = Allocator()) {
+    return streams::Collector{[] { return std::vector<std::pair<K, T>>(); },
+                              [mapper](std::vector<std::pair<K, T>> &intermediate, const T &element) {
+                                intermediate.emplace_back(std::pair<K, T>{mapper(element), element});
+                              },
+                              [&hash, &keyEqual, &allocator](std::vector<std::pair<K, T>> &intermediate) {
+                                std::unordered_map<K, std::vector<T>, Hash, KeyEqual, Allocator> result{100, hash, keyEqual, allocator};
+                                for (const auto &item : intermediate) {
+                                  result.try_emplace(item.first, std::vector<T>());
+                                  result[item.first].emplace_back(item.second);
+                                }
+                                return result;
+                              }};
+  }
+
+  /**
+   * \fn auto groupingByOrdered(Classifier &&mapper, Collector<Supplier, Accumulator, Finisher> &&collector, Compare cmp = Compare(), Allocator allocator = Allocator())
    * \brief Returns a Collector implementing a cascaded "group by" operation on input elements of type T, grouping elements according to a classification function, and then performing a reduction operation on the values associated with a given key using the specified downstream Collector.
    *
    * There are no guarantees on the type, mutability, serializability, or thread-safety of the Map returned.
    * // Compute sum of salaries by department <br/>
    *    std::map<Department, double> totalByDept = employees.stream()
-   *                                           .collect(Collectors.groupingBy<Employee>([](auto emp){return emp.dept;},
+   *                                           .collect(Collectors.groupingByOrdered<Employee>([](auto emp){return emp.dept;},
    *                                                                          Collectors::summingDouble([](auto emp){return emp.salary;})));
    * @tparam T type of input element
    * @tparam Classifier type of classifier function mapping input elements to keys
@@ -233,21 +252,70 @@ struct Collectors final {
    */
   template<typename T, typename Classifier, typename K = typename std::invoke_result_t<Classifier, T>, typename Supplier, typename Accumulator, typename Finisher, typename Compare = std::less<K>,
            class Allocator = std::allocator<std::pair<const K, std::vector<T>>>>
-  static auto groupingBy(Classifier &&mapper, Collector<Supplier, Accumulator, Finisher> &&collector, Compare cmp = Compare(), Allocator allocator = Allocator()) {
+  static auto groupingByOrdered(Classifier &&mapper, Collector<Supplier, Accumulator, Finisher> &&collector, Compare cmp = Compare(), Allocator allocator = Allocator()) {
     return streams::Collector{[] { return std::vector<std::pair<K, T>>(); },
-                              [mapper](std::vector<std::pair<K, T>> &intermediate, T element) {
+                              [mapper](std::vector<std::pair<K, T>> &intermediate, const T &element) {
                                 intermediate.emplace_back(std::pair<K, T>{mapper(element), element});
                               },
                               [&collector, &cmp, &allocator](auto &intermediate) {
                                 std::map<K, std::vector<T>, Compare, Allocator> iResult(cmp, allocator);
-                                for (auto item : intermediate) {
+                                for (auto &item : intermediate) {
                                   iResult.try_emplace(item.first, std::vector<T>());
                                   iResult[item.first].emplace_back(item.second);
                                 }
                                 auto repr = (*iResult.begin()).second;
                                 using X = decltype(collector.apply(repr));
                                 std::map<K, X, Compare> result(cmp);
-                                for (auto item : iResult) {
+                                for (auto &item : iResult) {
+                                  result.insert({item.first, collector.apply(item.second)});
+                                }
+                                return result;
+                              }};
+  }
+
+  /**
+   * \fn auto groupingByOrdered(Classifier &&mapper, Collector<Supplier, Accumulator, Finisher> &&collector, Compare cmp = Compare(), Allocator allocator = Allocator())
+   * \brief Returns a Collector implementing a cascaded "group by" operation on input elements of type T, grouping elements according to a classification function, and then performing a reduction operation on the values associated with a given key using the specified downstream Collector.
+   *
+   * There are no guarantees on the type, mutability, serializability, or thread-safety of the Map returned.
+   * // Compute sum of salaries by department <br/>
+   *    std::unordered_map<Department, double> totalByDept = employees.stream()
+   *                                           .collect(Collectors.groupingByOrdered<Employee>([](auto emp){return emp.dept;},
+   *                                                                          Collectors::summingDouble([](auto emp){return emp.salary;})));
+   * @tparam T type of input element
+   * @tparam Classifier type of classifier function mapping input elements to keys
+   * @tparam K type of keys
+   * @tparam Supplier type of Supplier of downstream collector
+   * @tparam Accumulator type of Accumulator of downstream collector
+   * @tparam Finisher type of Finisher of downstream collector
+   * @tparam Hash Hash function of key of resulting map
+   * @tparam KeyEqual Key Equals function of key of resulting map
+   * @tparam Allocator Allocator for the resulting map
+   * @param mapper
+   * @param collector
+   * @param hash
+   * @param keyEqual
+   * @param allocator
+   * @return
+   */
+  template<typename T, typename Classifier, typename K = typename std::invoke_result_t<Classifier, T>, typename Supplier, typename Accumulator, typename Finisher, class Hash = std::hash<K>,
+           class KeyEqual = std::equal_to<K>,
+           class Allocator = std::allocator<std::pair<const K, std::vector<T>>>>
+  static auto groupingBy(Classifier &&mapper, Collector<Supplier, Accumulator, Finisher> &&collector, const Hash &hash = Hash(), const KeyEqual &keyEqual = KeyEqual(), const Allocator &allocator = Allocator()) {
+    return streams::Collector{[] { return std::vector<std::pair<K, T>>(); },
+                              [mapper](std::vector<std::pair<K, T>> &intermediate, const T &element) {
+                                intermediate.emplace_back(std::pair<K, T>{mapper(element), element});
+                              },
+                              [&collector, &hash, &keyEqual, &allocator](auto &intermediate) {
+                                std::unordered_map<K, std::vector<T>, Hash, KeyEqual, Allocator> iResult{100, hash, keyEqual, allocator};
+                                for (auto &item : intermediate) {
+                                  iResult.try_emplace(item.first, std::vector<T>());
+                                  iResult[item.first].emplace_back(item.second);
+                                }
+                                auto repr = (*iResult.begin()).second;
+                                using X = decltype(collector.apply(repr));
+                                std::unordered_map<K, X, Hash, KeyEqual> result{100, hash, keyEqual};
+                                for (auto &item : iResult) {
                                   result.insert({item.first, collector.apply(item.second)});
                                 }
                                 return result;
@@ -264,7 +332,7 @@ struct Collectors final {
    */
   static auto joining(std::string delimiter = " ", std::string prefix = "", std::string suffix = "") {
     return streams::Collector{[] { return std::vector<std::string>(); },
-                              [](std::vector<std::string> &intermediate, auto element) {
+                              [](std::vector<std::string> &intermediate, const auto &element) {
                                 intermediate.emplace_back(element);
                               },
                               [&](std::vector<std::string> &intermediate) -> std::string {
@@ -289,7 +357,7 @@ struct Collectors final {
   template<typename T, typename Comparator>
   static auto maxBy(Comparator &&comp) {
     return streams::Collector{[] { return std::vector<T>(); },
-                              [](std::vector<T> &intermediate, auto element) {
+                              [](std::vector<T> &intermediate, const auto &element) {
                                 intermediate.emplace_back(element);
                               },
                               [&](std::vector<T> &intermediate) -> std::optional<T> {
@@ -308,7 +376,7 @@ struct Collectors final {
   template<typename T, typename Comparator>
   static auto minBy(Comparator &&comp) {
     return streams::Collector{[] { return std::vector<T>(); },
-                              [](std::vector<T> &intermediate, auto element) {
+                              [](std::vector<T> &intermediate, const auto &element) {
                                 intermediate.emplace_back(element);
                               },
                               [&](std::vector<T> &intermediate) -> std::optional<T> {
@@ -319,7 +387,7 @@ struct Collectors final {
 
   /**
    * \fn auto partitioningBy(Predicate &&predicate)
-   * \brief Returns a Collector which partitions the input elements according to a Predicate, and organizes them into a std::map<bool, std::vector<T>>. There are no guarantees on the type, mutability, serializability, or thread-safety of the Map returned.
+   * \brief Returns a Collector which partitions the input elements according to a Predicate, and organizes them into a std::unordered_map<bool, std::vector<T>>. There are no guarantees on the type, mutability, serializability, or thread-safety of the Map returned.
    * @tparam T type of input element
    * @tparam Predicate type of predicate used for classifying input elements
    * @param predicate
@@ -328,11 +396,11 @@ struct Collectors final {
   template<typename T, typename Predicate>
   static auto partitioningBy(Predicate &&predicate) {
     return streams::Collector{[] { return std::vector<T>(); },
-                              [](std::vector<T> &intermediate, auto element) {
+                              [](std::vector<T> &intermediate, const auto &element) {
                                 intermediate.emplace_back(element);
                               },
                               [predicate](std::vector<T> &intermediate) {
-                                std::map<bool, std::vector<T>> result;
+                                std::unordered_map<bool, std::vector<T>> result;
                                 for (auto &item : intermediate) {
                                   result.try_emplace(predicate(item), std::vector<T>());
                                   result[predicate(item)].emplace_back(item);
@@ -343,7 +411,7 @@ struct Collectors final {
 
   /**
    * \fn auto partitioningBy(Predicate &&predicate, Collector<Supplier, Accumulator, Finisher> &&downstream)
-   * \brief Returns a Collector which partitions the input elements according to a Predicate, reduces the values in each partition according to another Collector, and organizes them into a Map<Boolean, D> whose values are the result of the downstream reduction.
+   * \brief Returns a Collector which partitions the input elements according to a Predicate, reduces the values in each partition according to another Collector, and organizes them into a UnorderedMap<Boolean, D> whose values are the result of the downstream reduction.
    * There are no guarantees on the type, mutability, serializability, or thread-safety of the Map returned.
    * @tparam T type of input elements
    * @tparam Predicate type of predicate function used for classifying input elements
@@ -357,18 +425,18 @@ struct Collectors final {
   template<typename T, typename Predicate, typename Supplier, typename Accumulator, typename Finisher>
   static auto partitioningBy(Predicate &&predicate, Collector<Supplier, Accumulator, Finisher> &&downstream) {
     return streams::Collector{[] { return std::vector<T>(); },
-                              [](std::vector<T> &intermediate, auto element) {
+                              [](std::vector<T> &intermediate, const auto &element) {
                                 intermediate.emplace_back(element);
                               },
                               [predicate, downstream](std::vector<T> &intermediate) {
-                                std::map<bool, std::vector<T>> iResult;
+                                std::unordered_map<bool, std::vector<T>> iResult;
                                 for (auto &item : intermediate) {
                                   iResult.try_emplace(predicate(item), std::vector<T>());
                                   iResult[predicate(item)].emplace_back(item);
                                 }
                                 auto repr = (*iResult.begin()).second;
                                 using X = decltype(downstream.apply(repr));
-                                std::map<bool, X> result;
+                                std::unordered_map<bool, X> result;
                                 for (std::pair<const bool, std::vector<T>> &item : iResult) {
                                   result.insert(std::pair<bool, X>{item.first, downstream.apply(item.second)});
                                 }
@@ -378,7 +446,7 @@ struct Collectors final {
   /**
    * \fn auto mapping(Mapper &&mapper, Collector<Supplier, Accumulator, Finisher> &&downstream)
    * \brief Adapts a downstream collector accepting elements of say type U to one accepting elements of input element by applying a mapping function to each input element before accumulation.
-   * std::map<City, std::set<std::string>> lastNamesByCity = people.stream().collect(groupingBy<Person>([](auto person){return person.city;},
+   * std::map<City, std::set<std::string>> lastNamesByCity = people.stream().collect(groupingByOrdered<Person>([](auto person){return person.city;},
    *                                  mapping([](auto person){return person.city;}, toSet<std::string>())));
    *
    * @tparam Mapper type of function to be applied to the input elements
@@ -407,7 +475,7 @@ struct Collectors final {
   template<typename T>
   static auto toVector() {
     return streams::Collector{[] { return std::vector<T>(); },
-                              [](std::vector<T> &intermediate, auto element) {
+                              [](std::vector<T> &intermediate, const auto &element) {
                                 intermediate.emplace_back(element);
                               },
                               [](std::vector<T> &intermediate) {
@@ -429,7 +497,7 @@ struct Collectors final {
            typename Allocator = std::allocator<T>>
   static auto toSet(Compare cmp = Compare(), Allocator allocator = Allocator()) {
     return streams::Collector{[cmp, allocator] { return std::set<T, Compare, Allocator>(cmp, allocator); },
-                              [](std::set<T, Compare, Allocator> &intermediate, auto element) {
+                              [](std::set<T, Compare, Allocator> &intermediate, const auto &element) {
                                 intermediate.emplace(element);
                               },
                               [](std::set<T, Compare, Allocator> &intermediate) {
@@ -447,7 +515,7 @@ struct Collectors final {
   template<typename Container>
   static auto toContainer(Container &&container) {
     return streams::Collector{[&container] { return container; },
-                              [](Container &intermediate, auto element) {
+                              [](Container &intermediate, const auto &element) {
                                 intermediate.insert(intermediate.end(), element);
                               },
                               [](Container &intermediate) {
@@ -468,7 +536,7 @@ struct Collectors final {
   template<typename T, typename KeyMapper, typename ValueMapper>
   static auto toMap(KeyMapper &&keyMapper, ValueMapper &&valueMapper) {
     return streams::Collector{[] { return std::vector<T>(); },
-                              [](std::vector<T> &intermediate, auto element) {
+                              [](std::vector<T> &intermediate, const auto &element) {
                                 intermediate.emplace_back(element);
                               },
                               [keyMapper, valueMapper](std::vector<T> &intermediate) {
@@ -498,7 +566,7 @@ struct Collectors final {
   template<typename T, typename KeyMapper, typename ValueMapper, typename MergeFunction>
   static auto toMap(KeyMapper &&keyMapper, ValueMapper &&valueMapper, MergeFunction &&mergeFunction) {
     return streams::Collector{[] { return std::vector<T>(); },
-                              [](std::vector<T> &intermediate, auto element) {
+                              [](std::vector<T> &intermediate, const auto &element) {
                                 intermediate.emplace_back(element);
                               },
                               [keyMapper, valueMapper, mergeFunction](std::vector<T> &intermediate) {
@@ -532,7 +600,7 @@ struct Collectors final {
   static auto reducing(BinaryOp &&binaryOp) {
     return streams::Collector{
         [] { return std::vector<T>(); },
-        [](std::vector<T> &intermediate, auto element) {
+        [](std::vector<T> &intermediate, const auto &element) {
           intermediate.emplace_back(element);
         },
         [&binaryOp](std::vector<T> &intermediate) {
@@ -544,7 +612,7 @@ struct Collectors final {
   static auto reducing(T identity, BinaryOp &&binaryOp) {
     return streams::Collector{
         [] { return std::vector<T>(); },
-        [](std::vector<T> &intermediate, auto element) {
+        [](std::vector<T> &intermediate, const auto &element) {
           intermediate.emplace_back(element);
         },
         [&identity, &binaryOp](std::vector<T> &intermediate) {

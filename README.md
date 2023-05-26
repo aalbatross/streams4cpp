@@ -30,7 +30,7 @@ std::istream_iterator<std::string> end_it;
 
 streams::UBStream<std::string> newStream(std::move(begin_it), std::move(end_it));
   auto wordCount = newStream
-                      .collect(streams::Collectors::groupingBy<std::string>(
+                      .collect(streams::Collectors::groupingByOrdered<std::string>(
                         [] (auto element) {return element;},
                         streams::Collectors::counting()
                         ));

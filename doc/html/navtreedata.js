@@ -26,53 +26,53 @@ var NAVTREE =
 [
   [ "streams4cpp", "index.html", [
     [ "Introduction", "index.html", "index" ],
-    [ "Benchmarks", "md_doc__benchmark.html", [
-      [ "Collectors Benchmark Results", "md_doc__benchmark.html#autotoc_md1", null ]
+    [ "Benchmarks", "md_doc_2_benchmark.html", [
+      [ "Collectors Benchmark Results", "md_doc_2_benchmark.html#autotoc_md1", null ]
     ] ],
-    [ "User Guide", "md_doc__user_guide.html", [
-      [ "Introduction", "md_doc__user_guide.html#autotoc_md3", null ],
-      [ "Transformations", "md_doc__user_guide.html#autotoc_md4", [
-        [ "Map", "md_doc__user_guide.html#autotoc_md5", null ],
-        [ "Flatten", "md_doc__user_guide.html#autotoc_md6", null ],
-        [ "Filter", "md_doc__user_guide.html#autotoc_md7", null ],
-        [ "Skip", "md_doc__user_guide.html#autotoc_md8", null ],
-        [ "Limit", "md_doc__user_guide.html#autotoc_md9", null ],
-        [ "Distinct", "md_doc__user_guide.html#autotoc_md10", null ],
-        [ "Sorted", "md_doc__user_guide.html#autotoc_md11", null ],
-        [ "Reverse", "md_doc__user_guide.html#autotoc_md12", null ],
-        [ "Sliding Window", "md_doc__user_guide.html#autotoc_md13", null ],
-        [ "Fixed Window", "md_doc__user_guide.html#autotoc_md14", null ]
+    [ "User Guide", "md_doc_2_user_guide.html", [
+      [ "Introduction", "md_doc_2_user_guide.html#autotoc_md3", null ],
+      [ "Transformations", "md_doc_2_user_guide.html#autotoc_md4", [
+        [ "Map", "md_doc_2_user_guide.html#autotoc_md5", null ],
+        [ "Flatten", "md_doc_2_user_guide.html#autotoc_md6", null ],
+        [ "Filter", "md_doc_2_user_guide.html#autotoc_md7", null ],
+        [ "Skip", "md_doc_2_user_guide.html#autotoc_md8", null ],
+        [ "Limit", "md_doc_2_user_guide.html#autotoc_md9", null ],
+        [ "Distinct", "md_doc_2_user_guide.html#autotoc_md10", null ],
+        [ "Sorted", "md_doc_2_user_guide.html#autotoc_md11", null ],
+        [ "Reverse", "md_doc_2_user_guide.html#autotoc_md12", null ],
+        [ "Sliding Window", "md_doc_2_user_guide.html#autotoc_md13", null ],
+        [ "Fixed Window", "md_doc_2_user_guide.html#autotoc_md14", null ]
       ] ],
-      [ "Reductions", "md_doc__user_guide.html#autotoc_md15", [
-        [ "Reduce", "md_doc__user_guide.html#autotoc_md16", null ],
-        [ "For Each", "md_doc__user_guide.html#autotoc_md17", null ],
-        [ "Match", "md_doc__user_guide.html#autotoc_md18", null ],
-        [ "Head, Tail and Find", "md_doc__user_guide.html#autotoc_md19", null ]
+      [ "Reductions", "md_doc_2_user_guide.html#autotoc_md15", [
+        [ "Reduce", "md_doc_2_user_guide.html#autotoc_md16", null ],
+        [ "For Each", "md_doc_2_user_guide.html#autotoc_md17", null ],
+        [ "Match", "md_doc_2_user_guide.html#autotoc_md18", null ],
+        [ "Head, Tail and Find", "md_doc_2_user_guide.html#autotoc_md19", null ]
       ] ],
-      [ "Collectors", "md_doc__user_guide.html#autotoc_md20", [
-        [ "Group by", "md_doc__user_guide.html#autotoc_md21", [
-          [ "Group by on Single Column", "md_doc__user_guide.html#autotoc_md22", null ],
-          [ "Group by on Single Column with modified key type", "md_doc__user_guide.html#autotoc_md23", null ],
-          [ "Group by on Single Column with modified value type", "md_doc__user_guide.html#autotoc_md24", null ],
-          [ "Cascading Group by", "md_doc__user_guide.html#autotoc_md25", null ],
-          [ "Aggregate results", "md_doc__user_guide.html#autotoc_md26", null ]
+      [ "Collectors", "md_doc_2_user_guide.html#autotoc_md20", [
+        [ "Group by", "md_doc_2_user_guide.html#autotoc_md21", [
+          [ "Group by on Single Column", "md_doc_2_user_guide.html#autotoc_md22", null ],
+          [ "Group by on Single Column with modified key type", "md_doc_2_user_guide.html#autotoc_md23", null ],
+          [ "Group by on Single Column with modified value type", "md_doc_2_user_guide.html#autotoc_md24", null ],
+          [ "Cascading Group by", "md_doc_2_user_guide.html#autotoc_md25", null ],
+          [ "Aggregate results", "md_doc_2_user_guide.html#autotoc_md26", null ]
         ] ],
-        [ "Collect as containers", "md_doc__user_guide.html#autotoc_md27", [
-          [ "Collect as vector", "md_doc__user_guide.html#autotoc_md28", null ],
-          [ "Collect as set", "md_doc__user_guide.html#autotoc_md29", null ],
-          [ "Collect as any container", "md_doc__user_guide.html#autotoc_md30", null ],
-          [ "Collect as map", "md_doc__user_guide.html#autotoc_md31", null ]
+        [ "Collect as containers", "md_doc_2_user_guide.html#autotoc_md27", [
+          [ "Collect as vector", "md_doc_2_user_guide.html#autotoc_md28", null ],
+          [ "Collect as set", "md_doc_2_user_guide.html#autotoc_md29", null ],
+          [ "Collect as any container", "md_doc_2_user_guide.html#autotoc_md30", null ],
+          [ "Collect as map", "md_doc_2_user_guide.html#autotoc_md31", null ]
         ] ],
-        [ "Counting and Then", "md_doc__user_guide.html#autotoc_md32", null ],
-        [ "Joining string", "md_doc__user_guide.html#autotoc_md33", null ],
-        [ "Partitioning by", "md_doc__user_guide.html#autotoc_md34", null ],
-        [ "Averaging", "md_doc__user_guide.html#autotoc_md35", null ],
-        [ "Counting", "md_doc__user_guide.html#autotoc_md36", null ],
-        [ "Summing", "md_doc__user_guide.html#autotoc_md37", null ]
+        [ "Counting and Then", "md_doc_2_user_guide.html#autotoc_md32", null ],
+        [ "Joining string", "md_doc_2_user_guide.html#autotoc_md33", null ],
+        [ "Partitioning by", "md_doc_2_user_guide.html#autotoc_md34", null ],
+        [ "Averaging", "md_doc_2_user_guide.html#autotoc_md35", null ],
+        [ "Counting", "md_doc_2_user_guide.html#autotoc_md36", null ],
+        [ "Summing", "md_doc_2_user_guide.html#autotoc_md37", null ]
       ] ]
     ] ],
-    [ "LICENSE", "md_venv_lib_python3_11_site_packages_conan_2_0_4_dist_info__l_i_c_e_n_s_e.html", null ],
-    [ "LICENSE", "md_venv_lib_python3_11_site_packages_idna_3_4_dist_info__l_i_c_e_n_s_e.html", null ],
+    [ "LICENSE", "md_venv_2lib_2python3_811_2site-packages_2conan-2_80_84_8dist-info_2_l_i_c_e_n_s_e.html", null ],
+    [ "LICENSE", "md_venv_2lib_2python3_811_2site-packages_2idna-3_84_8dist-info_2_l_i_c_e_n_s_e.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [

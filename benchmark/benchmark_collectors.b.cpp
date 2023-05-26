@@ -100,22 +100,22 @@ static void BM_StreamPartitionByCascadingWithNoDuplicates(benchmark::State &stat
 }
 
 static void BM_StreamJoiningString(benchmark::State &state) {
-  std::vector<std::string> data;
+  std::vector<std::string_view> data;
   for (size_t i = 0; i < MAX; i++) {
     data.emplace_back(std::to_string(i) + "times");
   }
-  Stream<std::string> stream(data.begin(), data.end());
+  Stream<std::string_view> stream(data.begin(), data.end());
   for (auto _ : state)
     stream.collect(Collectors::joining(",", "{", "}"));
   state.SetItemsProcessed(MAX);
 }
 
 static void BM_StreamCounting(benchmark::State &state) {
-  std::vector<std::string> data;
+  std::vector<size_t> data;
   for (size_t i = 0; i < MAX; i++) {
-    data.emplace_back(std::to_string(i) + "times");
+    data.emplace_back(i);
   }
-  Stream<std::string> stream(data.begin(), data.end());
+  Stream<size_t> stream(data.begin(), data.end());
   for (auto _ : state)
     stream.collect(Collectors::counting());
   state.SetItemsProcessed(MAX);

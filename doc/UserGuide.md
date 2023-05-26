@@ -10,7 +10,7 @@ stream4cpp incorporates [lazy evaluation](https://en.wikipedia.org/wiki/Lazy_eva
 
 Each of the above implementations provide some common set of operations categorised as:
 1. **Transformation**: These operation transforms the incoming data. This step where the source input can be enriched with variety of common transforms like, map, flatmap, filter, skip, limit, sorted, distinct, sliding, fixed etc.
-2. **Reduction**: These operation reduces data to results, they are also terminal operations which concludes processing by yielding aggregate of data, some common operations are toVector, groupingBy, reduce, collect, joining, partitioningBy etc.
+2. **Reduction**: These operation reduces data to results, they are also terminal operations which concludes processing by yielding aggregate of data, some common operations are toVector, groupingByOrdered, reduce, collect, joining, partitioningBy etc.
 
 ## Transformations
 Transformation are the operations which transform the incoming data.
@@ -196,19 +196,19 @@ struct BlogPost {
 #### Group by on Single Column
 Get all blog posts grouped by post type
 ```c++
-map<BlogPostType, vector<BlogPost>> groupedBy = dataset.stream().collect(streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; }));
+map<BlogPostType, vector<BlogPost>> groupedBy = dataset.stream().collect(streams::Collectors::groupingByOrdered<BlogPost>([](auto post) { return post.type; }));
 ```
 
 #### Group by on Single Column with modified key type
 - Get all blog posts grouped by blog author and blog post type.
 ```c++
 map<pair<BlogPostType, string>, vector<BlogPost>> groupedBy = dataset.stream().collect(
-      streams::Collectors::groupingBy<BlogPost>([](auto post) { return std::pair{post.type, post.author}; }));
+      streams::Collectors::groupingByOrdered<BlogPost>([](auto post) { return std::pair{post.type, post.author}; }));
 ```
 - Get all blog posts grouped by blog author ,blog post type and number of likes.
 ```c++
 map<tuple<BlogPostType, string, int>, vector<BlogPost>> groupedBy = dataset.stream().collect(
-      streams::Collectors::groupingBy<BlogPost>([](auto post) { return std::tuple{post.type, post.author, post.likes}; }));
+      streams::Collectors::groupingByOrdered<BlogPost>([](auto post) { return std::tuple{post.type, post.author, post.likes}; }));
 ```
 
 #### Group by on Single Column with modified value type
@@ -218,7 +218,7 @@ auto comparator = [](auto a1, auto a2) {
   return a1.likes < a2.likes;
 };
 auto groupedBy = dataset.stream().collect(
-    streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; },
+    streams::Collectors::groupingByOrdered<BlogPost>([](auto post) { return post.type; },
                                               streams::Collectors::toSet<BlogPost, decltype(comparator)>(comparator)));
 ```
 
@@ -226,8 +226,8 @@ auto groupedBy = dataset.stream().collect(
 Get all blog posts group by author and then blogpost type
 ```c++
 map<string, map<BlogPostType, vector<BlogPost>>> groupedBy = dataset.stream().collect(
-      streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.author; },
-                                                streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; })));
+      streams::Collectors::groupingByOrdered<BlogPost>([](auto post) { return post.author; },
+                                                streams::Collectors::groupingByOrdered<BlogPost>([](auto post) { return post.type; })));
 
 ```
 
@@ -235,14 +235,14 @@ map<string, map<BlogPostType, vector<BlogPost>>> groupedBy = dataset.stream().co
 - Get sum of all likes per post type
 ```c++
 map<BlogPostType, long> groupedBy = dataset.stream().collect(
-                                          streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; },
+                                          streams::Collectors::groupingByOrdered<BlogPost>([](auto post) { return post.type; },
                                                                                     streams::Collectors::summingLong([](auto post) { return post.likes; })));
 
 ```
 - Get average likes per post type
 ```c++
 map<BlogPostType, double> groupedBy = dataset.stream().collect(
-                                          streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.type; },
+                                          streams::Collectors::groupingByOrdered<BlogPost>([](auto post) { return post.type; },
                                                                                     streams::Collectors::averaging([](auto post) { return post.likes; })));
 
 ```
@@ -253,7 +253,7 @@ struct PostCountTitles {
   std::string titles;
 }; 
 map<string, PostCountTitles> groupedBy = dataset.stream().collect(
-                                               streams::Collectors::groupingBy<BlogPost>([](auto post) { return post.author; },
+                                               streams::Collectors::groupingByOrdered<BlogPost>([](auto post) { return post.author; },
                                                                                          streams::Collectors::collectingAndThen(streams::Collectors::toVector<BlogPost>(), [](auto posts) {
                                                                                            iterators::ListIterator iterator(posts.begin(), posts.end());
                                                                                            streams::Stream<BlogPost> postStream(iterator);

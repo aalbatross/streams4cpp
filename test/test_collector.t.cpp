@@ -66,7 +66,7 @@ TEST(CollectorFixtureTest, GroupingByTest) {
 TEST(CollectorFixtureTest, GroupingByWithCollectorTest) {
   std::vector vector{12, 12, 13, 13, 5, 4, 5, 5, 5, 5, 4};
 
-  auto collector = streams::Collectors::groupingBy<int>(
+  auto collector = streams::Collectors::groupingByOrdered<int>(
       [](auto count) { return std::to_string(count); }, streams::Collectors::counting());
   auto result = collector.apply(vector);
 

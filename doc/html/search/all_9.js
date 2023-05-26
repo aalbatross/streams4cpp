@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['license_0',['LICENSE',['../md_venv_lib_python3_11_site_packages_conan_2_0_4_dist_info__l_i_c_e_n_s_e.html',1,'(Global Namespace)'],['../md_venv_lib_python3_11_site_packages_idna_3_4_dist_info__l_i_c_e_n_s_e.html',1,'(Global Namespace)']]],
+  ['license_0',['LICENSE',['../md_venv_2lib_2python3_811_2site-packages_2conan-2_80_84_8dist-info_2_l_i_c_e_n_s_e.html',1,'(Global Namespace)'],['../md_venv_2lib_2python3_811_2site-packages_2idna-3_84_8dist-info_2_l_i_c_e_n_s_e.html',1,'(Global Namespace)']]],
   ['license_2emd_1',['LICENSE.md',['../conan-2_80_84_8dist-info_2_l_i_c_e_n_s_e_8md.html',1,'(Global Namespace)'],['../idna-3_84_8dist-info_2_l_i_c_e_n_s_e_8md.html',1,'(Global Namespace)']]],
   ['limit_2',['limit',['../structaalbatross_1_1utils_1_1streams_1_1_stream.html#a075d4e6708a74c3562cdebe2aa47ffc3',1,'aalbatross::utils::streams::Stream::limit()'],['../structaalbatross_1_1utils_1_1streams_1_1_u_b_stream.html#a89258e2f31eb7510a05c5ad145da9926',1,'aalbatross::utils::streams::UBStream::limit()']]],
   ['limitprocessor_3',['LimitProcessor',['../structaalbatross_1_1utils_1_1streams_1_1_limit_processor.html',1,'aalbatross::utils::streams::LimitProcessor&lt; IN &gt;'],['../structaalbatross_1_1utils_1_1streams_1_1_limit_processor.html#a40974ecf18bce4b8e3ac53b068de9c52',1,'aalbatross::utils::streams::LimitProcessor::LimitProcessor()']]],
