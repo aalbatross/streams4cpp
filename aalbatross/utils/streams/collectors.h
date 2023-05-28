@@ -218,7 +218,7 @@ struct Collectors final {
                                 intermediate.emplace_back(std::pair<K, T>{mapper(element), element});
                               },
                               [&hash, &keyEqual, &allocator](std::vector<std::pair<K, T>> &intermediate) {
-                                std::unordered_map<K, std::vector<T>, Hash, KeyEqual, Allocator> result{100, hash, keyEqual, allocator};
+                                std::unordered_map<K, std::vector<T>, Hash, KeyEqual, Allocator> result{1, hash, keyEqual, allocator};
                                 for (const auto &item : intermediate) {
                                   result.try_emplace(item.first, std::vector<T>());
                                   result[item.first].emplace_back(item.second);
@@ -307,16 +307,16 @@ struct Collectors final {
                                 intermediate.emplace_back(std::pair<K, T>{mapper(element), element});
                               },
                               [&collector, &hash, &keyEqual, &allocator](auto &intermediate) {
-                                std::unordered_map<K, std::vector<T>, Hash, KeyEqual, Allocator> iResult{100, hash, keyEqual, allocator};
+                                std::unordered_map<K, std::vector<T>, Hash, KeyEqual, Allocator> iResult{1, hash, keyEqual, allocator};
                                 for (auto &item : intermediate) {
                                   iResult.try_emplace(item.first, std::vector<T>());
                                   iResult[item.first].emplace_back(item.second);
                                 }
                                 auto repr = (*iResult.begin()).second;
                                 using X = decltype(collector.apply(repr));
-                                std::unordered_map<K, X, Hash, KeyEqual> result{100, hash, keyEqual};
+                                std::unordered_map<K, X, Hash, KeyEqual> result{1, hash, keyEqual};
                                 for (auto &item : iResult) {
-                                  result.insert({item.first, collector.apply(item.second)});
+                                  result.emplace(item.first, collector.apply(item.second));
                                 }
                                 return result;
                               }};
